@@ -1,6 +1,11 @@
-export interface Step {}
+export interface Step {
 
-export class MoveTo implements Step {
+    get text(): string;
+    get value(): string | number;
+
+}
+
+/*export class MoveTo implements Step {
     private readonly _x: number;
 
     constructor(x: number) {
@@ -34,8 +39,12 @@ export class Put implements Step {
     get amount(): number {
         return this._amount;
     }
-}
+}*/
 
 export class History {
     private _steps: Step[];
+
+    get steps(): Step[] {
+        return this._steps;
+    }
 }

@@ -27,12 +27,14 @@ export abstract class StepView {
 
 export class MoveView extends StepView {
 
-    private _move: MoveTo = new MoveTo(0);
+    private _move: MoveTo;
 
-
-    constructor() {
+    constructor(move: MoveTo) {
         super();
+        this.moveTo = move;
+    }
 
-        this.info_element
+    set moveTo(value: MoveTo) {
+        
     }
 }

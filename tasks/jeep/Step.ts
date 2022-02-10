@@ -1,19 +1,32 @@
 export interface Step {
-
     get text(): string;
     get value(): string | number;
-
 }
 
-/*export class MoveTo implements Step {
-    private readonly _x: number;
+export interface Position {
+    get text(): string;
+    distance(other: Position): number;
+    get index(): number;
+    get available(): boolean;
+}
 
-    constructor(x: number) {
-        this._x = x;
+export class MoveTo implements Step {
+    private readonly _position: Position;
+
+    constructor(position: Position) {
+        this._position = position;
     }
 
-    get x(): number {
-        return this._x;
+    get position(): Position {
+        return this._position;
+    }
+
+    get text(): string {
+        return "Переместись в";
+    }
+
+    get value(): string | number {
+        return this.position.text;
     }
 }
 
@@ -25,6 +38,14 @@ export class Pick implements Step {
     }
 
     get amount(): number {
+        return this._amount;
+    }
+
+    get text(): string {
+        return "Возьми топливо";
+    }
+
+    get value(): string | number {
         return this._amount;
     }
 }
@@ -39,7 +60,15 @@ export class Put implements Step {
     get amount(): number {
         return this._amount;
     }
-}*/
+
+    get text(): string {
+        return "Оставь топливо";
+    }
+
+    get value(): string | number {
+        return this._amount;
+    }
+}
 
 export class History {
     private _steps: Step[];

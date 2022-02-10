@@ -1,23 +1,26 @@
 import './jeep.scss'
 import {KioApi, KioTask, KioParameterDescription, KioResourceDescription, KioTaskSettings} from "../KioApi";
+import {Settings} from "./Settings";
+import {LinearField} from "./Field";
+import {FieldState} from "./FieldState";
 
 export class Jeep implements KioTask {
-    private settings: KioTaskSettings;
-    private kioapi: KioApi;
+    private _settings: Settings;
+    private _kioapi: KioApi;
     private domNode: HTMLElement;
 
     constructor(settings: KioTaskSettings) {
-        this.settings = settings;
+        this._settings = new Settings(settings);
     }
 
     id() {
-        return "jeep" + this.settings.level;
+        return "jeep" + this._settings.level;
     }
 
     initialize(domNode: HTMLElement, kioapi: KioApi, preferred_width: number) {
         console.log('preferred width in problem initialization', preferred_width);
 
-        this.kioapi = kioapi;
+        this._kioapi = kioapi;
         this.domNode = domNode;
 
         domNode.innerHTML = `
@@ -33,7 +36,18 @@ export class Jeep implements KioTask {
         let history = domNode.getElementsByClassName('task-history')[0] as HTMLDivElement;
         canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
 
-        console.log('problem level is', this.settings.level);
+        console.log('problem level is', this._settings.level);
+
+        let field = new LinearField(
+            canvas.getContext('2d'),
+            this,
+            [50, 550],
+            [550, 50],
+            10,
+            600,
+            600
+        );
+        field.draw(FieldState.create(field));
     }
 
     parameters(): KioParameterDescription[] {
@@ -55,11 +69,20 @@ export class Jeep implements KioTask {
         ];
     }
 
-    /*static preloadManifest(): KioResourceDescription[] {
+    get settings(): Settings {
+        return this._settings;
+    }
+
+    get kioapi(): KioApi {
+        return this._kioapi;
+    }
+
+    static preloadManifest(): KioResourceDescription[] {
         return [
-            {id: "1", src: "collatz_es_next-resources/collatz_conjecture.png"}
+            {id: "jeep", src: "jeep-resources/SimpleGreenCarTopView.png"},
+            {id: "barrel", src: "jeep-resources/SteelBarrel.png"}
         ];
-    };*/
+    };
 
     solution(): Solution {
         return {};

@@ -176,15 +176,14 @@ function canGo2(target, incoming){
 
 function canGo3(target, incoming){
     const state = Store.getState();
-    for(let i = 0; i < state.cycles.length; i++){
-        const cycle = state.cycles[i];
-        if(cycle[0] === target && cycle[cycle.length - 2] === incoming){
-            return false;
+    if(state.cycles){
+        for(let i = 0; i < state.cycles.length; i++){
+            const cycle = state.cycles[i];
+            if(cycle[0] === target && cycle[cycle.length - 2] === incoming){
+                return false;
+            }
         }
     }
     return true;
-    // state.cycles.forEach(cycle => {
-    //
-    // })
 }
 export default canGo3;

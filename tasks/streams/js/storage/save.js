@@ -1,10 +1,20 @@
 import CNV from "../CNV/library";
 import store from "../Store";
-
+import analyzeState from "../analyzeGraph/analyzeState";
 function saveData(state, visualData, dontSave){
+    CNV.querySelectorAll(".lineWarning").forEach(item => item.classList.remove("lineWarning"));
+
+    function clearLine(line){
+        line.__MINUS_ONE = undefined;
+        line.already = undefined;
+        line.power = undefined;
+    }
+
+
     const prepData = {...state, lines: {}};
     for(let key in state.lines){
         let data = state.lines[key];
+        clearLine(data);
         let children = [];
         let parents = [];
         let sideIn = [];
@@ -28,10 +38,10 @@ function saveData(state, visualData, dontSave){
             sideIn,
         }
     }
-
     const saved = JSON.stringify({
         SCRIPT: JSON.stringify(prepData),
         CNV: visualData,
+        ...analyzeState.analyzeInfo,
     });
     if(!dontSave){
         localStorage.setItem("__saved", saved);
@@ -50,7 +60,7 @@ function save(options){
             item.classList.remove("black");
         })
     })
-    const saved = saveData(store.state, CNV.save(), options.dont_save);
+    let saved = saveData(store.state, CNV.save(), options.dont_save);
     //Восстанавливаем синие линии, чтобы продолжить разработку
     CNV.preventRender(()=>{
         CNV.querySelectorAll(".__PLACE_FOR_FINISH_LINE").forEach((item) => {
@@ -58,7 +68,11 @@ function save(options){
             item.classList.add("finishLine")
         })
     })
-    return saved;
+    if(options.dont_stringify){
+        return JSON.parse(saved);
+    } else {
+        return saved;
+    }
 }
 
 export default save;

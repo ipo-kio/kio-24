@@ -74,14 +74,15 @@ function lineMouseEnter(data, e){
     }
 
 
-
-    CNV.createText({
-        x0,
-        y0,
-        text: store.state.lines[e.target.id]?.power?.getStr(),
-        id: e.target.id + "_text",
-        className: "finishText2",
-    })
+    if(store.state.lines[e.target.id]?.power?.getStr()){
+        CNV.createText({
+            x0,
+            y0,
+            text: store.state.lines[e.target.id]?.power?.getStr(),
+            id: e.target.id + "_text",
+            className: "finishText2",
+        })
+    }
 }
 
 function lineMouseLeave(data, e){
@@ -170,10 +171,12 @@ function setStickToTailHandler(currentData){
                 data.line.onmouseleave = e => {
                     e.target.classList.remove("stickyLine");
                 }
+
+
                 setTimeout(()=> {
                     data.line.onclick = e => {
-                        console.log("state.startLines.length ", state.startLines.length );
-                        console.log("data parents len ", data.parents.length );
+                        currentData.line.classList.add("a4");
+                        data.line.classList.add("a4");
                         if(!lineCollision(currentData.line, data.line)){
                             console.log("clickSetstickTOToal");
                             data.line.classList.remove("stickyLine");
@@ -204,7 +207,7 @@ function setStickToTailHandler(currentData){
                             addEdge(currentData, data);
                         }
                     }
-                }, 10);
+                }, 0);
             }
             else if(state.startLines.length !== 1){
                 data.startCircle.onmouseenter = e => {

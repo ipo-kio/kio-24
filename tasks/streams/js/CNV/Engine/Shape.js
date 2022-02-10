@@ -220,6 +220,11 @@ class Shape{
         CNV.state.click[this.id] = callback;
     }
 
+    get isLine(){
+        let distance = 3;
+        return Math.abs(this.link.start.x - this.link.check.x) < distance && Math.abs(this.link.start.y - this.link.check.y) < distance;
+    }
+
     remove(){
         //удаляем информацию
         delete CNV.state.__shapes[this.id];

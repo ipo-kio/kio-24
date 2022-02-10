@@ -8,6 +8,7 @@ import {
 } from "../eventHandlers";
 import store from "../Store";
 import innerLine from "../innerLine";
+import firstDraw from "../firstDraw";
 
 
 function recover(data){
@@ -39,9 +40,12 @@ function recover(data){
     }
     if(Object.keys(script.lines).length > 0){
         store.canvas.onclick = undefined;
+    } else {
+        firstDraw(store.canvas);
     }
     store.state = script;
     CNV.settings.draggableCanvas = true;
+    CNV.render();
 }
 
 export default recover;

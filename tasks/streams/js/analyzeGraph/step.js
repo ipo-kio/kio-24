@@ -3,9 +3,11 @@ import state from "./analyzeState";
 import canGo from "./canGo";
 import CNV from "../CNV/library";
 import text from "./text";
-import {SHOW_PATH} from "../SETTINGS";
+import SETTINGS from "../SETTINGS";
 import arnold from "./arnold";
 import calcPower from "./calcPower";
+
+let {SHOW_PATH} = SETTINGS.getAll();
 
 
 function step(target, power, lastTarget){
@@ -155,7 +157,7 @@ function step(target, power, lastTarget){
     if(target.children.length === 0){ //Если детей нет, значит это выход и нужно записать результат
         // console.log("FINISH ZONE ", target.power.getStr());
         // console.log("FINISH last target power ", lastTarget.children[0].power.getStr());
-        CNV.preventRender(() => target.line.classList.add("finishLine"));
+        //CNV.preventRender(() => target.line.classList.add("finishLine"));
         text({target, output: state.results})
     }
 

@@ -43,7 +43,33 @@ function findCycles(start){
         target.__CHECKED = false;
     }
 
-    check(start);
+    if(start){
+        check(start);
+    }
+    //Проверка на одинаковые циклы
+    for(let i = 0; i < cycles.length; i++){
+        let mainCycle = cycles[i];
+        for (let j = i + 1; j < cycles.length; j++) {
+            let curCycle = cycles[j];
+            let flag = true;
+            for (let k = 0; k < mainCycle.length; k++) {
+                if(mainCycle[k] !== curCycle[k]){
+                    flag = false;
+                    break;
+                }
+            }
+            if(mainCycle.length !== curCycle.length){
+                flag = false;
+            }
+
+            if(flag === true){
+                cycles.splice(j, 1);
+                //console.log("before splice", cycles);
+                j--;
+            }
+        }
+    }
+
     return cycles;
 }
 

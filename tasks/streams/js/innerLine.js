@@ -1,16 +1,24 @@
 import CNV from "./CNV/library";
 import {getBlackPointCoord} from "./eventHandlers";
 
+
+
 function innerLine(line){
 
-    let x0, y0, x1, y1, mv1, mv2;
-    if(line.link.start.x === line.link.check.x && line.link.start.y === line.link.check.y){
+    let x0, y0, x1, y1, x2, y2, mv1, mv2;
+    //line.link.start.x === line.link.check.x && line.link.start.y === line.link.check.y
+
+    if(line.isLine){
         mv1 = line.system.moveTo(5, line.system.coordinates.x1);
         mv2 = line.system.moveTo(-5, line.system.coordinates.x2);
         x0 = mv1.x;
         y0 = mv1.y;
         x1 = mv2.x;
         y1 = mv2.y;
+        x2 = x0;
+        y2 = y0;
+
+        console.log("Прямая");
     } else {
         let point = getBlackPointCoord(line.link);
         let line1, line2;
@@ -33,12 +41,14 @@ function innerLine(line){
             y0 = start.y;
             x1 = end.x;
             y1 = end.y;
+            x2 = line.link.check.x;
+            y2 = line.link.check.y;
             line1.remove();
             line2.remove();
+            console.log("Кривая");
         })
     }
-    let x2 = line.link.check.x;
-    let y2 = line.link.check.y;
+
 
 
     let innerLine = CNV.querySelector("#" + line.id + "_innerLine");

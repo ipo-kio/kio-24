@@ -12,7 +12,7 @@ const {STACK} = SETTINGS.getAll();
 
 function drawingLine(data, finishCallback = () => {}){
     function stopDrawing(e){
-        if(lineCollision(data.line)) {
+        if(lineCollision(data.line, Store.collisionIgnore)) {
             //recover(Store.getStackPrev());
             return;
         }

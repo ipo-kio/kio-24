@@ -8,6 +8,7 @@ const {SHOW_CYCLES, SHOW_PRIORITIES} = SETTINGS.getAll();
 let test_1;
 
 function collecting_statistics(lines, startLine, finishCount){
+    console.log("collecting_statistics");
     let flag = false;
     let start_key = -1;
     let count = 0;

@@ -54,6 +54,8 @@ const shiftDownHandler = (e) => {
                     //setStickToTailHandler(obj);
                     const item = obj.endCircle;
                     lastDrag = obj.line;
+
+
                     CNV.combineRender(() => {
                         item.update.startPosition.x = item.link.start.x + event.movementX;
                         item.update.startPosition.y = item.link.start.y + event.movementY;
@@ -69,52 +71,37 @@ const shiftDownHandler = (e) => {
                             finishText.update.startPosition.y = item.link.start.y + event.movementY  + 10;
                         }
 
+                        let objects = [obj];
 
-                        obj.parents.forEach(parent => {
-                            if(parent.__NOT_CIRCLE){
-                                const newCoordinates = obj.line.system.moveTo(obj.line.system.length / 2, obj.line.system.coordinates.x1);
-                                parent.line.update.endPosition.x = newCoordinates.x;
-                                parent.line.update.endPosition.y = newCoordinates.y;
-                                parent.endCircle.update.startPosition.x = newCoordinates.x;
-                                parent.endCircle.update.startPosition.y = newCoordinates.y;
-                                innerLine(parent.line);
-                            }
-                        })
-                        let objects = [];
+                        console.log("here");
+
                         obj.children.forEach(children => {
-                            children.line.update.startPosition.x = item.link.start.x;
-                            children.line.update.startPosition.y = item.link.start.y;
-                            children.startCircle.update.startPosition.x = item.link.start.x;
-                            children.startCircle.update.startPosition.y = item.link.start.y;
+                            children.line.link.start.x += event.movementX;
+                            children.line.link.start.y += event.movementY;
+                            children.line.link.check.x += event.movementX;
+                            children.line.link.check.y += event.movementY;
+
+                            children.startCircle.link.start.x += event.movementX;
+                            children.startCircle.link.start.y += event.movementY;
 
                             objects.push(children);
 
                             innerLine(children.line);
-                            children.line.link.check.x += event.movementX;
-                            children.line.link.check.y += event.movementY;
 
-                            children.parents.forEach(parent => {
-                                if(parent !== obj){
-                                    const newCoordinates = children.line.system.moveTo(children.line.system.length / 2, children.line.system.coordinates.x1);
-                                    parent.line.update.endPosition.x = newCoordinates.x;
-                                    parent.line.update.endPosition.y = newCoordinates.y;
-                                    parent.endCircle.update.startPosition.x = newCoordinates.x;
-                                    parent.endCircle.update.startPosition.y = newCoordinates.y;
-                                    innerLine(parent.line);
-                                }
-                            })
+
                         })
 
                         while(true){
                             let curObj = objects[0];
                             if(!curObj) break;
+                            console.log("mouseMove 3 endCircle loop");
 
                             let sideInCoors = getBlackPointCoord({
                                 start: curObj.line.link.start,
                                 end: curObj.line.link.end,
                                 check: curObj.line.link.check,
                             })
-                            innerLine(obj.line);
+                            //innerLine(curObj.line);
                             curObj.sideIn.forEach(item => {
                                 item.line.update.endPosition.x = sideInCoors.x;
                                 item.line.update.endPosition.y = sideInCoors.y;
@@ -125,6 +112,7 @@ const shiftDownHandler = (e) => {
                             })
                             objects.shift();
                         }
+
 
                     })
                 }
@@ -147,7 +135,7 @@ const shiftDownHandler = (e) => {
                         while(true){
                             let curObj = objects[0];
                             if(!curObj) break;
-
+                            console.log("mouseMove 4 line loop");
                             let sideInCoors = getBlackPointCoord({
                                 start: curObj.line.link.start,
                                 end: curObj.line.link.end,
@@ -181,8 +169,6 @@ const shiftDownHandler = (e) => {
                     set();
                 }
 
-
-
                 function lineMouseEnter(obj){
                     obj.line.onmouseenter = e => {
                         resetAllBut(obj);
@@ -214,6 +200,7 @@ const shiftDownHandler = (e) => {
                     item.onmouseenter = (e) => {
                         resetAllBut(obj);
                         item.classList.add("black");
+                        item.classList.remove("hidden");
 
                         obj.children.forEach(child => {
                             child.line.mouseenter = undefined;
@@ -222,25 +209,26 @@ const shiftDownHandler = (e) => {
 
                         obj.line.onmouseenter = undefined;
                         store.canvas.style.cursor = "move";
-                        store.canvas.onmousedown = e => {
-                            CNV.querySelectorAll(".finishText2").forEach(item => item.remove());
-                            // resetAllBut(obj);
-                            document.onmousemove = (e) => onMouseMove3(e, obj);
-                            item.onmouseleave = undefined;
-                        }
-
-                        store.canvas.onmouseup = e => {
-                            item.classList.remove("black");
-                            set();
-                            if(e.button === 0) {
-                                document.onmousemove = undefined;
-                                //resetStickToTailHandler();
-                                item.onmouseleave = mouseLeave;
+                        if(!item.classList.contains("stickyCircle")){
+                            store.canvas.onmousedown = e => {
+                                CNV.querySelectorAll(".finishText2").forEach(item => item.remove());
+                                // resetAllBut(obj);
+                                document.onmousemove = (e) => onMouseMove3(e, obj);
+                                item.onmouseleave = undefined;
                             }
+                            store.canvas.onmouseup = e => {
+                                item.classList.remove("black");
+                                set();
+                                if(e.button === 0) {
+                                    document.onmousemove = undefined;
+                                    //resetStickToTailHandler();
+                                    item.onmouseleave = mouseLeave;
+                                }
 
-                            console.log("shiftUpSave")
-                            store.addToStack(save({dont_save: true}));
-                        };
+                                console.log("shiftUpSave")
+                                store.addToStack(save({dont_save: true}));
+                            };
+                        }
                     }
                 }
 

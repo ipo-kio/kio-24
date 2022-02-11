@@ -13,9 +13,9 @@ const {STACK} = SETTINGS.getAll();
 function drawingLine(data, finishCallback = () => {}){
     function stopDrawing(e){
 
-        if(lineCollision(data.line, Store.collisionIgnore)) {
-            Store.isCollision = true;
-        }
+        // if(lineCollision(data.line, Store.collisionIgnore)) {
+        //     Store.isCollision = true;
+        // }
 
         e.preventDefault();
 

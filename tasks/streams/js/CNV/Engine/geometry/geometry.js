@@ -181,8 +181,8 @@ function getEquationFor2points(x1, y1, x2, y2){
         xBottom,
         yTop,
         yBottom,
-        k: (y2 - y1) / (x2 - x1),
-        b: (x1 * (y2 - y1) / (x2 - x1) - y1),
+        k: (y2 - y1) / (x2 - x1), //!== Infinity ? (y2 - y1) / (x2 - x1) : 1,
+        b: (x1 * (y2 - y1) / (x2 - x1) - y1), // !== Infinity ? (x1 * (y2 - y1) / (x2 - x1) - y1) : x2,
     }
 }
 
@@ -216,7 +216,13 @@ function moveTo(equation, move, x){
     }
 
     let k = lenA2 / lenA;
-    let newX =  Math.abs(k * Math.abs(equation.x2 - equation.x1) + alfa * equation.x1);
+    let newX;
+    if(!Number.isNaN(k)){
+        newX = Math.abs(k * Math.abs(equation.x2 - equation.x1) + alfa * equation.x1);
+    } else {
+        console.log("here moveTo");
+        newX = x + move;
+    }
     return {
         x: newX,
         y: getCoordinates(equation, newX),

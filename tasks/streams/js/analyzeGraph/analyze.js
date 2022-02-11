@@ -9,6 +9,7 @@ import save from "../storage/save";
 import Store from "../Store";
 import showCycles from "./showCycles";
 import step from "./step";
+import allCollision from "../allCollision";
 
 const {
     CONTROL_SUM_WARNING, FINISH_LIMITS,
@@ -107,11 +108,10 @@ function analyze(lines) {
         state.analyzeInfo = collecting_statistics(lines, startLines[0], finishLines.length);
     }
 
-    if(Store.isCollision){
+    if(allCollision()){
         show_warning("Потоки пересекаются");
         return;
     }
-
 
     if(LOOPS === false){
         if(state.analyzeInfo.number_of_loops > 0){

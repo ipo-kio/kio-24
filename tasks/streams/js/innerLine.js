@@ -38,11 +38,26 @@ function innerLine(line){
             let start = line1.system.moveTo(5, line.link.start.x);
             let end = line2.system.moveTo(-5, line.link.end.x);
             x0 = start.x;
-            y0 = start.y;
+            y0 = !Number.isNaN(start.y) ? start.y : line1.link.start.y + 3;
             x1 = end.x;
             y1 = end.y;
             x2 = line.link.check.x;
             y2 = line.link.check.y;
+
+            console.log('line1 coordinates', line1.system.coordinates);
+            console.log('line1 equation', line1.system.equation);
+            console.log("x0, y0", x0, y0);
+            // CNV.createCircle({
+            //     x0,
+            //     y0,
+            //     className: "a4"
+            // })
+            // CNV.createCircle({
+            //     x0: x1,
+            //     y0: y1,
+            //     className: "a5"
+            // }).style.radius = 3;
+            CNV.render()
             line1.remove();
             line2.remove();
             console.log("Кривая");

@@ -177,35 +177,36 @@ function setStickToTailHandler(currentData){
                     data.line.onclick = e => {
                         //currentData.line.classList.add("a4");
                         //data.line.classList.add("a4");
-                        if(!lineCollision(currentData.line, data.line)){
-                            console.log("clickSetstickTOToal");
-                            data.line.classList.remove("stickyLine");
+                        // if(!lineCollision(currentData.line, data.line)){
+                        //     console.log("clickSetstickTOToal");
+                        //
+                        // }
+                        data.line.classList.remove("stickyLine");
 
-                            let coords;
-                            if(data.line.link.start.x === data.line.link.check.x && data.line.link.start.y === data.line.link.check.y){
-                                coords = data.line.system.moveTo(data.line.system.length / 2, data.line.system.coordinates.x1);
-                            } else {
-                                coords = getBlackPointCoord({
-                                    start: data.line.link.start,
-                                    end: data.line.link.end,
-                                    check: data.line.link.check,
-                                })
-                            }
-
-                            currentData.line.update.endPosition.x = coords.x;
-                            currentData.line.update.endPosition.y = coords.y;
-                            currentData.endCircle.update.startPosition.x = coords.x;
-                            currentData.endCircle.update.startPosition.y = coords.y;
-
-
-
-                            currentData.endCircle.classList.add("hidden");
-                            currentData.__NOT_CIRCLE = true;
-
-                            data.parents.push(currentData);
-                            data.sideIn.push(currentData);
-                            addEdge(currentData, data);
+                        let coords;
+                        if(data.line.link.start.x === data.line.link.check.x && data.line.link.start.y === data.line.link.check.y){
+                            coords = data.line.system.moveTo(data.line.system.length / 2, data.line.system.coordinates.x1);
+                        } else {
+                            coords = getBlackPointCoord({
+                                start: data.line.link.start,
+                                end: data.line.link.end,
+                                check: data.line.link.check,
+                            })
                         }
+
+                        currentData.line.update.endPosition.x = coords.x;
+                        currentData.line.update.endPosition.y = coords.y;
+                        currentData.endCircle.update.startPosition.x = coords.x;
+                        currentData.endCircle.update.startPosition.y = coords.y;
+
+
+
+                        currentData.endCircle.classList.add("hidden");
+                        currentData.__NOT_CIRCLE = true;
+
+                        data.parents.push(currentData);
+                        data.sideIn.push(currentData);
+                        addEdge(currentData, data);
                     }
                 }, 0);
             }

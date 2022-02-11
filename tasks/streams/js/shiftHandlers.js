@@ -38,6 +38,9 @@ function setAllBut(item, lineHandler, circleHandler, leaveHandler){
     }
 }
 
+let moveTimeout;
+let stopMoving = false;
+
 const shiftDownHandler = (e) => {
     if(e.key === "Shift"){
         CNV.settings.draggableCanvas = false;
@@ -51,6 +54,7 @@ const shiftDownHandler = (e) => {
                 item.onclick = undefined;
 
                 function onMouseMove3(event, obj) {
+                    clearTimeout(moveTimeout);
                     //setStickToTailHandler(obj);
                     const item = obj.endCircle;
                     lastDrag = obj.line;
@@ -91,27 +95,30 @@ const shiftDownHandler = (e) => {
 
                         })
 
-                        while(true){
-                            let curObj = objects[0];
-                            if(!curObj) break;
-                            console.log("mouseMove 3 endCircle loop");
+                        moveTimeout = setTimeout(()=> {
+                            while(true){
+                                let curObj = objects[0];
+                                if(!curObj) break;
+                                console.log("mouseMove 3 endCircle loop");
 
-                            let sideInCoors = getBlackPointCoord({
-                                start: curObj.line.link.start,
-                                end: curObj.line.link.end,
-                                check: curObj.line.link.check,
-                            })
-                            //innerLine(curObj.line);
-                            curObj.sideIn.forEach(item => {
-                                item.line.update.endPosition.x = sideInCoors.x;
-                                item.line.update.endPosition.y = sideInCoors.y;
-                                item.endCircle.update.startPosition.x = sideInCoors.x;
-                                item.endCircle.update.startPosition.y = sideInCoors.y;
-                                innerLine(item.line);
-                                objects.push(item);
-                            })
-                            objects.shift();
-                        }
+                                let sideInCoors = getBlackPointCoord({
+                                    start: curObj.line.link.start,
+                                    end: curObj.line.link.end,
+                                    check: curObj.line.link.check,
+                                })
+                                //innerLine(curObj.line);
+                                curObj.sideIn.forEach(item => {
+                                    item.line.update.endPosition.x = sideInCoors.x;
+                                    item.line.update.endPosition.y = sideInCoors.y;
+                                    item.endCircle.update.startPosition.x = sideInCoors.x;
+                                    item.endCircle.update.startPosition.y = sideInCoors.y;
+                                    innerLine(item.line);
+                                    objects.push(item);
+                                })
+                                objects.shift();
+                            }
+                        }, 10);
+
 
 
                     })
@@ -189,6 +196,8 @@ const shiftDownHandler = (e) => {
                                 obj.line.onmouseleave = mouseLeave;
 
                                 console.log("shiftUpSave")
+                                analyze(store.state.lines);
+
                                 store.addToStack(save({dont_save: true}));
                             }
                         };
@@ -283,12 +292,13 @@ const shiftUpHandler = (e) => {
         }
         // console.log("shiftUpSave")
         // store.addToStack(save({dont_save: true}));
-        if(lastDrag){
-            if(lineCollision(lastDrag)) setTimeout(()=> {
-                recover(Store.getStackPrev());
-                analyze(store.state.lines);
-            }, 1000)
-        }
+        // if(lastDrag){
+        //     if(lineCollision(lastDrag)) setTimeout(()=> {
+        //         recover(Store.getStackPrev());
+        //         analyze(store.state.lines);
+        //     }, 1000)
+        // }
+        analyze(store.state.lines);
         lastDrag = undefined;
     }
 }

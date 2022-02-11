@@ -1,10 +1,8 @@
-import {Settings} from "./Settings";
 import {FieldState} from "./FieldState";
-import {get} from "jquery";
 import {Jeep} from "./jeep";
 import {Position} from "./Step";
 
-type Point = [x: number, y: number];
+export type Point = [x: number, y: number];
 
 export abstract class Field {
     public readonly jeep: Jeep;
@@ -13,27 +11,29 @@ export abstract class Field {
         this.jeep = jeep;
     }
 
-    abstract distance(position1: number, position2: number): number;
-
     abstract get size(): number;
 
     abstract get initial_position(): Position;
+
+    abstract get all_positions(): Position[]; // please don't modify {readonly [n: number]: Position, length: number};
 }
 
 export class LinearPosition implements Position {
-    private readonly x: number;
+    private readonly field: LinearField;
+    private readonly ind: number;
 
-    constructor(x: number) {
-        this.x = x;
+    constructor(field: LinearField, ind: number) {
+        this.field = field;
+        this.ind = ind;
     }
 
     distance(other: Position): number {
         let o = other as LinearPosition;
-        return Math.abs(o.x - this.x);
+        return Math.abs(o.ind - this.ind) * this.field.jeep.settings.FUEL_PER_UNIT;
     }
 
     get text(): string {
-        return "" + this.x;
+        return "" + this.ind;
     }
 
     get available(): boolean {
@@ -41,14 +41,25 @@ export class LinearPosition implements Position {
     }
 
     get index(): number {
-        return 0;
+        return this.ind;
+    }
+
+    get point(): Point {
+        let [x1, y1] = this.field.start;
+        let [x2, y2] = this.field.finish;
+        let n = this.field.size;
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+        let vx = dx / (n - 1);
+        let vy = dy / (n - 1);
+        return [x1 + this.ind * vx, y1 + this.ind * vy];
     }
 }
 
 export class LinearField extends Field {
     private readonly ctx: CanvasRenderingContext2D;
-    private readonly start: Point;
-    private readonly finish: Point;
+    private readonly _start: Point;
+    private readonly _finish: Point;
     private readonly steps: number;
     private readonly width: number;
     private readonly height: number;
@@ -58,16 +69,16 @@ export class LinearField extends Field {
     constructor(ctx: CanvasRenderingContext2D, jeep: Jeep, start: Point, finish: Point, steps: number, width: number, height: number) {
         super(jeep);
         this.ctx = ctx;
-        this.start = start;
-        this.finish = finish;
+        this._start = start;
+        this._finish = finish;
         this.steps = steps;
         this.width = width;
         this.height = height;
 
         this.cell_radius = 10; // TODO evaluate cell radius from somewhere
 
-        let [x1, y1] = this.start;
-        let [x2, y2] = this.finish;
+        let [x1, y1] = this._start;
+        let [x2, y2] = this._finish;
 
         let dx = x2 - x1;
         let dy = y2 - y1;
@@ -80,10 +91,10 @@ export class LinearField extends Field {
         this.draw_bg();
 
         //convert image
-        let [x1, y1] = this.start;
-        let [x2, y2] = this.finish;
-        this.ctx.translate(x1, y1);
-        this.ctx.rotate(Math.atan2(y2 - y1, x2 - x1));
+        let [x1, y1] = this._start;
+        let [x2, y2] = this._finish;
+        // this.ctx.translate(x1, y1);
+        // this.ctx.rotate(Math.atan2(y2 - y1, x2 - x1));
 
         this.draw_values(field_state);
         this.draw_car(field_state);
@@ -92,24 +103,29 @@ export class LinearField extends Field {
     }
 
     private draw_bg() {
-        this.ctx.fillStyle = '#ffd739';
-        this.ctx.fillRect(0, 0, this.width, this.height);
+        // let bg = this.jeep.kioapi.getResource('sand') as HTMLImageElement;
+        // this.ctx.drawImage(bg, 0, 0, this.width, this.height);
+        this.ctx.clearRect(0, 0, this.width, this.height);
     }
 
     private draw_values(field_state: FieldState) {
         this.ctx.font = '30px Arial';
         this.ctx.textAlign = "center";
-        this.ctx.textBaseline = "top";
-        this.ctx.fillStyle = "black";
+        this.ctx.textBaseline = "middle";
+        this.ctx.fillStyle = "orange";
+        this.ctx.strokeStyle = 'black';
         let barrel = this.jeep.kioapi.getResource('barrel')  as HTMLImageElement;
+
+        let positions = this.all_positions;
 
         for (let i = 0; i < this.steps; i++) {
             let fuel = field_state.get_value(i);
             // if (fuel == 0)
             //     continue;
             let text = fuel > 1e10 ? '∞' : '' + fuel;
-            let [x, y] = [this.step_length * i, 0];
-            this.ctx.drawImage(barrel, x - barrel.width / 2, y - barrel.height, barrel.width, barrel.height);
+            let [x, y] = positions[i].point;
+            this.ctx.drawImage(barrel, x - barrel.width / 2, y - barrel.height / 2, barrel.width, barrel.height);
+            this.ctx.strokeText(text, x, y);
             this.ctx.fillText(text, x, y);
         }
     }
@@ -117,19 +133,6 @@ export class LinearField extends Field {
     private draw_car(field_state: FieldState) {
 
     }
-
-    /*private get_point(ind: number): Point {
-        let [x1, y1] = this.start;
-        let [x2, y2] = this.finish;
-
-        let dx = x2 - x1;
-        let dy = y2 - y1;
-
-        let vx = dx / (this.steps + 1);
-        let vy = dy / (this.steps + 1);
-
-        return [x1 + vx * ind, x2 + vy * ind];
-    }*/
 
     /*private mark_area(ind: number): void {
         let [x0, y0] = this.get_point(ind);
@@ -139,15 +142,26 @@ export class LinearField extends Field {
         c.rect(x0 - r, y0 - r, r * 2, r * 2);
     }*/
 
-    distance(position1: number, position2: number): number {
-        return Math.abs(position1 - position2) * this.jeep.settings.FUEL_PER_UNIT;
-    }
-
     get size(): number {
         return this.steps;
     }
 
     get initial_position(): Position {
-        return
+        return this.all_positions[0];
+    }
+
+    get start(): Point {
+        return this._start;
+    }
+
+    get finish(): Point {
+        return this._finish;
+    }
+
+    get all_positions(): Position[] {
+        let positions: Position[] = [];
+        for (let i = 0; i < this.size; i++)
+            positions.push(new LinearPosition(this, i));
+        return positions;
     }
 }

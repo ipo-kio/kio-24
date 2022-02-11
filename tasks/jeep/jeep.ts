@@ -3,6 +3,8 @@ import {KioApi, KioTask, KioParameterDescription, KioResourceDescription, KioTas
 import {Settings} from "./Settings";
 import {LinearField} from "./Field";
 import {FieldState} from "./FieldState";
+import {History, MoveTo, Pick, Put} from "./Step";
+import {HistoryView} from "./view/HistoryView";
 
 export class Jeep implements KioTask {
     private _settings: Settings;
@@ -23,15 +25,16 @@ export class Jeep implements KioTask {
         this._kioapi = kioapi;
         this.domNode = domNode;
 
-        domNode.innerHTML = `
-            <canvas
-                style="display: inline-block"
-                width="600" height="600"
-                class="task-canvas"
-            ></canvas><div
-                class="task-history"
-                style="overflow: scroll; display: inline-block; width:300px; height: 600px"
-            ></div>`;
+        domNode.innerHTML = `<div style="background: url('jeep-resources/sand.jpg')">
+                <canvas
+                    style="display: inline-block; vertical-align: top"
+                    width="600" height="600"
+                    class="task-canvas"
+                ></canvas><div style="display: inline-block; vertical-align: top">
+                    <div class="task-history"></div>
+                    <div class="task-controls" style="width: 300px; height:200px"></div>
+                </div>
+            </div>`;
         let canvas = domNode.getElementsByClassName('task-canvas')[0] as HTMLCanvasElement;
         let history = domNode.getElementsByClassName('task-history')[0] as HTMLDivElement;
         canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
@@ -48,6 +51,17 @@ export class Jeep implements KioTask {
             600
         );
         field.draw(FieldState.create(field));
+
+        // create history
+
+        let p = field.all_positions;
+        let h = new History([
+            new MoveTo(p[1]),
+            new Pick(10),
+            new MoveTo(p[2]),
+            new Put(20)
+        ]);
+        let hw = new HistoryView(history, h);
     }
 
     parameters(): KioParameterDescription[] {
@@ -79,6 +93,7 @@ export class Jeep implements KioTask {
 
     static preloadManifest(): KioResourceDescription[] {
         return [
+            {id: "sand", src: "jeep-resources/sand.jpg"},
             {id: "jeep", src: "jeep-resources/SimpleGreenCarTopView.png"},
             {id: "barrel", src: "jeep-resources/SteelBarrel.png"}
         ];

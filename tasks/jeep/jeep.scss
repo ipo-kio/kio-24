@@ -1,0 +1,37 @@
+.task-history {
+
+  background-color: rgba(255, 252, 47, 0.6);
+  overflow: scroll;
+  display: inline-block;
+  width: 300px;
+  height: 400px;
+  border: 2px solid orange;
+  box-sizing: border-box;
+  padding: 0.4em;
+
+  .task-history-item {
+
+    margin: 0 0.4em;
+    cursor: pointer;
+    padding: 2px 6px;
+
+    &:hover {
+      background-color: orangered;
+
+      .task-history-value {
+        color: white;
+      }
+    }
+
+    .task-history-text {
+      font-family: sans-serif;
+    }
+
+    .task-history-value {
+      font-family: sans-serif;
+      padding-left: 0.4em;
+      font-weight: bold;
+      color: #ff3c00;
+    }
+  }
+}

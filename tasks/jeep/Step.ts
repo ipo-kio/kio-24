@@ -1,3 +1,5 @@
+import {Point} from "./Field";
+
 export interface Step {
     get text(): string;
     get value(): string | number;
@@ -7,7 +9,7 @@ export interface Position {
     get text(): string;
     distance(other: Position): number;
     get index(): number;
-    get available(): boolean;
+    get point(): Point;
 }
 
 export class MoveTo implements Step {
@@ -72,6 +74,10 @@ export class Put implements Step {
 
 export class History {
     private _steps: Step[];
+
+    constructor(steps: Step[]) {
+        this._steps = steps;
+    }
 
     get steps(): Step[] {
         return this._steps;

@@ -175,8 +175,8 @@ function setStickToTailHandler(currentData){
 
                 setTimeout(()=> {
                     data.line.onclick = e => {
-                        currentData.line.classList.add("a4");
-                        data.line.classList.add("a4");
+                        //currentData.line.classList.add("a4");
+                        //data.line.classList.add("a4");
                         if(!lineCollision(currentData.line, data.line)){
                             console.log("clickSetstickTOToal");
                             data.line.classList.remove("stickyLine");

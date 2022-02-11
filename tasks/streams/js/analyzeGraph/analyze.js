@@ -77,9 +77,6 @@ function analyze(lines) {
         startLines.forEach(item => {
             item.line.classList.add("red");
         })
-        // warning.innerHTML = "Путь имеет разрывы. Анализ невозможен";
-        // warning.classList.remove("hidden");
-        // console.log(startLines)
         return;
     } else {
         show_warning("", 0);
@@ -108,6 +105,11 @@ function analyze(lines) {
     //АНАЛИЗ
     if(newLines.length > 0){
         state.analyzeInfo = collecting_statistics(lines, startLines[0], finishLines.length);
+    }
+
+    if(Store.isCollision){
+        show_warning("Потоки пересекаются");
+        return;
     }
 
 

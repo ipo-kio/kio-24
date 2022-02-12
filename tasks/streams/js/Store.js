@@ -4,7 +4,7 @@ import {logPlugin} from "@babel/preset-env/lib/debug";
 import save from "./storage/save";
 const {STACK_LIMIT} = SETTINGS.getAll();
 
-export default {
+let Store = {
     state: {
         delMode: false,
         mode: "draw", //draw, del
@@ -32,7 +32,11 @@ export default {
         return this.state;
     },
     getStackPrev(){
-        this.stack.current - 1 >= 0 ? this.stack.current -= 1 : this.stack.current = 0;
+        if(this.stack.current - 1 >= 0){
+            this.stack.current = this.stack.current - 1;
+        } else {
+            this.stack.current = 0;
+        }
         return this.stack[this.stack.current];
     },
 
@@ -45,11 +49,13 @@ export default {
     },
 
     addToStack(data){
+        console.log("addToStack");
         if(this.stack.len !== this.stack.current + 1){
             for (let i = this.stack.current + 1; i < this.stack.stack_limit; i++) {
                 delete this.stack[i];
             }
             this.stack.len = this.stack.current + 1;
+            console.log("delete future stack");
         }
 
         if(this.stack.len < this.stack.stack_limit){
@@ -63,6 +69,16 @@ export default {
             this.stack[this.stack.len - 1] = data;
         }
     },
+    showStack(){
+        console.log("store", Store);
+        let data = {
+            len: Store.stack.len,
+            stack_limit: Store.stack.stack_limit,
+            current: Store.stack.current,
+        }
+        console.log(data);
+    },
+
     get canvas(){
         return this.system.canvas;
     },
@@ -70,3 +86,5 @@ export default {
         return this.system.context;
     }
 }
+
+export default Store;

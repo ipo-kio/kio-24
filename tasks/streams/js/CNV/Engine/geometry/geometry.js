@@ -57,6 +57,7 @@ function collision(equation1, equation2){
     let y3 = 0;
     let x4 = 0;
     let y4 = 0;
+    let distance = 0.1;
 
     let obj_collision = {
         result: false,
@@ -85,7 +86,7 @@ function collision(equation1, equation2){
                 x2 = Math.round(x2); 
                 y2 = Math.round(y2);
             }
-            t += 0.1;
+            t += distance;
             if(linesCross(equation1.x1, equation1.y1, equation1.x2, equation1.y2, x2, y2, x1, y1)) {
                 obj_collision.result = true;
                 obj_collision.target = equation2.target;
@@ -111,7 +112,7 @@ function collision(equation1, equation2){
                 x2 = Math.round(x2); 
                 y2 = Math.round(y2); 
             }
-            t += 0.1;
+            t += distance;
             if(linesCross(equation2.x1, equation2.y1, equation2.x2, equation2.y2, x2, y2, x1, y1)) {
                 obj_collision.result = true;
                 obj_collision.target = equation2.target;
@@ -137,7 +138,7 @@ function collision(equation1, equation2){
                 x2 = Math.round(x2); 
                 y2 = Math.round(y2); 
             }
-            t += 0.1;
+            t += distance;
             t1 = 0;
             while(t1 <= 1){
                 x3 = Math.pow((1 - t1), 2)*equation2.x1 + 2*(1 - t1)*t1*equation2.x3 + Math.pow(t1, 2)*equation2.x2;
@@ -156,7 +157,7 @@ function collision(equation1, equation2){
                     x4 = Math.round(x4); 
                     y4 = Math.round(y4);
                 }
-                t1 += 0.1;
+                t1 += distance;
                 if(linesCross(x2, y2, x1, y1, x4, y4, x3, y3)) {
                     obj_collision.result = true;
                     obj_collision.target = equation2.target;
@@ -220,7 +221,6 @@ function moveTo(equation, move, x){
     if(!Number.isNaN(k)){
         newX = Math.abs(k * Math.abs(equation.x2 - equation.x1) + alfa * equation.x1);
     } else {
-        console.log("here moveTo");
         newX = x + move;
     }
     return {

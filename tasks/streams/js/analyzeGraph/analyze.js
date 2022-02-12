@@ -224,6 +224,7 @@ function analyze(lines) {
             warning.classList.add("hidden");
         }
     }
+    //Store.addToStack(save({dont_save: true}));
     Store.API.loadSolution(save({dont_save: true, dont_stringify: true}));
     if(SHOW_CYCLES){
         showCycles(startLines[0]);

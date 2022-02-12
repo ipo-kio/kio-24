@@ -13,6 +13,7 @@ function lineCollision(notThis = []){
                     isCollision = true;
                     res.target.classList.add("lineWarning");
                     line.classList.add("lineWarning");
+
                     // let warning = setInterval(() => {
                     //     res.target.classList.toggle("lineWarning");
                     //     line.classList.toggle("lineWarning");

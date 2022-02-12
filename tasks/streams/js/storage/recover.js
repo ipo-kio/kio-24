@@ -9,12 +9,15 @@ import {
 import store from "../Store";
 import innerLine from "../innerLine";
 import firstDraw from "../firstDraw";
+import save from "./save";
 
 
 function recover(data){
     const disk = JSON.parse(data || localStorage.getItem("__saved"));
     CNV.recover(disk.CNV);
     let script = JSON.parse(disk.SCRIPT);
+    console.log("disk", disk);
+    console.log("SCRIPT", script);
     for(let key in script.lines){
         let item = script.lines[key];
         item.line = CNV.getElementByUniqueId(item.line);
@@ -45,6 +48,7 @@ function recover(data){
     }
     store.state = script;
     CNV.settings.draggableCanvas = true;
+    //store.addToStack(save({dont_save: true}))
     CNV.render();
 }
 

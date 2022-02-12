@@ -202,3 +202,24 @@ body{
     margin: 0;
     box-shadow: none;
 }
+
+#save{
+    position: absolute;
+    z-index: 100;
+    right: 10px;
+    bottom: 10px;
+}
+
+#recover_btn{
+    position: absolute;
+    z-index: 100;
+    right: 10px;
+    bottom: 40px;
+}
+
+#recover_input{
+    position: absolute;
+    z-index: 100;
+    right: 10px;
+    bottom: 70px;
+}

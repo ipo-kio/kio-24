@@ -25,7 +25,7 @@ _s.SHOW_PATH = false //показать путь обхода
 _s.SHOW_CYCLES = false; //показать циклы
 _s.CONTROL_SUM_WARNING = true; //выводить предупреждение о контрольной сумме
 _s.SHOW_PRIORITIES = false;
-_s.START_POWER = 25;
+_s.START_POWER = 33;
 _s.NUMERIC_POWER = false;
 
 _s.LINE_WIDTH_MIN = 3;

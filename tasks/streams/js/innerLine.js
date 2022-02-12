@@ -17,8 +17,6 @@ function innerLine(line){
         y1 = mv2.y;
         x2 = x0;
         y2 = y0;
-
-        console.log("Прямая");
     } else {
         let point = getBlackPointCoord(line.link);
         let line1, line2;
@@ -44,23 +42,9 @@ function innerLine(line){
             x2 = line.link.check.x;
             y2 = line.link.check.y;
 
-            console.log('line1 coordinates', line1.system.coordinates);
-            console.log('line1 equation', line1.system.equation);
-            console.log("x0, y0", x0, y0);
-            // CNV.createCircle({
-            //     x0,
-            //     y0,
-            //     className: "a4"
-            // })
-            // CNV.createCircle({
-            //     x0: x1,
-            //     y0: y1,
-            //     className: "a5"
-            // }).style.radius = 3;
             CNV.render()
             line1.remove();
             line2.remove();
-            console.log("Кривая");
         })
     }
 

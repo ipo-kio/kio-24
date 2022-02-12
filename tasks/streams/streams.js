@@ -65,14 +65,62 @@ init();
 
 UIhandlers();
 
+const saveBtn = document.querySelector("#save");
+const recoverInput = document.querySelector("#recover_input");
+const recoverBtn = document.querySelector("#recover_btn");
+const savedCodeField = document.querySelector(".saved_code");
 
-// delLineBtn.onclick = e => {
-//     if(store.state.mode === "draw"){
-//         setDelMode();
-//     } else if(store.state.mode === "del"){
-//         setDrawingMode();
-//     }
-// }
+
+
+recoverBtn.onclick = e => {
+    recover(recoverInput.value);
+    analyze(store.state.lines);
+    recoverInput.value = ""
+}
+
+saveBtn.onclick = e => {
+    saveBtn.classList.remove("saveOk");
+    const disk = save({dont_save: true});
+
+    savedCodeField.value = disk;
+    savedCodeField.select();
+
+    document.execCommand("copy");
+    saveBtn.classList.add("saveOk");
+    setTimeout(()=> {
+        saveBtn.classList.remove("saveOk");
+    }, 1000)
+}
+
+window.addEventListener("keydown", shiftDownHandler);
+
+
+zHandlers();
+
+function init(){
+
+    let query = location.search.substr(1).trim().split('&');
+    let level = 0;
+//TODO generalize
+
+    for (let i = 0; i < query.length; i++) {
+        if (query[i] === "level=1")
+            level = 1;
+        else if (query[i] === "level=2")
+            level = 2;
+    }
+
+    console.log('loading task level', level);
+
+    //document.getElementById('stud-unique-id').innerText = 'kio-task-streams-' + level;
+
+    kio_api.initializeKioProblem(
+        Streams,
+        document.getElementById('problem'),
+        {level: level}
+    );
+}
+
 
 // recoverBtn.onclick = e => {
 //     recover();
@@ -110,49 +158,4 @@ UIhandlers();
 // }
 //
 //
-// saveBtn.onclick = e => {
-//     saveBtn.classList.remove("saveOk");
-//     const CNVrecoveryData = CNV.save();
-//     const SCRIPTrecoveryData = save({});
-//     const disk = JSON.stringify({
-//         CNV: CNVrecoveryData,
-//         SCRIPT: SCRIPTrecoveryData,
-//     })
-//     savedCodeField.value = disk;
-//     savedCodeField.select();
-//
-//     document.execCommand("copy");
-//     saveBtn.classList.add("saveOk");
-//     setTimeout(()=> {
-//         saveBtn.classList.remove("saveOk");
-//     }, 1000)
-// }
-
-window.addEventListener("keydown", shiftDownHandler);
-
-
-zHandlers();
-
-function init(){
-    let query = location.search.substr(1).trim().split('&');
-    let level = 0;
-//TODO generalize
-    for (let i = 0; i < query.length; i++) {
-        if (query[i] === "level=1")
-            level = 1;
-        else if (query[i] === "level=2")
-            level = 2;
-    }
-
-    console.log('loading task level', level);
-
-    //document.getElementById('stud-unique-id').innerText = 'kio-task-streams-' + level;
-
-    kio_api.initializeKioProblem(
-        Streams,
-        document.getElementById('problem'),
-        {level: level}
-    );
-}
-
 

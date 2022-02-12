@@ -53,10 +53,9 @@ class Streams {
         return save({dont_save: true});
     }
     loadSolution(solution) {
-        console.log("Store.API.emptySolution", Store.API.emptySolution);
+        //console.log("Store.API.emptySolution", Store.API.emptySolution);
         if(solution !== undefined){
             if(typeof solution === "string"){
-                console.log("loadSolution string");
                 recover(solution);
                 analyze(Store.state.lines)
                 setTimeout(()=> {
@@ -64,7 +63,7 @@ class Streams {
                 }, 0);
                 solution = JSON.parse(solution);
             }
-            console.log("loadSolution", solution);
+            //console.log("loadSolution", solution);
             if(solution){
                 this.kioapi.submitResult(solution);
             }

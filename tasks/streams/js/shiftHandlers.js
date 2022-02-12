@@ -54,6 +54,7 @@ const shiftDownHandler = (e) => {
                 item.onclick = undefined;
 
                 function onMouseMove3(event, obj) {
+                    stopMoving = true;
                     clearTimeout(moveTimeout);
                     //setStickToTailHandler(obj);
                     const item = obj.endCircle;
@@ -77,11 +78,18 @@ const shiftDownHandler = (e) => {
 
                         let objects = [obj];
 
-                        console.log("here");
-
                         obj.children.forEach(children => {
                             children.line.link.start.x += event.movementX;
                             children.line.link.start.y += event.movementY;
+
+                            // if(children.line.isLine){
+                            //     children.line.link.check.x = children.line.link.start.x;
+                            //     children.line.link.check.y = children.line.link.start.y;
+                            // } else {
+                            //     children.line.link.check.x += event.movementX;
+                            //     children.line.link.check.y += event.movementY;
+                            // }
+
                             children.line.link.check.x += event.movementX;
                             children.line.link.check.y += event.movementY;
 
@@ -94,18 +102,25 @@ const shiftDownHandler = (e) => {
 
 
                         })
-
+                        stopMoving = false;
                         moveTimeout = setTimeout(()=> {
-                            while(true){
+                            while(!stopMoving){
                                 let curObj = objects[0];
                                 if(!curObj) break;
-                                console.log("mouseMove 3 endCircle loop");
 
-                                let sideInCoors = getBlackPointCoord({
-                                    start: curObj.line.link.start,
-                                    end: curObj.line.link.end,
-                                    check: curObj.line.link.check,
-                                })
+                                console.log("mouseMove 3 endCircle loop");
+                                let sideInCoors;
+                                if(!curObj.line.isLine){
+                                    sideInCoors = getBlackPointCoord({
+                                        start: curObj.line.link.start,
+                                        end: curObj.line.link.end,
+                                        check: curObj.line.link.check,
+                                    })
+                                } else {
+                                    sideInCoors = curObj.line.system.moveTo(curObj.line.system.length / 2, curObj.line.system.coordinates.x1);
+                                }
+
+
                                 //innerLine(curObj.line);
                                 curObj.sideIn.forEach(item => {
                                     item.line.update.endPosition.x = sideInCoors.x;
@@ -117,8 +132,7 @@ const shiftDownHandler = (e) => {
                                 })
                                 objects.shift();
                             }
-                        }, 10);
-
+                        }, 70);
 
 
                     })
@@ -195,10 +209,11 @@ const shiftDownHandler = (e) => {
                                 //resetStickToTailHandler();
                                 obj.line.onmouseleave = mouseLeave;
 
-                                console.log("shiftUpSave")
-                                analyze(store.state.lines);
-
-                                store.addToStack(save({dont_save: true}));
+                                setTimeout(()=> {
+                                    console.log("shiftUpSave")
+                                    analyze(store.state.lines);
+                                    store.addToStack(save({dont_save: true}));
+                                }, 150);
                             }
                         };
                     }
@@ -233,9 +248,9 @@ const shiftDownHandler = (e) => {
                                     //resetStickToTailHandler();
                                     item.onmouseleave = mouseLeave;
                                 }
+                                analyze(store.state.lines);
 
-                                console.log("shiftUpSave")
-                                store.addToStack(save({dont_save: true}));
+                               store.addToStack(save({dont_save: true}));
                             };
                         }
                     }
@@ -290,14 +305,7 @@ const shiftUpHandler = (e) => {
             item.onmouseleave = endCircleMouseLeave;
             item.onclick = (e) => endCircleClick(obj, e);
         }
-        // console.log("shiftUpSave")
-        // store.addToStack(save({dont_save: true}));
-        // if(lastDrag){
-        //     if(lineCollision(lastDrag)) setTimeout(()=> {
-        //         recover(Store.getStackPrev());
-        //         analyze(store.state.lines);
-        //     }, 1000)
-        // }
+
         analyze(store.state.lines);
         lastDrag = undefined;
     }

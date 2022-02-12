@@ -90,7 +90,6 @@ function collision(equation1, equation2){
             }
             if(linesCross(equation1.x1, equation1.y1, equation1.x2, equation1.y2, x2, y2, x1, y1)) {
                 obj_collision.result = true;
-                alert(t)
                 obj_collision.target = equation2.target;
             }
             t += distance;

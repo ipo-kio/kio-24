@@ -109,8 +109,8 @@ const CNV = {
         }
     },
 
-    lineCollision(line1, line2){
-        return collision(line1.system.equation, line2.system.equation);
+    lineCollision(line1, line2, mode){
+        return collision(line1.system.equation, line2.system.equation, mode);
     },
 
     preventRender(callback){

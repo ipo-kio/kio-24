@@ -72,8 +72,10 @@ function collision(equation1, equation2){
         while(t <= 1){
             x1 = Math.pow((1 - t), 2)*equation2.x1 + 2*(1 - t)*t*equation2.x3 + Math.pow(t, 2)*equation2.x2;
             y1 = Math.pow((1 - t), 2)*equation2.y1 + 2*(1 - t)*t*equation2.y3 + Math.pow(t, 2)*equation2.y2;
-            x1 = Math.round(x1); 
-            y1 = Math.round(y1);
+            if(t !== 0.9999999999999999){
+                x1 = Math.round(x1); 
+                y1 = Math.round(y1);
+            }
             if(t !== 0){
                 x2 = Math.pow((1 - (t-0.1)), 2)*equation2.x1 + 2*(1 - (t-0.1))*(t-0.1)*equation2.x3 + Math.pow((t-0.1), 2)*equation2.x2;
                 y2 = Math.pow((1 - (t-0.1)), 2)*equation2.y1 + 2*(1 - (t-0.1))*(t-0.1)*equation2.y3 + Math.pow((t-0.1), 2)*equation2.y2;
@@ -86,11 +88,12 @@ function collision(equation1, equation2){
                 x2 = Math.round(x2); 
                 y2 = Math.round(y2);
             }
-            t += distance;
             if(linesCross(equation1.x1, equation1.y1, equation1.x2, equation1.y2, x2, y2, x1, y1)) {
                 obj_collision.result = true;
+                alert(t)
                 obj_collision.target = equation2.target;
             }
+            t += distance;
         }
         return obj_collision;
     }
@@ -98,8 +101,10 @@ function collision(equation1, equation2){
         while(t <= 1){
             x1 = Math.pow((1 - t), 2)*equation1.x1 + 2*(1 - t)*t*equation1.x3 + Math.pow(t, 2)*equation1.x2;
             y1 = Math.pow((1 - t), 2)*equation1.y1 + 2*(1 - t)*t*equation1.y3 + Math.pow(t, 2)*equation1.y2;
-            x1 = Math.round(x1); 
-            y1 = Math.round(y1);
+            if(t !== 0.9999999999999999){
+                x1 = Math.round(x1); 
+                y1 = Math.round(y1);
+            }
             if(t !== 0){
                 x2 = Math.pow((1 - (t-0.1)), 2)*equation1.x1 + 2*(1 - (t-0.1))*(t-0.1)*equation1.x3 + Math.pow((t-0.1), 2)*equation1.x2;
                 y2 = Math.pow((1 - (t-0.1)), 2)*equation1.y1 + 2*(1 - (t-0.1))*(t-0.1)*equation1.y3 + Math.pow((t-0.1), 2)*equation1.y2;
@@ -124,8 +129,10 @@ function collision(equation1, equation2){
         while(t <= 1){
             x1 = Math.pow((1 - t), 2)*equation1.x1 + 2*(1 - t)*t*equation1.x3 + Math.pow(t, 2)*equation1.x2;
             y1 = Math.pow((1 - t), 2)*equation1.y1 + 2*(1 - t)*t*equation1.y3 + Math.pow(t, 2)*equation1.y2;
-            x1 = Math.round(x1); 
-            y1 = Math.round(y1);
+            if(t !== 0.9){
+                x1 = Math.round(x1); 
+                y1 = Math.round(y1);
+            }
             if(t !== 0){
                 x2 = Math.pow((1 - (t-0.1)), 2)*equation1.x1 + 2*(1 - (t-0.1))*(t-0.1)*equation1.x3 + Math.pow((t-0.1), 2)*equation1.x2;
                 y2 = Math.pow((1 - (t-0.1)), 2)*equation1.y1 + 2*(1 - (t-0.1))*(t-0.1)*equation1.y3 + Math.pow((t-0.1), 2)*equation1.y2;
@@ -143,8 +150,10 @@ function collision(equation1, equation2){
             while(t1 <= 1){
                 x3 = Math.pow((1 - t1), 2)*equation2.x1 + 2*(1 - t1)*t1*equation2.x3 + Math.pow(t1, 2)*equation2.x2;
                 y3 = Math.pow((1 - t1), 2)*equation2.y1 + 2*(1 - t1)*t1*equation2.y3 + Math.pow(t1, 2)*equation2.y2;
-                x3 = Math.round(x3); 
-                y3 = Math.round(y3);
+                if(t1 !== 0.9){
+                    x3 = Math.round(x3); 
+                    y3 = Math.round(y3);
+                }
                 if(t1 !== 0){
                     x4 = Math.pow((1 - (t1-0.1)), 2)*equation2.x1 + 2*(1 - (t1-0.1))*(t1-0.1)*equation2.x3 + Math.pow((t1-0.1), 2)*equation2.x2;
                     y4 = Math.pow((1 - (t1-0.1)), 2)*equation2.y1 + 2*(1 - (t1-0.1))*(t1-0.1)*equation2.y3 + Math.pow((t1-0.1), 2)*equation2.y2;

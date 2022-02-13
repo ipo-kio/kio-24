@@ -1,15 +1,10 @@
-import {Point} from "./Field";
+import {FieldState} from "./FieldState";
+import {Position} from "./Position";
 
 export interface Step {
     get text(): string;
     get value(): string | number;
-}
-
-export interface Position {
-    get text(): string;
-    distance(other: Position): number;
-    get index(): number;
-    get point(): Point;
+    change_state(fs: FieldState): FieldState;
 }
 
 export class MoveTo implements Step {
@@ -29,6 +24,10 @@ export class MoveTo implements Step {
 
     get value(): string | number {
         return this.position.text;
+    }
+
+    change_state(fs: FieldState): FieldState {
+        return fs.move(this._position);
     }
 }
 
@@ -50,6 +49,10 @@ export class Pick implements Step {
     get value(): string | number {
         return this._amount;
     }
+
+    change_state(fs: FieldState): FieldState {
+        return fs.pick(this._amount);
+    }
 }
 
 export class Put implements Step {
@@ -70,16 +73,43 @@ export class Put implements Step {
     get value(): string | number {
         return this._amount;
     }
+
+    change_state(fs: FieldState): FieldState {
+        return fs.put(this._amount);
+    }
 }
 
-export class History {
-    private _steps: Step[];
+export class PickOrPut implements Step {
+    private readonly _amount: number;
 
-    constructor(steps: Step[]) {
-        this._steps = steps;
+    constructor(amount: number) {
+        this._amount = amount;
     }
 
-    get steps(): Step[] {
-        return this._steps;
+    get amount(): number {
+        return this._amount;
+    }
+
+    get text(): string {
+        if (this._amount == 0)
+            return "Ничего не делай";
+
+        if (this._amount < 0)
+            return "Оставь бензин";
+        else
+            return "Наполни бак бензином"
+    }
+
+    get value(): string | number {
+        if (this._amount == 0)
+            return '';
+        return Math.abs(this._amount);
+    }
+
+    change_state(fs: FieldState): FieldState {
+        if (this._amount < 0)
+            return fs.put(-this._amount);
+        else
+            return fs.pick(this._amount);
     }
 }

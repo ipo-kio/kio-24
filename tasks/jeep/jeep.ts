@@ -1,10 +1,12 @@
 import './jeep.scss'
 import {KioApi, KioTask, KioParameterDescription, KioResourceDescription, KioTaskSettings} from "../KioApi";
 import {Settings} from "./Settings";
-import {LinearField} from "./Field";
-import {FieldState} from "./FieldState";
-import {History, MoveTo, Pick, Put} from "./Step";
+import {LinearField} from "./view/Field";
+import {FieldState} from "./model/FieldState";
+import {MoveTo, Pick, Put} from "./model/Step";
 import {HistoryView} from "./view/HistoryView";
+import {History} from "./model/History";
+import {Slider} from './view/Slider';
 
 export class Jeep implements KioTask {
     private _settings: Settings;
@@ -13,6 +15,7 @@ export class Jeep implements KioTask {
 
     constructor(settings: KioTaskSettings) {
         this._settings = new Settings(settings);
+        console.log('settings', this._settings.FUEL_PER_UNIT);
     }
 
     id() {
@@ -37,20 +40,38 @@ export class Jeep implements KioTask {
             </div>`;
         let canvas = domNode.getElementsByClassName('task-canvas')[0] as HTMLCanvasElement;
         let history = domNode.getElementsByClassName('task-history')[0] as HTMLDivElement;
+        let controls = domNode.getElementsByClassName('task-controls')[0] as HTMLDivElement;
         canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
+
+        let slider = new Slider(
+            -5,
+            5,
+            27 + 20 + 20,
+            kioapi.getResource('slider'),
+            kioapi.getResource('slider-hover'),
+            kioapi.getResource('slider-line'),
+            1
+        );
+        controls.appendChild(slider.canvas);
+        slider.onvaluechange = (new_value: number) => console.log("value", new_value);
+        slider.add_ticks(1, 10, '#e6ffe0', 17);
+        slider.add_ticks(5, 15, '#e6ffe0');
 
         console.log('problem level is', this._settings.level);
 
         let field = new LinearField(
-            canvas.getContext('2d'),
+            canvas,
             this,
             [50, 550],
             [550, 50],
             10,
             600,
-            600
+            600,
+            p => console.log(p)
         );
-        field.draw(FieldState.create(field));
+        field.field_state = FieldState.create(field);
+        let next_state = field.field_state.pick(40);
+        field.field_state = next_state;
 
         // create history
 
@@ -95,7 +116,10 @@ export class Jeep implements KioTask {
         return [
             {id: "sand", src: "jeep-resources/sand.jpg"},
             {id: "jeep", src: "jeep-resources/SimpleGreenCarTopView.png"},
-            {id: "barrel", src: "jeep-resources/SteelBarrel.png"}
+            {id: "barrel", src: "jeep-resources/SteelBarrel.png"},
+            {id: 'slider', src: "jeep-resources/slider.png"},
+            {id: 'slider-hover', src: "jeep-resources/slider-hover.png"},
+            {id: 'slider-line', src: "jeep-resources/slider-line.png"}
         ];
     };
 

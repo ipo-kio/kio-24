@@ -1,4 +1,4 @@
-import {MoveTo, Step} from "../Step";
+import {MoveTo, Step} from "../model/Step";
 
 export abstract class StepView {
     private _edit: Boolean;

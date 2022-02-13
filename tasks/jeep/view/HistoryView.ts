@@ -1,4 +1,4 @@
-import {History} from "../Step";
+import {History} from "../model/History";
 
 export class HistoryView {
 

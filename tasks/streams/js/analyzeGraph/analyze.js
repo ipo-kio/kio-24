@@ -22,9 +22,6 @@ const {
         TASK
 } = SETTINGS.getAll();
 
-
-const warning = document.querySelector(".warning");
-
 function double(int){
     let count = 0;
     while (int / 2 >= 1){
@@ -35,6 +32,7 @@ function double(int){
 }
 
 function show_warning(text, duration = false){
+    const warning = document.querySelector(".warning");
     warning.innerHTML = text;
     warning.classList.remove("hidden");
     if(duration !== false){

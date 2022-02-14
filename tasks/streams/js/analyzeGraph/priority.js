@@ -28,6 +28,7 @@ function collecting_statistics(lines, startLine, finishCount){
         number_of_loops: count_loops,
     }
     test_1 = lines[start_key];
+
     while (flag === false){
         while (test_1.children[0] != undefined && test_1.children[0].branch_index === -1){
             if(test_1.children[1] !== undefined) count++;

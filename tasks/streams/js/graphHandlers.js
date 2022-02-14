@@ -7,12 +7,18 @@ const {LINE_WIDTH} = SETTINGS.getAll();
 //функция для добавбления ребёнка к родителю
 function addEdge(parent, children){
     parent.children.push(children);
-    if(!parent.__NOT_CIRCLE){
-        parent.endCircle.classList.remove("hidden");
-    } else {
+    if(children.sideIn.includes(parent)){
         parent.endCircle.classList.remove("hidden");
         parent.endCircle.classList.add("stickyCircle");
+    } else {
+        parent.endCircle.classList.remove("hidden");
     }
+    // if(!parent.__NOT_CIRCLE){
+    //     parent.endCircle.classList.remove("hidden");
+    // } else {
+    //     parent.endCircle.classList.remove("hidden");
+    //     parent.endCircle.classList.add("stickyCircle");
+    // }
 }
 
 
@@ -24,6 +30,13 @@ function removeEdge(key){
     data.startCircle.remove();
     data.endCircle.remove();
 
+    console.log(" removeEdge data", data);
+
+    //Удаляем у sideIn stickyCircle
+    data.sideIn.forEach(item => {
+        item.endCircle.classList.remove("stickyCircle");
+    })
+
     //удаляем у родителей в детях этот элемент
     if(data.parents.length > 0){
         data.parents.forEach(item => {
@@ -33,6 +46,7 @@ function removeEdge(key){
             }
         })
     }
+
     //удаляем у детей в родителях этот элемент
     if(data.children.length > 0){
         data.children.forEach(item => {

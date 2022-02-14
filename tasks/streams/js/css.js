@@ -18,12 +18,6 @@ const css = {
         lineWidth: "1",
     },
 
-    background: {
-        backgroundColor: "#B97A57",
-        zIndex: -1,
-        position: "fixed",
-    },
-
     black: {
         color: "black",
     },

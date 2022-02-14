@@ -175,12 +175,6 @@ function setStickToTailHandler(currentData){
 
                 setTimeout(()=> {
                     data.line.onclick = e => {
-                        //currentData.line.classList.add("a4");
-                        //data.line.classList.add("a4");
-                        // if(!lineCollision(currentData.line, data.line)){
-                        //     console.log("clickSetstickTOToal");
-                        //
-                        // }
                         data.line.classList.remove("stickyLine");
 
                         let coords;
@@ -199,8 +193,6 @@ function setStickToTailHandler(currentData){
                         currentData.endCircle.update.startPosition.x = coords.x;
                         currentData.endCircle.update.startPosition.y = coords.y;
 
-
-
                         currentData.endCircle.classList.add("hidden");
                         currentData.__NOT_CIRCLE = true;
 
@@ -209,8 +201,8 @@ function setStickToTailHandler(currentData){
                         addEdge(currentData, data);
                     }
                 }, 0);
-            }
-            else if(state.startLines.length !== 1){
+
+            } else if(state.startLines.length !== 1){
                 data.startCircle.onmouseenter = e => {
                     e.target.classList.add("startCircleActive");
                     e.target.classList.remove("hidden");

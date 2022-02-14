@@ -25,7 +25,7 @@ _s.SHOW_PATH = false //показать путь обхода
 _s.SHOW_CYCLES = false; //показать циклы
 _s.CONTROL_SUM_WARNING = true; //выводить предупреждение о контрольной сумме
 _s.SHOW_PRIORITIES = false;
-_s.START_POWER = 33;
+_s.START_POWER = 5;
 _s.NUMERIC_POWER = false;
 
 _s.LINE_WIDTH_MIN = 3;
@@ -35,14 +35,11 @@ _s.LINE_DIVISION = 1.1;
 _s.LOOPS = true;
 _s.MERGES = true;
 _s.FINISH_LIMITS = false; //num //arr [1, 3] - range //false = no limits
-
+_s.TASK = ["1/4", "3/4"];
 
 const SETTINGS = {
     changeProperty(name, value){
-        console.log("old ", _s[name]);
         _s[name] = value;
-        console.log("new ", _s[name]);
-
     },
     getAll(){
         return this;

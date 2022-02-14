@@ -16,8 +16,6 @@ function recover(data){
     const disk = JSON.parse(data || localStorage.getItem("__saved"));
     CNV.recover(disk.CNV);
     let script = JSON.parse(disk.SCRIPT);
-    console.log("disk", disk);
-    console.log("SCRIPT", script);
     for(let key in script.lines){
         let item = script.lines[key];
         item.line = CNV.getElementByUniqueId(item.line);

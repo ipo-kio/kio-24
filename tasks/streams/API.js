@@ -45,7 +45,12 @@ class Streams {
                 name: "number_of_mergers",
                 title: "Количество слияний: ",
                 ordering: 'minimize',
-
+            },
+            {
+                name: "number_of_results",
+                title: "Результат: ",
+                ordering: 'maximize',
+                view: "%"
             },
         ];
     };

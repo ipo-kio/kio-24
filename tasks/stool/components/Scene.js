@@ -70,8 +70,8 @@ class Scene extends Component {
 
         //Size
         const sizes = {
-            width: window.innerWidth,
-            height: window.innerHeight
+            width: window.innerWidth-29, //TODO: height of our window preferred width?
+            height: window.innerHeight-230 //
         }
         //Camera
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
@@ -82,7 +82,7 @@ class Scene extends Component {
 
         // Renderer
         this.renderer = new THREE.WebGLRenderer({antialias: true})
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setSize(sizes.width, sizes.height);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         this.renderer.outputEncoding = THREE.sRGBEncoding
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping
@@ -99,7 +99,7 @@ class Scene extends Component {
         this.chair.init(new THREE.Vector3(0, 0, 0), 0)
 
 //-------------
-        window.addEventListener('resize', () => {
+        window.addEventListener('resize', () => { //TODO: might not work properly
             // Update sizes
             sizes.width = window.innerWidth
             sizes.height = window.innerHeight

@@ -51,6 +51,11 @@ class Chair{
 
         // tube param
         this.tube = 0.03
+
+        const axesHelper = new THREE.AxesHelper( 10 );
+        axesHelper.translateY(5)
+        this.scene.add( axesHelper );
+
     }
 
     init = (position) => {

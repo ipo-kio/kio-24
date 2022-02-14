@@ -2,7 +2,6 @@ import * as THREE from "three";
 import {Vector3} from "three";
 import Chair from "./Chair"
 
-
 class Physics {
     constructor(plane, scene, KioApi) {
         this.kioApi = KioApi
@@ -10,6 +9,8 @@ class Physics {
         this.scene = scene
         this.chair = new Chair(this.scene)
         this.global_tips_position = []
+        this.h = 0.21
+        this.hR = 5
 
         this.contactNum = 0
         this.inDetail = true
@@ -175,7 +176,8 @@ class Physics {
             this.tiltAngle = Math.round(Math.abs(this.tiltAngle - 90))
             this.dist = Math.round(this.dist * 100)
 
-            this.kioApi.submitResult() //TODO: ask what to pass
+            this.kioApi.submitResult({distance: this.dist, tiltAngle: this.tiltAngle})
+
         }
     }
 
@@ -237,7 +239,7 @@ class Physics {
                 groundedTips += 1
             }
         }
-        return groundedTips === 0;
+        return groundedTips === 0 ;
     }
 
     leftButton = () => {

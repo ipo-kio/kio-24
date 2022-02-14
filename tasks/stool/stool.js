@@ -79,7 +79,7 @@ export class Stool {
                 view: ""
             },
             {
-                name: "tilt_angle",
+                name: "tiltAngle",
                 title: "Угол наклона",
                 ordering: 'minimize',
                 view: "°"

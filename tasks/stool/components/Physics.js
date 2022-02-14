@@ -175,7 +175,7 @@ class Physics {
             this.tiltAngle = Math.round(Math.abs(this.tiltAngle - 90))
             this.dist = Math.round(this.dist * 100)
 
-            this.kioApi.submitResult()
+            this.kioApi.submitResult() //TODO: ask what to pass
         }
     }
 

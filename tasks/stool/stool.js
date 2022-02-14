@@ -54,7 +54,7 @@ export class Stool {
         this.domNode = domNode;
 
         //settings могут иметь произвольные данные для инициализации, например, уровень
-        console.log('problem level is', this.settings.level);
+        // console.log('problem level is', this.settings.level);
 
         //инициализируем интерфейс
         //инициализируем содержимое задачи в элементе domNode,
@@ -108,7 +108,7 @@ export class Stool {
     solution = function () {
 
         // var x = this.process == null ? 0 : this.process.x;
-        return this.scene.getParams(); // o.pos,  o.angle
+        return this.scene.current.getParams(); // o.pos,  o.angle
     };
 //
 //     /**
@@ -117,7 +117,7 @@ export class Stool {
 //      * @param solution решение для загрузки
 //      */
     loadSolution = function (solution) {
-        this.scene.loadSolution(solution)
+        this.scene.current.loadSolution(solution)
 
         // Надо вызвать kioapi.submitResult(), это уже делается в обработчике события 'change' поля ввода решения.
         // Поэтому вызываем обработчик этого события: вызываем в своём событии

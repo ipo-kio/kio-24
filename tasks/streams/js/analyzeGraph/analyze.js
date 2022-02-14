@@ -222,8 +222,8 @@ function analyze(lines) {
             });
         })
     } else {
-        //step(startLines[0], new Fraction(START_POWER));
-        step(fakeLine, new Fraction(START_POWER));
+        step(startLines[0], new Fraction(START_POWER));
+        //step(fakeLine, new Fraction(START_POWER));
         CNV.combineRender(() => {
             newLines.forEach((line, index) => {
                 let power = answers[index];

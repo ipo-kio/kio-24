@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Kio Problem</title>
+    <script src="../kio_test_box/jquery-1.7.2.min.js"></script>
+    <script src="../kio_test_box/easeljs-1.0.0.min.js"></script>
+    <script src="../kio_test_box/preloadjs-1.0.0.min.js"></script>
+    <script src="../kio_test_box/dces2contest.js"></script>
+    <script src="../kio_test_box/kio_api.js"></script>
+    <link rel="stylesheet" type="text/css" href="../kio_test_box/kio_api.css">
+    <script src="[TASKNAME].js"></script>
+    <link rel="stylesheet" type="text/css" href="[TASKNAME].css">
+    <link rel="stylesheet" href="streams.css">
+    <link rel="stylesheet" href="streams-resources/all.min.css">
+</head>
+<body>
+<div id="stud-unique-id" style="display: none">kio-task-[TASKNAME]</div> <!--TODO get this somehow from task id -->
+
+<script>
+    // let query = location.search.substr(1).trim().split('&');
+    // let level = 0;
+    // //TODO generalize
+    // for (let i = 0; i < query.length; i++) {
+    //     if (query[i] === "level=1")
+    //         level = 1;
+    //     else if (query[i] === "level=2")
+    //         level = 2;
+    // }
+    //
+    // console.log('loading task level', level);
+    //
+    // document.getElementById('stud-unique-id').innerText = 'kio-task-[TASKNAME]-' + level;
+    //
+    // kio_api.initializeKioProblem(
+    //     [TASKNAME].[TASKNAME|CAPITALIZE],
+    //     document.getElementById('problem'),
+    //     {level: level}
+    // );
+</script>
+
+<div class="dark hidden"></div>
+
+<canvas id="canvas">
+</canvas>
+
+<button id="btn_award" class="btn_reset">
+    <i class="fas fa-award"></i>
+</button>
+<button id="btn_info" class="btn_reset hidden">
+    <i class="fas fa-info"></i>
+</button>
+<button id="btn_save" class="btn_reset">
+    <i class="fas fa-save"></i>
+</button>
+<button id="btn_pen" class="btn_reset pen_active">
+    <i class="fas fa-pen"></i>
+</button>
+<button id="btn_delete" class="btn_reset">
+    <i class="fas fa-backspace"></i>
+</button>
+
+<div class="warning hidden">
+
+</div>
+
+<div class="setting_warning hidden">
+    <ul id="setting_list"></ul>
+</div>
+<!--<h2 id="mode">Режим: рисование</h2>-->
+<input class="saved_code">
+<!--<button id="delLine">Удалить линию</button>-->
+<button id="save">Скопировать код</button>
+<input id="recover_input" placeholder="Вставить код">
+<button id="recover_btn">Восстановить</button>
+<input class="saved_code">
+<!--<button id="recover">Восстановить</button>-->
+<!--<button id="analyze">Анализ</button>-->
+<!--<button id="stack" class="hide">Стек</button>-->
+<!--<button id="info">Статистика</button>-->
+<!--<button id="settings">Настройки</button>-->
+<div id="problem">
+</div>
+<script src="streams.js"></script>
+<script src="streams-resources/icons/fontawesome.min.js"></script>
+<script src="streams-resources/icons/solid.min.js"></script>
+</body>
+</html>

@@ -4,6 +4,21 @@ import recover from "./js/storage/recover";
 import analyze from "./js/analyzeGraph/analyze";
 import CNV from "./js/CNV/library";
 
+import "./css/style.scss"
+import css from "./js/css";
+import {
+    setAllEndCircleClick,
+    resetAllEndCircleClick,
+} from "./js/eventHandlers";
+import {removeEdge, createEdge} from "./js/graphHandlers";
+import drawingLine from "./js/drawingLine";
+import {shiftDownHandler} from "./js/shiftHandlers";
+
+import store from "./js/Store";
+import zHandlers from "./js/zHandlers";
+import SETTINGS from "./js/SETTINGS";
+import firstDraw from "./js/firstDraw";
+import UIhandlers from "./js/UI";
 
 class Streams {
     constructor(settings) {
@@ -16,8 +31,128 @@ class Streams {
     initialize(domNode, kioapi, preferred_width){
         this.kioapi = kioapi;
         this.domNode = domNode;
-        let $domNode = $(this.domNode);
-        this.initInterface($domNode);
+
+        //---------------------------- copy from streams.js
+
+        const { BRANCHES, LINE_WIDTH, STACK_LIMIT, SHOW_PATH,
+            CONTROL_SUM_WARNING, STACK, SHOW_CYCLES, SHOW_PRIORITIES,
+            START_POWER, NUMERIC_POWER, LINE_DIVISION, LINE_WIDTH_MIN,
+            LOOPS, MERGES, FINISH_LIMITS  } = SETTINGS.getAll();
+
+
+        domNode.innerHTML = `<div class="dark hidden"></div>
+
+                            <canvas id="canvas">
+                            </canvas>
+                            
+                            <button id="btn_award" class="btn_reset">
+                                <i class="fas fa-award"></i>
+                            </button>
+                            <button id="btn_info" class="btn_reset hidden">
+                                <i class="fas fa-info"></i>
+                            </button>
+                            <button id="btn_save" class="btn_reset">
+                                <i class="fas fa-save"></i>
+                            </button>
+                            <button id="btn_pen" class="btn_reset pen_active">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button id="btn_delete" class="btn_reset">
+                                <i class="fas fa-backspace"></i>
+                            </button>
+                            
+                            <div class="warning hidden">
+                            
+                            </div>
+                            
+                            <div class="setting_warning hidden">
+                                <ul id="setting_list"></ul>
+                            </div>
+                            <!--<h2 id="mode">Режим: рисование</h2>-->
+                            <input class="saved_code">
+                            <!--<button id="delLine">Удалить линию</button>-->
+                            <button id="save">Скопировать код</button>
+                            <input id="recover_input" placeholder="Вставить код">
+                            <button id="recover_btn">Восстановить</button>
+                            <input class="saved_code">`;
+
+
+        const canvas = document.querySelector("#canvas");
+
+        const saveBtn = document.querySelector("#save");
+        const recoverInput = document.querySelector("#recover_input");
+        const recoverBtn = document.querySelector("#recover_btn");
+        const savedCodeField = document.querySelector(".saved_code");
+
+        let context = canvas.getContext("2d");
+
+        window.onresize = (e) => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            CNV.render();
+        }
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+
+        //Инициализация библиотеки CNV
+
+        //Базовая настройка
+        CNV.setContext(context);
+        CNV.setCanvas(canvas);
+        CNV.setCSS(css);
+        CNV.settings.draggableCanvas = false;
+        CNV.settings.draggableCanvasObserver = (x, y) => {
+            canvas.style.backgroundPositionY = y + "px";
+            canvas.style.backgroundPositionX = x + "px";
+        };
+
+        //запуск
+        CNV.start();
+
+        //Инициализация store
+        store.setCanvas(canvas);
+        store.setContext(context);
+
+        firstDraw(canvas);
+
+        //TODO initialization was here
+
+        UIhandlers();
+
+        /*const saveBtn = document.querySelector("#save");
+        const recoverInput = document.querySelector("#recover_input");
+        const recoverBtn = document.querySelector("#recover_btn");
+        const savedCodeField = document.querySelector(".saved_code");
+
+        recoverBtn.onclick = e => {
+            recover(recoverInput.value);
+            analyze(store.state.lines);
+            recoverInput.value = ""
+        }
+
+        saveBtn.onclick = e => {
+            saveBtn.classList.remove("saveOk");
+            const disk = save({dont_save: true});
+
+            savedCodeField.value = disk;
+            savedCodeField.select();
+
+            document.execCommand("copy");
+            saveBtn.classList.add("saveOk");
+            setTimeout(()=> {
+                saveBtn.classList.remove("saveOk");
+            }, 1000)
+        }
+        */
+        window.addEventListener("keydown", shiftDownHandler);
+
+
+        zHandlers();
+
+        "Object { number_of_branches: 0, number_of_plots: 0, number_of_mergers: 0, number_of_loops: 0 }"
+        //-----------------------------end copy from streams.js
     }
     parameters() {
         return [
@@ -75,53 +210,6 @@ class Streams {
         }
 
     };
-
-
-    initInterface($domNode) {
-        //var $input_output_container = $("<div class='kio-collatz-input-output-wrapper'>");
-        // this.$mode = $("<h2 id=\"mode\">Режим: рисование</h2>");
-        // this.$delLine = $("<button id=\"delLine\">Удалить линию</button>");
-        // this.$settings = $("<button id=\"settings\">Настройки</button>");
-        // this.$saveBtn = $("<button id=\"save\">Сохранить и скопировать</button>");
-        // this.$recoverBtn = $("<button id=\"recover\">Восстановить</button>");
-
-
-        // this.$input = $("<input class='number-input' size='3'>");
-        // this.$output = $("<textarea class='steps-view' readonly='readonly'></textarea>");
-
-        //$domNode.append($input_output_container);
-        //$input_output_container.append(this.$mode, this.$delLine, this.$settings, this.$saveBtn, this.$recoverBtn);
-
-        //add image
-
-        // this.$input.change(function (evt) {
-        //     var x = +thisProblem.$input.val();
-        //     if (!x || x <= 0 || x >= 1000)
-        //         thisProblem.process = null;
-        //     else
-        //
-        //
-        //     if (thisProblem.process != null)
-        //         //каждый раз при получении участником результата нужно делать submitResult и передавать объект с результатом
-        //         //проверки.
-        //         thisProblem.kioapi.submitResult({
-        //             steps: thisProblem.process.length(),
-        //             max: thisProblem.process.max(),
-        //             info1: Math.random() // бессмысленный информационный параметр,
-        //                                  // в реальной программе параметры должны быть детерминировны условием
-        //         });
-        // });
-
-        //загружаем начальное решение. Это то решение, которое увидит участник, впервые открыв задачу
-        // this.loadSolution({
-        //     number_of_branches: 0,
-        //     number_of_loops: 0,
-        //     number_of_mergers: 0,
-        // });
-    };
 }
 
 export default Streams;
-
-
-

@@ -11,6 +11,8 @@ class Scene extends Component {
         super(props);
         this.prevPosition = new THREE.Vector3()
 
+        this.sceneHeight = 20;
+        this.sceneWidth = 20;
         this.init();
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -92,10 +94,10 @@ class Scene extends Component {
         let plane = new Plane(this.scene, this.renderer)
         this.plane = plane
         plane.initSky();
-        plane.initPlane()
+        plane.initPlane(this.sceneWidth, this.sceneHeight)
         this.initLights()
 
-        this.chair = new Physics(plane, this.scene, this.props.KioApi)
+        this.chair = new Physics(plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi)
         this.chair.init(new THREE.Vector3(0, 0, 0), 0)
 
 //-------------
@@ -127,7 +129,7 @@ class Scene extends Component {
         let lastPosition = params.pos
 
         this.chair.deleteFromScene()
-        this.chair = new Physics(this.plane, this.scene, this.props.KioApi)
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()
@@ -139,7 +141,7 @@ class Scene extends Component {
         let lastPosition = this.prevPosition
 
         this.chair.deleteFromScene()
-        this.chair = new Physics(this.plane, this.scene, this.props.KioApi)
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()

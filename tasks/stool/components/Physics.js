@@ -3,7 +3,7 @@ import {Vector3} from "three";
 import Chair from "./Chair"
 
 class Physics {
-    constructor(plane, scene, KioApi) {
+    constructor(plane, scene, planeWidth, planeHeight, KioApi) {
         this.kioApi = KioApi
         this.plane = plane
         this.scene = scene
@@ -16,7 +16,10 @@ class Physics {
         this.inDetail = true
         this.angle = 0
         this.dist = 0 // param 1
-        this.tiltAngle = 0
+        this.tiltAngle = 0 // param 2
+
+        this.planeWidth = planeWidth;
+        this.planeHeight = planeHeight;
     }
 
     init = (position, angle) => {

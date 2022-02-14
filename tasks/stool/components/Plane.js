@@ -39,9 +39,9 @@ class Plane {
         this.scene.add( sky );
     }
 
-    initPlane = () => {
+    initPlane = (width, height) => {
         // Plane
-        let geometry = new THREE.PlaneBufferGeometry(15, 15, 50, 50)
+        let geometry = new THREE.PlaneBufferGeometry(width, height, 50, 50)
         geometry.rotateX( - Math.PI / 2 );
         let gridPlane = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial({color: "#1C1C1C"}))
 
@@ -55,10 +55,7 @@ class Plane {
         // Materials
         const material = new THREE.MeshStandardMaterial({
             color: "#827888",
-            side: THREE.DoubleSide,
-            // roughness: 0.8,
-            // bumpScale: 0.02,
-            // metalness: 0.2
+            side: THREE.DoubleSide
         })
 
         this.planeMesh = new THREE.Mesh(geometry, material)

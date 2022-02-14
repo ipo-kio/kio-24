@@ -7,7 +7,7 @@ import Scene from "./components/Scene";
 // //это требуется для компиляции scss файла со стилями для задачи, без webpack эта строка не нужна
 // //     import './collatz.scss'
 
-class stool{
+export class Stool {
 
     // Разработка задачи начинается с выбора идентификатора. Он должен состоять из маленьких букв, возможно, с подчеркиваниями.
     // В этой задаче идентификатор будет `collatz_js`. Каталог с задачей должен называться как id задачи. Основной файл с
@@ -65,7 +65,7 @@ class stool{
 
         ReactDOM.render(
                 <Scene ref = {this.scene} KioApi = {kioapi} />,
-            document.getElementById(domNode)
+            domNode
         );
 
     };
@@ -96,9 +96,9 @@ class stool{
 //      * `[id-задачи]-resources`, надо указывать этот каталог в пути.
 //      * @returns [{id: String, src: String}]
 //      */
-    preloadManifest = function () {
-        return [];
-    };
+//     static preloadManifest = function () {
+//         return [];
+//     };
 //
 //     /**
 //      * Возвращает текущее решение в виде объекта,

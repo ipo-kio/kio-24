@@ -324,8 +324,6 @@ class Physics {
         this.toRotate = false
         this.toTest = false
         this.contactNum = 0
-
-
     }
 
 }

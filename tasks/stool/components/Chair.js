@@ -10,11 +10,7 @@ class Chair{
         this.group = new THREE.Group()
 
         // footboards materials
-        this.materials = []
-        this.materials.push(new THREE.MeshStandardMaterial({color: "#627445", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1}))
-        this.materials.push(new THREE.MeshStandardMaterial({color: "black", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1}))
-        this.materials.push(new THREE.MeshStandardMaterial({color: "white", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1}))
-        this.materials.push(new THREE.MeshStandardMaterial({color: "gray", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1}))
+        this.material = new THREE.MeshStandardMaterial({color: "white", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1});
 
         // base materials
         this.base_materials = new THREE.MeshStandardMaterial({color: "white", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1 })
@@ -51,10 +47,6 @@ class Chair{
 
         // tube param
         this.tube = 0.03
-
-        const axesHelper = new THREE.AxesHelper( 10 );
-        axesHelper.translateY(5)
-        this.scene.add( axesHelper );
 
     }
 
@@ -129,7 +121,7 @@ class Chair{
 
     torus = (pos) => {
         let geometry = new THREE.TorusGeometry( this.footboard_height/2+0.1, this.tube, 8, 12 );
-        let material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+        let material = new THREE.MeshBasicMaterial( { color:  "#7FFF00" } );
         let torus = new THREE.Mesh( geometry, material );
 
         torus.rotateX(Math.PI / 2)

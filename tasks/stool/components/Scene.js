@@ -11,8 +11,8 @@ class Scene extends Component {
         super(props);
         this.prevPosition = new THREE.Vector3()
 
-        this.sceneHeight = 20;
-        this.sceneWidth = 20;
+        this.sceneHeight = 7;
+        this.sceneWidth = 7;
         this.init();
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -22,7 +22,6 @@ class Scene extends Component {
         this.controls.update()
 
         this.startAnimation()
-
     }
 
     startAnimation = () =>{

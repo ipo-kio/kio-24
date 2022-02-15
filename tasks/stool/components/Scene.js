@@ -103,8 +103,8 @@ class Scene extends Component {
 //-------------
         window.addEventListener('resize', () => { //TODO: might not work properly
             // Update sizes
-            sizes.width = window.innerWidth
-            sizes.height = window.innerHeight
+            sizes.width = window.innerWidth-29
+            sizes.height = window.innerHeight-230
 
             // Update camera
             this.camera.aspect = sizes.width / sizes.height

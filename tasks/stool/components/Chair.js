@@ -73,12 +73,12 @@ class Chair{
         // for footboards
         const geometry = new THREE.ConeGeometry(this.footboard_radius, this.footboard_height, this.footboard_segments);
         const material = new THREE.MeshStandardMaterial({color: "#FB8D02"});
-        let dotMaterial = new PointsMaterial( { size: 0.05, alpha: 0 } );
+        let dotMaterial = new PointsMaterial( { size: 0.05} );
 
         // create footboards and legs
         for (let i = 0; i < 4; i++) {
             let leg_position = new THREE.Vector3(this.coord[i].x , this.coord[i].y, this.coord[i].z)
-            let leg = new THREE.Mesh(this.leg_geometry, this.materials[i])
+            let leg = new THREE.Mesh(this.leg_geometry, this.material)
 
             let prev_position = new THREE.Vector3(this.coord[i].x, this.coord[i].y - this.leg_height / 2 - this.footboard_height/2, this.coord[i].z)
             let footboard = new THREE.Mesh(geometry, material)
@@ -173,16 +173,14 @@ class Chair{
 
     transparentStateOn = () =>{
         this.base_materials.opacity = 0.5
-        for(let i in this.materials){
-            this.materials[i].opacity = 0.5
-        }
+        this.material.opacity = 0.5
+
     }
 
     transparentStateOff = () => {
         this.base_materials.opacity = 1
-        for(let i in this.materials){
-            this.materials[i].opacity = 1
-        }
+        this.material.opacity = 1
+
     }
 
     rightRotation = (angle) => {

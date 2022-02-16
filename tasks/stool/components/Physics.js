@@ -72,7 +72,7 @@ class Physics {
             this._rotationParams = {
                 point: point,
                 axis: axis,
-                angle: -0.003
+                angle: -0.008
             }
 
             if (this.inDetail === true) {
@@ -124,7 +124,7 @@ class Physics {
             this._rotationParams = {
                 point: point,
                 axis: axis,
-                angle: ang * 0.001
+                angle: ang * 0.002
             }
 
             if (this.inDetail === true) {
@@ -193,7 +193,7 @@ class Physics {
         }
 
         if (this.toDrop) {
-            this.chair.moveDown(0.01)
+            this.chair.moveDown(0.015)
             for (let i in this.chair.tips) {
                 this.global_tips_position[i] = this.chair.group.localToWorld(this.chair.tips[i].position.clone())
             }

@@ -26,7 +26,7 @@ _s.SHOW_CYCLES = false; //показать циклы
 _s.CONTROL_SUM_WARNING = true; //выводить предупреждение о контрольной сумме
 _s.SHOW_PRIORITIES = false;
 _s.START_POWER = 5;
-_s.NUMERIC_POWER = true;
+_s.NUMERIC_POWER = false;
 
 _s.LINE_WIDTH_MIN = 3;
 _s.LINE_WIDTH = 10;

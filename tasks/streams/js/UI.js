@@ -57,8 +57,8 @@ function UIhandlers(){
     const savesPanel = document.querySelector(".kio-base-solutions-container");
     const dark = document.querySelector(".dark");
 
-    awardsPanel.classList.add("hidden");
-    savesPanel.classList.add("hidden");
+    // awardsPanel.classList.add("hidden");
+    // savesPanel.classList.add("hidden");
 
     delLineBtn.onclick = e => {
         setDelMode();
@@ -72,46 +72,44 @@ function UIhandlers(){
         drawLineBtn.classList.add("pen_active");
     }
 
-    awardBtn.onclick = e => {
-        awardBtn.classList.add("hidden");
-        infoBtn.classList.remove("hidden");
-
-        infoPanel.classList.add("hidden");
-        awardsPanel.classList.remove("hidden");
-    }
-
-    infoBtn.onclick = e => {
-        infoBtn.classList.add("hidden");
-        awardBtn.classList.remove("hidden");
-
-        awardsPanel.classList.add("hidden");
-        infoPanel.classList.remove("hidden");
-    }
-
-    saveBtn.onclick = e => {
-        savesPanel.classList.toggle("hidden");
-        dark.classList.toggle("hidden");
-        drawLineBtn.classList.toggle("hidden");
-        delLineBtn.classList.toggle("hidden");
-    }
-
-    dark.onclick = e => {
-        savesPanel.classList.toggle("hidden");
-        dark.classList.toggle("hidden");
-        drawLineBtn.classList.toggle("hidden");
-        delLineBtn.classList.toggle("hidden");
-    }
-
-    window.addEventListener("keydown", e => {
-        if(e.key === "Escape"){
-            savesPanel.classList.add("hidden");
-            dark.classList.add("hidden");
-            drawLineBtn.classList.remove("hidden");
-            delLineBtn.classList.remove("hidden");
-        }
-    })
-
-
+    // awardBtn.onclick = e => {
+    //     awardBtn.classList.add("hidden");
+    //     infoBtn.classList.remove("hidden");
+    //
+    //     infoPanel.classList.add("hidden");
+    //     awardsPanel.classList.remove("hidden");
+    // }
+    //
+    // infoBtn.onclick = e => {
+    //     infoBtn.classList.add("hidden");
+    //     awardBtn.classList.remove("hidden");
+    //
+    //     awardsPanel.classList.add("hidden");
+    //     infoPanel.classList.remove("hidden");
+    // }
+    //
+    // saveBtn.onclick = e => {
+    //     savesPanel.classList.toggle("hidden");
+    //     dark.classList.toggle("hidden");
+    //     drawLineBtn.classList.toggle("hidden");
+    //     delLineBtn.classList.toggle("hidden");
+    // }
+    //
+    // dark.onclick = e => {
+    //     savesPanel.classList.toggle("hidden");
+    //     dark.classList.toggle("hidden");
+    //     drawLineBtn.classList.toggle("hidden");
+    //     delLineBtn.classList.toggle("hidden");
+    // }
+    //
+    // window.addEventListener("keydown", e => {
+    //     if(e.key === "Escape"){
+    //         savesPanel.classList.add("hidden");
+    //         dark.classList.add("hidden");
+    //         drawLineBtn.classList.remove("hidden");
+    //         delLineBtn.classList.remove("hidden");
+    //     }
+    // })
 
 }
 export default UIhandlers;

@@ -40,25 +40,34 @@ class Streams {
             LOOPS, MERGES, FINISH_LIMITS  } = SETTINGS.getAll();
 
 
-        domNode.innerHTML = `<div class="dark hidden"></div>
+        domNode.innerHTML = `
+                            <div class="dark hidden"></div>
 
                             <canvas id="canvas">
                             </canvas>
                             
-                            <button id="btn_award" class="btn_reset">
-                                <i class="fas fa-award"></i>
-                            </button>
-                            <button id="btn_info" class="btn_reset hidden">
-                                <i class="fas fa-info"></i>
-                            </button>
-                            <button id="btn_save" class="btn_reset">
-                                <i class="fas fa-save"></i>
-                            </button>
+<!--                            <button id="btn_award" class="btn_reset">-->
+<!--                                <i class="fas fa-award"></i>-->
+<!--                            </button>-->
+<!--                            <button id="btn_info" class="btn_reset hidden">-->
+<!--                                <i class="fas fa-info"></i>-->
+<!--                            </button>-->
+<!--                            <button id="btn_save" class="btn_reset">-->
+<!--                                <i class="fas fa-save"></i>-->
+<!--                            </button>-->
                             <button id="btn_pen" class="btn_reset pen_active">
+                                Строить
                                 <i class="fas fa-pen"></i>
                             </button>
                             <button id="btn_delete" class="btn_reset">
+                                Удалить
                                 <i class="fas fa-backspace"></i>
+                            </button>
+                            <button id="btn_prev" class="btn_reset">
+                                Назад
+                            </button>
+                            <button id="btn_next" class="btn_reset">
+                                Вперед
                             </button>
                             
                             <div class="warning hidden">
@@ -71,10 +80,12 @@ class Streams {
                             <!--<h2 id="mode">Режим: рисование</h2>-->
                             <input class="saved_code">
                             <!--<button id="delLine">Удалить линию</button>-->
-                            <button id="save">Скопировать код</button>
-                            <input id="recover_input" placeholder="Вставить код">
-                            <button id="recover_btn">Восстановить</button>
-                            <input class="saved_code">`;
+<!--                            <button id="save">Скопировать код</button>-->
+<!--                            <input id="recover_input" placeholder="Вставить код">-->
+<!--                            <button id="recover_btn">Восстановить</button>-->
+<!--                            <input class="saved_code">-->
+
+                    `;
 
 
         const canvas = document.querySelector("#canvas");
@@ -83,17 +94,21 @@ class Streams {
         const recoverInput = document.querySelector("#recover_input");
         const recoverBtn = document.querySelector("#recover_btn");
         const savedCodeField = document.querySelector(".saved_code");
-
+        const KIOcontainer = document.querySelector(".kio-base-info-panels-container");
+        const KIOsaves = document.querySelector(".kio-base-solutions-container");
         let context = canvas.getContext("2d");
+        KIOsaves.id = "KIOsaves";
 
         window.onresize = (e) => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.width = document.documentElement.clientWidth;
+            canvas.height = window.innerHeight - KIOcontainer.getBoundingClientRect().height - 40;
             CNV.render();
         }
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        window.onload = e => {
+            canvas.width = document.documentElement.clientWidth;
+            canvas.height = window.innerHeight - KIOcontainer.getBoundingClientRect().height - 40;
+        }
 
 
         //Инициализация библиотеки CNV
@@ -107,6 +122,14 @@ class Streams {
             canvas.style.backgroundPositionY = y + "px";
             canvas.style.backgroundPositionX = x + "px";
         };
+
+        canvas.addEventListener("click", e => {
+            if(window.pageYOffset !== 0) {
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $("#canvas").offset().top
+                }, 300);
+            }
+        })
 
         //запуск
         CNV.start();

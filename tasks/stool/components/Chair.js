@@ -121,7 +121,7 @@ class Chair{
 
     torus = (pos) => {
         let geometry = new THREE.TorusGeometry( this.footboard_height/2+0.1, this.tube, 8, 12 );
-        let material = new THREE.MeshBasicMaterial( { color:  "#7FFF00" } );
+        let material = new THREE.MeshBasicMaterial( { color:  "#483D8B" } );
         let torus = new THREE.Mesh( geometry, material );
 
         torus.rotateX(Math.PI / 2)

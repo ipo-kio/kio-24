@@ -64,13 +64,13 @@ class Controller extends Component{
         return(
             <div>
                 {/*<RotationControl/>*/}
-                <input className="DropButton" type='button' onClick={this.drop} value="DROP IT!!"/>
+                <input className="DropButton" type='button' onClick={this.drop} value="DROP"/>
                 <input className="DropAndShowButton" type='button' onClick={this.dropAndShow} value="DROP AND SHOW"/>
                 <input className="LeftMoveButton" type='button' onClick={this.leftButton} value="←"/>
                 <input className="RightMoveButton" type='button' onClick={this.rightButton} value="→"/>
                 <input className="BackMoveButton" type='button' onClick={this.backButton} value="↑"/>
                 <input className="ForwardMoveButton" type='button' onClick={this.forwardButton} value="↓"/>
-                <input className="RestartButton" type='button' onClick={this.RestartButton} value="Restart"/>
+                <input className="RestartButton" type='button' onClick={this.RestartButton} value="RESTART"/>
                 <input className="RightRotationButton" type='button' onClick={this.RightRotationButton} value="↷"/>
                 <input className="LeftRotationButton" type='button' onClick={this.LeftRotationButton} value="↶"/>
                 <div className="TransparentButton">

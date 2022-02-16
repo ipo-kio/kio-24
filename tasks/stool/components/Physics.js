@@ -232,8 +232,10 @@ class Physics {
     }
 
     dropAndShow = () => {
-        this.inDetail = true
-        this.toDrop = true
+        if(this.canMove()){
+            this.inDetail = true
+            this.toDrop = true
+        }
     }
 
     canMove = () => {
@@ -321,8 +323,8 @@ class Physics {
         this.scene.children = this.scene.children.filter(obj => !(obj instanceof THREE.ArrowHelper));
 
         this.toDrop = false
+        this.inDetail = false
         this.toRotate = false
-        this.toTest = false
         this.contactNum = 0
     }
 

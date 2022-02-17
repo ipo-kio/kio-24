@@ -31,8 +31,9 @@ class Streams {
     initialize(domNode, kioapi, preferred_width){
         this.kioapi = kioapi;
         this.domNode = domNode;
+        console.log("before SET", SETTINGS.getAll().NUMERIC_POWER);
         SETTINGS.set(this.settings);
-
+        console.log("after SET", SETTINGS.getAll().NUMERIC_POWER);
 
 
         //---------------------------- copy from streams.js
@@ -41,7 +42,6 @@ class Streams {
             CONTROL_SUM_WARNING, STACK, SHOW_CYCLES, SHOW_PRIORITIES,
             START_POWER, NUMERIC_POWER, LINE_DIVISION, LINE_WIDTH_MIN,
             LOOPS, MERGES, FINISH_LIMITS  } = SETTINGS.getAll();
-        console.log("get Settings", BRANCHES);
 
         domNode.innerHTML = `
                             <div class="dark hidden"></div>
@@ -181,6 +181,7 @@ class Streams {
         //-----------------------------end copy from streams.js
     }
     parameters() {
+        console.log("params");
         const params = [
             {
                 name: "number_of_branches", //название параметра

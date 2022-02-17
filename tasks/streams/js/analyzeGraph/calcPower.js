@@ -1,5 +1,5 @@
 import SETTINGS from "../SETTINGS";
-const {NUMERIC_POWER} = SETTINGS.getAll();
+
 
 // function calcPower(parent){
 //     if(NUMERIC_POWER){
@@ -21,6 +21,7 @@ const {NUMERIC_POWER} = SETTINGS.getAll();
 // }
 
 function calcPower(parent, children){
+    const {NUMERIC_POWER} = SETTINGS.getAll();
     if(NUMERIC_POWER){
         let power = parent.power.clone().divide(parent.children.length);
         if(power.getDet() === 2){
@@ -33,7 +34,6 @@ function calcPower(parent, children){
                 parent.__MINUS_ONE = children;
             }
         }
-        console.log("calcPower result", power.getStr());
         return power;
     } else{
         return parent.power.clone().divide(parent.children.length);

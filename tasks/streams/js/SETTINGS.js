@@ -22,7 +22,7 @@ _s.FINISH_LIMITS = false; //num //arr [1, 3] - range //false = no limits
 _s.TASK = ["1/4", "3/4"];
 _s.ALLOW_COLLISIONS = false;
 _s.SHOW_COLLISION_LINES = true;
-_s.SHOW_NUMBER_OF_COLLISION = false;
+_s.SHOW_NUMBER_OF_COLLISION = true;
 
 const SETTINGS = {
     changeProperty(name, value){
@@ -32,12 +32,9 @@ const SETTINGS = {
         return this;
     },
     set(settings){
-        console.log("SETTINGS set, settings", settings);
         for(let key in settings){
             if(_s.hasOwnProperty(key)){
-                console.log("really has");
                 _s[key] = settings[key];
-                console.log("_s[key]", _s[key]);
             }
         }
     }

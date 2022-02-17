@@ -1,9 +1,10 @@
 import CNV from "./CNV/library";
 import Store from "./Store";
 import SETTINGS from "./SETTINGS"
-const {ALLOW_COLLISIONS, SHOW_COLLISION_LINES} = SETTINGS.getAll();
+
 import analyzeState from "./analyzeGraph/analyzeState"
 function lineCollision(notThis = []){
+    const {ALLOW_COLLISIONS, SHOW_COLLISION_LINES} = SETTINGS.getAll();
     let isCollision;
     let collisionCount = 0;
     if(notThis instanceof Array === false){

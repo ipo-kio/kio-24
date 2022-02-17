@@ -7,10 +7,9 @@ import SETTINGS from "../SETTINGS";
 import arnold from "./arnold";
 import calcPower from "./calcPower";
 
-let {SHOW_PATH} = SETTINGS.getAll();
-
 
 function step(target, power, lastTarget){
+    let {SHOW_PATH} = SETTINGS.getAll();
     let canGOres;
 
     target.power = power;
@@ -98,44 +97,26 @@ function step(target, power, lastTarget){
                     //console.log("targetChild.loop_powers.length", targetChild.loop_powers.length);
                     if(!tch_child.__BLOCK){
                         target.loop_powers.forEach(t_child => { //Пробегаемся по всем мощностям родителя
-                            //console.log("target.loop_powers.length", target.loop_powers.length);
-                            console.log("target.loop_powers", target.loop_powers);
-                            //target.line.classList.add("a9")
                             //Если мощноти принадлежат к одному циклу и начальное ребро одно - делим мощность на количество детей
                             if(tch_child.ids === t_child.ids && t_child.start_line === tch_child.start_line){
-                                console.log("IN STEP DIVIDE!!!");
-                                console.log("tch_child division before", tch_child.division.getStr());
-
                                 tch_child.division.multiply(target.children.length * t_child.division.getNum());
                                 tch_child.__BLOCK = true;
-                                console.log("tch_child.division after", tch_child.division.getStr());
-                                //targetChild.line.classList.add("a5");
-
                             }
                         })
                     }
                 })
             })
         } else if(target.children.length === 1){
-            console.warn("target.children.length === 1");
             if(target.children[0].loop_powers){
                 target.children[0].loop_powers.forEach(child => {
-                    console.warn("child", child)
                     target.loop_powers.forEach(parent => {
-                        console.warn("parent", parent)
                         if(!child.__BLOCK){
-                            console.warn("NOT BLOCK");
                             //target.children[0].line.classList.add("a5");
                             if(target.children[0].sideIn.includes(target)){
-                                console.warn("FIRST");
-                                console.log("SIDE INNNNNNNNNNNNNNNNNNNNNNN before", child.division.getStr());
                                 child.division.plus(parent.division).divide(target.children[0].parents.length ** target.children[0].parents.length);
-                                console.log("SIDE INNNNNNNNNNNNNNNNNNNNNNN after", child.division.getStr());
                                 child.__BLOCK = true
                             } else {
-                                console.warn("SECOND");
                                 if(child.ids === parent.ids && child.start_line === parent.start_line ){ //&& parent.division.getNum() > child.division.getNum()
-                                    console.log("SET DIVISION to", child.division.getStr(), "parent power ", parent.division.getStr());
                                     child.division = parent.division.clone();
                                 }
                             }

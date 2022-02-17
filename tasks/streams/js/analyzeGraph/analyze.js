@@ -11,16 +11,7 @@ import showCycles from "./showCycles";
 import step from "./step";
 import allCollision from "../allCollision";
 
-const {
-    CONTROL_SUM_WARNING, FINISH_LIMITS,
-        LINE_DIVISION,
-        LINE_WIDTH,
-        LINE_WIDTH_MIN, LOOPS, MERGES,
-        NUMERIC_POWER,
-        SHOW_CYCLES,
-        START_POWER,
-        TASK, REDUCING_LINES
-} = SETTINGS.getAll();
+
 
 function double(int){
     let count = 0;
@@ -86,6 +77,18 @@ function removeFakeLine(allLies, startLine){
 }
 
 function analyze(lines) {
+
+    const {
+        CONTROL_SUM_WARNING, FINISH_LIMITS,
+        LINE_DIVISION,
+        LINE_WIDTH,
+        LINE_WIDTH_MIN, LOOPS, MERGES,
+        NUMERIC_POWER,
+        SHOW_CYCLES,
+        START_POWER,
+        TASK, REDUCING_LINES
+    } = SETTINGS.getAll();
+
     CNV.combineRender(() => {
         CNV.querySelectorAll(".finishLine").forEach(item => item.classList.remove("finishLine"));
         CNV.querySelectorAll(".finishText").forEach(item => item.remove());
@@ -206,6 +209,7 @@ function analyze(lines) {
 
     //removeFakeLine(newLines, startLines[0]);
 
+    console.log("NUMERIC_POWER", NUMERIC_POWER);
     if(!NUMERIC_POWER){
         CNV.combineRender(() => {
             newLines.forEach((line, index) => {
@@ -224,6 +228,7 @@ function analyze(lines) {
         })
     } else {
         step(startLines[0], new Fraction(START_POWER));
+        console.log("step");
         if(REDUCING_LINES){
             CNV.combineRender(() => {
                 newLines.forEach((line, index) => {

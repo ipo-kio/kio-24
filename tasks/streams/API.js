@@ -33,13 +33,15 @@ class Streams {
         this.domNode = domNode;
         SETTINGS.set(this.settings);
 
+
+
         //---------------------------- copy from streams.js
 
         const { BRANCHES, LINE_WIDTH, STACK_LIMIT, SHOW_PATH,
             CONTROL_SUM_WARNING, STACK, SHOW_CYCLES, SHOW_PRIORITIES,
             START_POWER, NUMERIC_POWER, LINE_DIVISION, LINE_WIDTH_MIN,
             LOOPS, MERGES, FINISH_LIMITS  } = SETTINGS.getAll();
-
+        console.log("get Settings", BRANCHES);
 
         domNode.innerHTML = `
                             <div class="dark hidden"></div>

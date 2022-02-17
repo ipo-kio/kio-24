@@ -32,9 +32,12 @@ const SETTINGS = {
         return this;
     },
     set(settings){
+        console.log("SETTINGS set, settings", settings);
         for(let key in settings){
             if(_s.hasOwnProperty(key)){
+                console.log("really has");
                 _s[key] = settings[key];
+                console.log("_s[key]", _s[key]);
             }
         }
     }

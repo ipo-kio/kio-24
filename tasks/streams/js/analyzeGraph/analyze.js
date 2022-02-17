@@ -302,6 +302,6 @@ function analyze(lines) {
     if(SHOW_CYCLES){
         showCycles(startLines[0]);
     }
-    console.log(CNV.querySelectorAll("line"));
+    // console.log(CNV.querySelectorAll("line"));
 }
 export default analyze;

@@ -3,7 +3,7 @@ import CNV from "./CNV/library";
 import uniqueId from "./CNV/uniqueId";
 import {endCircleMouseEnter, endCircleMouseLeave, lineMouseEnter, lineMouseLeave} from "./eventHandlers";
 import SETTINGS from "./SETTINGS";
-const {LINE_WIDTH} = SETTINGS.getAll();
+
 //функция для добавбления ребёнка к родителю
 function addEdge(parent, children){
     parent.children.push(children);
@@ -68,6 +68,7 @@ function createEdge(e, option = {}){
         y1: option.y0 || e.clientY,
         className: "line",
     })
+    const {LINE_WIDTH} = SETTINGS.getAll();
     line.style.lineWidth = LINE_WIDTH;
 
 

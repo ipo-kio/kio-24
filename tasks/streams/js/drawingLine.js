@@ -8,9 +8,11 @@ import analyze from "./analyzeGraph/analyze";
 import innerLine from "./innerLine";
 import lineCollision from "./lineCollision";
 import recover from "./storage/recover";
-const {STACK} = SETTINGS.getAll();
+
 
 function drawingLine(data, finishCallback = () => {}){
+    const {STACK} = SETTINGS.getAll();
+
     function stopDrawing(e){
 
         // if(lineCollision(data.line, Store.collisionIgnore)) {

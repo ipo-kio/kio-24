@@ -6,7 +6,7 @@ import SETTINGS from "./SETTINGS";
 import Store from "./Store";
 import lineCollision from "./lineCollision";
 import state from "./analyzeGraph/analyzeState";
-const {BRANCHES} = SETTINGS.getAll();
+
 function getBlackPointCoord(line){
     let t = 0.5;
     let x = 0;
@@ -102,6 +102,7 @@ function endCircleMouseLeave(e){
 }
 
 function endCircleClick(data, e){
+    const {BRANCHES} = SETTINGS.getAll();
     if(!data.endCircle.classList.contains("stickyCircle")){
         CNV.settings.draggableCanvas = false;
         CNV.querySelectorAll(".finishLine").forEach(el => el.classList.remove("finishLine"));

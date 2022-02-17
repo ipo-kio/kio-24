@@ -19,7 +19,7 @@ const {
         NUMERIC_POWER,
         SHOW_CYCLES,
         START_POWER,
-        TASK
+        TASK, REDUCING_LINES
 } = SETTINGS.getAll();
 
 function double(int){
@@ -210,30 +210,34 @@ function analyze(lines) {
         CNV.combineRender(() => {
             newLines.forEach((line, index) => {
                 line.power = answers[index];
-                let newWidth = LINE_WIDTH / (LINE_DIVISION ** (double(line.power.getDet() / line.power.getNum())));
-                if(newWidth >= LINE_WIDTH_MIN){
-                    line.line.style.lineWidth = newWidth;
-                    //line.endCircle.style.radius = newWidth / 2;
-                } else {
-                    line.line.style.lineWidth = LINE_WIDTH_MIN;
+                if(REDUCING_LINES){
+                    let newWidth = LINE_WIDTH / (LINE_DIVISION ** (double(line.power.getDet() / line.power.getNum())));
+                    if(newWidth >= LINE_WIDTH_MIN){
+                        line.line.style.lineWidth = newWidth;
+                        //line.endCircle.style.radius = newWidth / 2;
+                    } else {
+                        line.line.style.lineWidth = LINE_WIDTH_MIN;
+                    }
                 }
+
             });
         })
     } else {
         step(startLines[0], new Fraction(START_POWER));
-        //step(fakeLine, new Fraction(START_POWER));
-        CNV.combineRender(() => {
-            newLines.forEach((line, index) => {
-                let power = answers[index];
-                let newWidth = LINE_WIDTH / (LINE_DIVISION ** (double(power.getDet() / power.getNum())));
-                if(newWidth >= LINE_WIDTH_MIN){
-                    line.line.style.lineWidth = newWidth;
-                    //line.endCircle.style.radius = newWidth / 2;
-                } else {
-                    line.line.style.lineWidth = LINE_WIDTH_MIN;
-                }
-            });
-        })
+        if(REDUCING_LINES){
+            CNV.combineRender(() => {
+                newLines.forEach((line, index) => {
+                    let power = answers[index];
+                    let newWidth = LINE_WIDTH / (LINE_DIVISION ** (double(power.getDet() / power.getNum())));
+                    if(newWidth >= LINE_WIDTH_MIN){
+                        line.line.style.lineWidth = newWidth;
+                        //line.endCircle.style.radius = newWidth / 2;
+                    } else {
+                        line.line.style.lineWidth = LINE_WIDTH_MIN;
+                    }
+                });
+            })
+        }
     }
 
 
@@ -282,7 +286,6 @@ function analyze(lines) {
             return item;
         }
     })
-    console.log("TASK, task", TASK, task);
     let resCount = 0;
     finishLines.forEach(line => {
         for (let i = 0; i < task.length; i++) {
@@ -299,5 +302,6 @@ function analyze(lines) {
     if(SHOW_CYCLES){
         showCycles(startLines[0]);
     }
+    console.log(CNV.querySelectorAll("line"));
 }
 export default analyze;

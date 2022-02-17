@@ -19,15 +19,10 @@ function ctrlZHandler(){
 
 
     window.addEventListener("keydown", e => {
-        console.log("ctrlZHandler added e.key, e.shiftKey", e.key, e.shiftKey);
-        if(e.key === "Z" && e.ctrlKey && e.shiftKey){
-            console.log("ctrlShiftZ");
-            console.log("stack", Store.stack);
+        if((e.key === "Z" || e.key === "Я") && e.ctrlKey && e.shiftKey){
             recover(Store.getStackNext());
             analyze(Store.state.lines);
-        }  else if(e.key === "z" && e.ctrlKey){
-            console.log("crtlZ");
-            Store.showStack();
+        }  else if((e.key === "z" || e.key === "я") && e.ctrlKey){
             recover(Store.getStackPrev());
             analyze(Store.state.lines);
         }

@@ -1,8 +1,11 @@
 import CNV from "./CNV/library";
 import Store from "./Store";
-
+import SETTINGS from "./SETTINGS"
+const {ALLOW_COLLISIONS, SHOW_COLLISION_LINES} = SETTINGS.getAll();
+import analyzeState from "./analyzeGraph/analyzeState"
 function lineCollision(notThis = []){
     let isCollision;
+    let collisionCount = 0;
     if(notThis instanceof Array === false){
         notThis = [notThis];
     }
@@ -21,23 +24,18 @@ function lineCollision(notThis = []){
 
                 if(res.result) {
                     isCollision = true;
-                    res.target.classList.add("lineWarning");
-                    line.classList.add("lineWarning");
-
-                    // let warning = setInterval(() => {
-                    //     res.target.classList.toggle("lineWarning");
-                    //     line.classList.toggle("lineWarning");
-                    // }, 100)
-                    // setTimeout(() => {
-                    //     clearInterval(warning);
-                    //     res.target.classList.remove("lineWarning");
-                    //     line.classList.remove("lineWarning");
-                    // }, 1000)
+                    if(SHOW_COLLISION_LINES){
+                        res.target.classList.add("lineWarning");
+                        line.classList.add("lineWarning");
+                    }
+                    collisionCount += 1;
                 }
             })
         }
     })
-    return isCollision;
+
+    analyzeState.analyzeInfo.number_of_collision = collisionCount / 2;
+    return ALLOW_COLLISIONS === true ? false : isCollision;
 }
 
 export default lineCollision;

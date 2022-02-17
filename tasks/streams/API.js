@@ -31,6 +31,7 @@ class Streams {
     initialize(domNode, kioapi, preferred_width){
         this.kioapi = kioapi;
         this.domNode = domNode;
+        SETTINGS.set(this.settings);
 
         //---------------------------- copy from streams.js
 
@@ -178,7 +179,7 @@ class Streams {
         //-----------------------------end copy from streams.js
     }
     parameters() {
-        return [
+        const params = [
             {
                 name: "number_of_branches", //название параметра
                 title: "Количество делений потка: ", //отображение названия для пользователя
@@ -211,6 +212,20 @@ class Streams {
                 view: "%"
             },
         ];
+
+        if(SETTINGS.getAll().SHOW_NUMBER_OF_COLLISION){
+            params.push(
+                {
+                    name: "number_of_collision",
+                    title: "Пересечений: ",
+                    ordering: 'minimize',
+                    view: ""
+                },
+            )
+        }
+
+        return params;
+
     };
     solution() {
         return save({dont_save: true});

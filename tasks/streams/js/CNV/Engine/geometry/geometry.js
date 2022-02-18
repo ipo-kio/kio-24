@@ -57,7 +57,7 @@ function collision(equation1, equation2){
     let y3 = 0;
     let x4 = 0;
     let y4 = 0;
-    let distance = 0.1;
+    let distance = 0.2;
 
     let obj_collision = {
         result: false,

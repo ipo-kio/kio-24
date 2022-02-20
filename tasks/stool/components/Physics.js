@@ -2,7 +2,6 @@ import * as THREE from "three";
 import {Vector3} from "three";
 import Chair from "./Chair"
 
-
 class Physics {
     constructor(plane, scene, planeWidth, planeHeight, KioApi) {
         this.kioApi = KioApi
@@ -227,7 +226,7 @@ class Physics {
                     for (let i in this.chair.tips) {
                         this.global_tips_position[i] = this.chair.group.localToWorld(this.chair.tips[i].position.clone())
                     }
-                    if(this.contactNum < 4){
+                    if (this.contactNum < 4) {
                         this.startRotation(i)
                     }
                 }
@@ -241,7 +240,7 @@ class Physics {
     }
 
     dropAndShow = () => {
-        if(this.canMove()){
+        if (this.canMove()) {
             this.inDetail = true
             this.toDrop = true
         }
@@ -262,13 +261,12 @@ class Physics {
         let offset = this.chair.chairSize / 2
         for (let pos of this.global_tips_position) {
             let total = pos.clone().add(vec)
-            if(vec.x !== 0){
-                if(Math.abs(total.x) >= this.planeWidth / 2 - offset){
+            if (vec.x !== 0) {
+                if (Math.abs(total.x) >= this.planeWidth / 2 - offset) {
                     console.log('a')
                     return false
                 }
-            }
-            else if(vec.z !== 0){
+            } else if (vec.z !== 0) {
                 if ((Math.abs(total.z) >= this.planeHeight / 2 - offset)) {
                     console.log('fake')
                     return false

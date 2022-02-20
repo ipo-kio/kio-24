@@ -12,6 +12,7 @@ class Physics {
         this.global_tips_position = []
         this.h = 0.2
         this.hR = 5
+        this.hFall = 0.015
 
         this.contactNum = 0
         this.inDetail = true
@@ -35,10 +36,13 @@ class Physics {
     }
 
     checkCollision = (tip, index) => {
-        if (this.distanceToPlane(index) <= 0.02) { // collision happened
+        if (this.distanceToPlane(index) <= this.hFall + 0.01) { // collision happened
             tip.grounded = true
             this.contactNum += 1
             tip.contact = this.contactNum
+
+            this.chair.moveDown(this.distanceToPlane(index) - this.hFall)
+
             return true
         }
         return false
@@ -62,6 +66,7 @@ class Physics {
 
         if (this.chair.tips[curTipIndex].contact === 1) {
             this.firstTipIndex = curTipIndex
+
             axis = this.global_tips_position[curTipIndex].clone().sub(this.global_tips_position[(+curTipIndex + 1) % 4])
             axis.multiplyScalar(-1)
             axis.applyAxisAngle(new Vector3(0, 1, 0), -Math.PI / 4)
@@ -185,6 +190,10 @@ class Physics {
         }
     }
 
+    align = (i) => {
+        this.chair.moveDown(this.distanceToPlane(i) - this.hFall)
+    }
+
     animate = () => {
 
         for (let i in this.chair.tips) {
@@ -192,7 +201,7 @@ class Physics {
         }
 
         if (this.toDrop) {
-            this.chair.moveDown(0.015)
+            this.chair.moveDown(this.hFall)
             for (let i in this.chair.tips) {
                 this.global_tips_position[i] = this.chair.group.localToWorld(this.chair.tips[i].position.clone())
             }
@@ -202,7 +211,9 @@ class Physics {
                     for (let i in this.chair.tips) {
                         this.global_tips_position[i] = this.chair.group.localToWorld(this.chair.tips[i].position.clone())
                     }
+                    this.align(i)
                     this.startRotation(i)
+                    break
                 }
             }
         }

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import {Vector3} from "three";
 import Chair from "./Chair"
 
+
 class Physics {
     constructor(plane, scene, planeWidth, planeHeight, KioApi) {
         this.kioApi = KioApi
@@ -85,6 +86,7 @@ class Physics {
                 this.chair.torus(torus_position)
             }
         } else if (this.chair.tips[curTipIndex].contact === 2) {
+
             this.firstTipIndex = +this.firstTipIndex
             curTipIndex = +curTipIndex
 
@@ -94,6 +96,8 @@ class Physics {
             } else if ((this.firstTipIndex > curTipIndex) || (this.firstTipIndex === 0 && curTipIndex === 3)) { // swap  2 -- 1 -> 1 -- 2, 0--3 (change)
                 axis = new THREE.Vector3().copy(this.global_tips_position[curTipIndex]).sub(this.global_tips_position[this.firstTipIndex])
             } else { // 1 -- 2 (ok)
+                //console.log(this.chair.group.localToWorld(this.chair.tips[this.firstTipIndex].position.clone()))
+                console.log(this.firstTipIndex)
                 axis = new THREE.Vector3().copy(this.global_tips_position[this.firstTipIndex]).sub(this.global_tips_position[curTipIndex])
             }
             axis.normalize()
@@ -235,8 +239,19 @@ class Physics {
     }
 
     dropButton = () => {
-        this.inDetail = false
-        this.toDrop = true
+        if (this.canMove()) {
+            this.inDetail = false
+            this.toDrop = true
+            let min = this.distanceToPlane(0);
+            for (let i = 1; i < 4; i++) {
+                let tmp = this.distanceToPlane(i);
+                if (min > tmp){
+                    min = tmp;
+                }
+            }
+            let partsNum = Math.round(min/this.hFall)
+            this.chair.moveDown(partsNum * this.hFall - 2 * this.hFall);
+        }
     }
 
     dropAndShow = () => {

@@ -46,7 +46,7 @@ class Physics {
     }
 
     distanceToPlane = (index) => {
-        let current_tip = new Vector3(this.global_tips_position[index].x, this.global_tips_position[index].y, this.global_tips_position[index].z)
+        let current_tip = this.chair.group.localToWorld(this.chair.tips[index].position.clone())
         let ray = new THREE.Raycaster(current_tip, new THREE.Vector3(0, -1, 0))
         let intersections = ray.intersectObject(this.plane.planeMesh, false)
         if (intersections.length > 0) {
@@ -217,7 +217,9 @@ class Physics {
                     for (let i in this.chair.tips) {
                         this.global_tips_position[i] = this.chair.group.localToWorld(this.chair.tips[i].position.clone())
                     }
-                    this.startRotation(i)
+                    if(this.contactNum < 4){
+                        this.startRotation(i)
+                    }
                 }
             }
         }

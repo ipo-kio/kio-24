@@ -29,7 +29,6 @@ class Physics {
         this.chair.leftRotation(angle)
 
     }
-    // The X axis is red. The Y axis is green. The Z axis is blue.
 
     rotate = () => {
         this.chair.rotateAboutPoint(this._rotationParams.point, this._rotationParams.axis, this._rotationParams.angle)
@@ -222,9 +221,6 @@ class Physics {
                     }
                 }
             }
-        }
-        if (this.toTest) {
-
         }
     }
 

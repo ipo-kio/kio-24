@@ -1,7 +1,5 @@
 export class Slider {
     constructor(min_value, max_value, height, img, hover_img, line_img, step) {
-        this.min_value = min_value;
-        this.max_value = max_value;
 
         let canvas = document.createElement('canvas');
         this.canvas = canvas;
@@ -44,6 +42,8 @@ export class Slider {
         this.value = min_value;
 
         this._onvaluechange = null;
+        this._min_value = min_value;
+        this._max_value = max_value;
     }
 
     set visible_max_value(value) {
@@ -52,9 +52,9 @@ export class Slider {
     }
 
     update_max_value(value) {
-        this.max_value = value;
-        if (this.value > this.max_value) {
-            this.value = this.max_value;
+        this._max_value = value;
+        if (this.value > this._max_value) {
+            this.value = this._max_value;
             if (this._onvaluechange)
                 this._onvaluechange(this.value);
         }
@@ -66,10 +66,10 @@ export class Slider {
     }
 
     set_value(value, need_fire = true) {
-        if (value < this.min_value)
-            value = this.min_value;
-        if (value > this.max_value)
-            value = this.max_value;
+        if (value < this._min_value)
+            value = this._min_value;
+        if (value > this._max_value)
+            value = this._max_value;
         if (this.step)
             value = Math.round(value / this.step) * this.step;
         if (this._value === value)
@@ -140,8 +140,8 @@ export class Slider {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
             for (let {multiple, length, color, draw} of this.ticks) {
-                let a = Math.ceil(integerize(this.min_value / multiple));
-                let b = Math.floor(integerize(this.max_value / multiple));
+                let a = Math.ceil(integerize(this._min_value / multiple));
+                let b = Math.floor(integerize(this._max_value / multiple));
 
                 ctx.strokeStyle = color;
                 ctx.lineWidth = 2;
@@ -168,7 +168,7 @@ export class Slider {
 
     value_2_pos(value) {
         let w = this.canvas.width - this.img.width;
-        return w * (value - this.min_value) / (this.max_value - this.min_value);
+        return w * (value - this._min_value) / (this._max_value - this._min_value);
     }
 
     get thumb_rect() {
@@ -188,7 +188,7 @@ export class Slider {
     position_2_value(x) {
         x -= this.img.width / 2;
         let w = this.canvas.width - this.img.width;
-        return x * (this.max_value - this.min_value) / w + this.min_value;
+        return x * (this._max_value - this._min_value) / w + this._min_value;
         //x = w * (this.value - this.min_value) / (this.max_value - this.min_value);
     }
 
@@ -240,6 +240,24 @@ export class Slider {
 
     add_ticks(multiple, length, color, draw) {
         this.ticks.push(new Ticks(multiple, length, color, draw));
+        this.redraw();
+    }
+
+    get min_value() {
+        return this._min_value;
+    }
+
+    set min_value(value) {
+        this._min_value = value;
+        this.redraw();
+    }
+
+    get max_value() {
+        return this._max_value;
+    }
+
+    set max_value(value) {
+        this._max_value = value;
         this.redraw();
     }
 }

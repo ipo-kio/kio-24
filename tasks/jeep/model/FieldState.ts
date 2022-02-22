@@ -1,5 +1,6 @@
-import {Field} from "../view/Field";
+import {Field} from "./Field";
 import {Position} from "./Position";
+import {Step} from "./Step";
 
 export class FieldState {
     private readonly field: Field;
@@ -27,7 +28,7 @@ export class FieldState {
     }
 
     possible_to_pick(): number {
-        return Math.min(this.available_to_pick(), this.field.jeep.settings.CAR_MAX_FUEL - this._car_fuel);
+        return Math.min(this.available_to_pick(), this.field.jeep.constants.CAR_MAX_FUEL - this._car_fuel);
     }
 
     pick(amount: number): FieldState {
@@ -40,6 +41,10 @@ export class FieldState {
         return new FieldState(this.field, new_values, this._car_position, this._car_fuel + amount);
     }
 
+    may_pick(amount: number): boolean {
+        return amount <= this.possible_to_pick();
+    }
+
     put(amount: number): FieldState {
         if (amount > this._car_fuel)
             throw new Error("Trying to put ${amount} of fuel, but the car has only ${this.car_fuel}");
@@ -50,12 +55,21 @@ export class FieldState {
         return new FieldState(this.field, new_values, this._car_position, this._car_fuel - amount);
     }
 
+    may_put(amount: number): boolean {
+        return amount <= this._car_fuel;
+    }
+
     move(new_position: Position): FieldState {
         let need_fuel = new_position.distance(this._car_position);
         if (need_fuel > this._car_fuel)
             throw new Error("Trying to put ${amount} of fuel, but the car has only ${this.car_fuel}");
 
         return new FieldState(this.field, this.values, new_position, this._car_fuel - need_fuel);
+    }
+
+    may_move(new_position: Position): boolean {
+        let need_fuel = new_position.distance(this._car_position);
+        return need_fuel <= this._car_fuel;
     }
 
     get_value(ind: number) {
@@ -69,5 +83,9 @@ export class FieldState {
 
     get car_fuel(): number {
         return this._car_fuel;
+    }
+
+    get str() {
+        return `${this.car_fuel} at ${this.car_position.index} (${this.values.join(',')})`;
     }
 }

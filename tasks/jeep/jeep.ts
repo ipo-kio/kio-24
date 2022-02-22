@@ -1,25 +1,47 @@
 import './jeep.scss'
-import {KioApi, KioTask, KioParameterDescription, KioResourceDescription, KioTaskSettings} from "../KioApi";
-import {Settings} from "./Settings";
-import {LinearField} from "./view/Field";
+import {KioApi, KioParameterDescription, KioResourceDescription, KioTask, KioTaskSettings} from "../KioApi";
+import {Field, LinearField} from "./model/Field";
 import {FieldState} from "./model/FieldState";
-import {MoveTo, Pick, Put} from "./model/Step";
 import {HistoryView} from "./view/HistoryView";
 import {History} from "./model/History";
 import {Slider} from './view/Slider';
+import {Constants} from "./Constants";
+import {FieldView} from "./view/FieldView";
+import {Position} from "./model/Position";
+import {MoveTo, PickOrPut, StepType} from "./model/Step";
 
 export class Jeep implements KioTask {
-    private _settings: Settings;
+    private readonly _constants: Constants;
     private _kioapi: KioApi;
     private domNode: HTMLElement;
+    private level: number;
+
+    private history: History;
+    private field: Field;
+
+    private field_view: FieldView;
+    private history_view: HistoryView;
+    private slider: Slider;
 
     constructor(settings: KioTaskSettings) {
-        this._settings = new Settings(settings);
-        console.log('settings', this._settings.FUEL_PER_UNIT);
+        this._constants = new Constants(settings);
+
+        this.field = new LinearField(
+            this,
+            [50, 550],
+            [550, 50],
+            10,
+            600,
+            600
+        );
+        let initial_state = FieldState.create(this.field);
+        this.history = new History([], FieldState.create(this.field));
+
+        this.level = settings.level ? 0 : +settings.level;
     }
 
-    id() {
-        return "jeep" + this._settings.level;
+    id(): string {
+        return "jeep" + this.level;
     }
 
     initialize(domNode: HTMLElement, kioapi: KioApi, preferred_width: number) {
@@ -43,7 +65,7 @@ export class Jeep implements KioTask {
         let controls = domNode.getElementsByClassName('task-controls')[0] as HTMLDivElement;
         canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
 
-        let slider = new Slider(
+        this.slider = new Slider(
             -5,
             5,
             27 + 20 + 20,
@@ -52,37 +74,18 @@ export class Jeep implements KioTask {
             kioapi.getResource('slider-line'),
             1
         );
-        controls.appendChild(slider.canvas);
-        slider.onvaluechange = (new_value: number) => console.log("value", new_value);
-        slider.add_ticks(1, 10, '#e6ffe0', 17);
-        slider.add_ticks(5, 15, '#e6ffe0');
+        controls.appendChild(this.slider.canvas);
+        this.slider.onvaluechange = (new_value: number) => this.fuel_value_change(new_value);
+        this.slider.add_ticks(1, 10, '#e6ffe0', 17);
+        this.slider.add_ticks(5, 15, '#e6ffe0');
 
-        console.log('problem level is', this._settings.level);
+        console.log('problem level is', this.level);
 
-        let field = new LinearField(
-            canvas,
-            this,
-            [50, 550],
-            [550, 50],
-            10,
-            600,
-            600,
-            p => console.log(p)
-        );
-        field.field_state = FieldState.create(field);
-        let next_state = field.field_state.pick(40);
-        field.field_state = next_state;
+        this.field_view = new FieldView(this.field, canvas, (p: Position) => this.car_position_change(p));
+        this.history_view = new HistoryView(history, this.history);
+        this.history_view.add_listener(() => this.history_updated());
 
-        // create history
-
-        let p = field.all_positions;
-        let h = new History([
-            new MoveTo(p[1]),
-            new Pick(10),
-            new MoveTo(p[2]),
-            new Put(20)
-        ]);
-        let hw = new HistoryView(history, h);
+        this.field_view.field_state = this.history.state(0);
     }
 
     parameters(): KioParameterDescription[] {
@@ -102,10 +105,6 @@ export class Jeep implements KioTask {
                 }
             }
         ];
-    }
-
-    get settings(): Settings {
-        return this._settings;
     }
 
     get kioapi(): KioApi {
@@ -128,6 +127,42 @@ export class Jeep implements KioTask {
     };
 
     loadSolution(solution: Solution): void {
+    }
+
+
+    get constants(): Constants {
+        return this._constants;
+    }
+
+    // handlers
+
+    fuel_value_change(new_value: number) {
+        let current_step = this.history_view.current_step;
+        let new_step = new PickOrPut(new_value);
+        if (current_step != null && current_step.type == StepType.FUEL)
+            this.history_view.update_current_step(new_step);
+        else
+            this.history_view.insert_next(new_step);
+    }
+
+    car_position_change(new_position: Position) {
+        let current_step = this.history_view.current_step;
+        let new_step = new MoveTo(new_position);
+        if (current_step != null && current_step.type == StepType.DRIVE)
+            this.history_view.update_current_step(new_step);
+        else
+            this.history_view.insert_next(new_step);
+    }
+
+    history_updated() {
+        let current_index = this.history_view.current_index;
+        let current_state = this.history.state(current_index + 1);
+        let previous_state = this.history.state(current_index);
+        this.field_view.field_state = current_state;
+        console.log('current state:', current_state.str);
+
+        this.slider.max_value = previous_state.possible_to_pick();
+        this.slider.min_value = -previous_state.car_fuel;
     }
 }
 

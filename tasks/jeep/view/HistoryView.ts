@@ -1,15 +1,19 @@
 import {History} from "../model/History";
+import {Step} from "../model/Step";
 
 export class HistoryView {
 
     private readonly _div: HTMLDivElement;
     private readonly _ol: HTMLOListElement = document.createElement('ol');
     private _history: History;
+    private _current_index: number;
+    private _update_listeners: (() => void)[] = [];
 
     constructor(div: HTMLDivElement, history: History) {
         this._div = div;
         this._div.appendChild(this._ol);
-        this._history = history;
+        this.history = history;
+        this._current_index = history.size - 1;
         this.update();
     }
 
@@ -23,6 +27,8 @@ export class HistoryView {
 
     set history(value: History) {
         this._history = value;
+        //TODO remove listeners from the previous history
+        this._history.add_listener(() => this.update());
         this.update();
     }
 
@@ -33,11 +39,17 @@ export class HistoryView {
         for (let i = 0; i < steps.length; i++) {
             let step = steps[i];
             let sub_div = this._ol.children[i];
+            if (this._current_index == i)
+                sub_div.classList.add('selected');
+            else
+                sub_div.classList.remove('selected');
             let text_span = sub_div.children[0] as HTMLSpanElement;
             let value_span = sub_div.children[1] as HTMLSpanElement;
             text_span.innerText = step.text;
             value_span.innerText = '' + step.value;
         }
+
+        this.fire_update();
     }
 
     private ensure_sub_divs_length(n: number) {
@@ -65,5 +77,35 @@ export class HistoryView {
         valueSpan.className = 'task-history-value';
 
         sub_div.append(textSpan, valueSpan, editorDiv);
+    }
+
+    get current_step(): Step | null {
+        if (this._current_index < 0)
+            return null;
+        return this.history.step(this._current_index);
+    }
+
+    update_current_step(new_step: Step): void {
+        this.history.update(this._current_index, new_step);
+        this.update();
+    }
+
+    insert_next(new_step: Step): void {
+        this.history.insert(this._current_index + 1, new_step);
+        this._current_index++;
+        this.update();
+    }
+
+    add_listener(listener: () => void): void {
+        this._update_listeners.push(listener);
+    }
+
+    fire_update(): void {
+        for (const updateListener of this._update_listeners)
+            updateListener();
+    }
+
+    get current_index(): number {
+        return this._current_index;
     }
 }

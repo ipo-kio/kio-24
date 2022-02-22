@@ -1,4 +1,4 @@
-import {LinearField} from "../view/Field";
+import {LinearField} from "./Field";
 
 export type Point = [x: number, y: number];
 
@@ -20,7 +20,7 @@ export class LinearPosition implements Position {
 
     distance(other: Position): number {
         let o = other as LinearPosition;
-        return Math.abs(o.ind - this.ind) * this.field.jeep.settings.FUEL_PER_UNIT;
+        return Math.abs(o.ind - this.ind) * this.field.jeep.constants.FUEL_PER_UNIT;
     }
 
     get text(): string {
@@ -37,8 +37,8 @@ export class LinearPosition implements Position {
 
     get point(): Point {
         let [x1, y1] = this.field.start;
-        let [x2, y2] = this.field.finish;
         let n = this.field.size;
+        let [x2, y2] = this.field.finish;
         let dx = x2 - x1;
         let dy = y2 - y1;
         let vx = dx / (n - 1);

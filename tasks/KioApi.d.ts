@@ -17,6 +17,8 @@ export interface KioTask {
     solution(): {};
 
     loadSolution(solution: {}): void;
+
+    settings?: KioTaskSettings;
 }
 
 export interface KioTaskStatic {

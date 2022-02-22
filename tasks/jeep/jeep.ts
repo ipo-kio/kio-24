@@ -85,7 +85,8 @@ export class Jeep implements KioTask {
         this.history_view = new HistoryView(history, this.history);
         this.history_view.add_listener(() => this.history_updated());
 
-        this.field_view.field_state = this.history.state(0);
+        this.field_view.field_state = this.history.initial_state;
+        this.history_updated();
     }
 
     parameters(): KioParameterDescription[] {
@@ -159,7 +160,20 @@ export class Jeep implements KioTask {
         let current_state = this.history.state(current_index + 1);
         let previous_state = this.history.state(current_index);
         this.field_view.field_state = current_state;
-        console.log('current state:', current_state.str);
+
+        if (current_index != -1) {
+            let step = this.history.step(current_index);
+            let state: FieldState;
+            if (step.type === StepType.DRIVE)
+                state = previous_state;
+            else
+                state = current_state;
+            this.field_view.set_highlighted_circle(state.car_position, state.car_fuel);
+        }
+
+        //    pick - move - put - move
+        // s0     s1     s2     s3    s4
+        //        *             *
 
         this.slider.max_value = previous_state.possible_to_pick();
         this.slider.min_value = -previous_state.car_fuel;

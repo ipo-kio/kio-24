@@ -5,12 +5,12 @@ import {Field} from "./Field";
 export class History {
     private _steps: Step[];
     private _update_listeners: (() => void)[] = [];
-    private initial_state: FieldState;
+    private _initial_state: FieldState;
     private list_of_states: FieldState[] = null;
 
     constructor(steps: Step[], initial_state: FieldState) {
         this._steps = steps;
-        this.initial_state = initial_state;
+        this._initial_state = initial_state;
     }
 
     get steps(): Step[] {
@@ -24,7 +24,7 @@ export class History {
     state(index: number): FieldState {
         this.ensure_states_evaluated();
         if (index < 0)
-            return this.initial_state;
+            return this._initial_state;
         if (this.list_of_states.length <= index)
             return this.list_of_states[this.list_of_states.length - 1];
         return this.list_of_states[index];
@@ -80,8 +80,13 @@ export class History {
 
     ensure_states_evaluated() {
         if (this.list_of_states == null) {
-            this.list_of_states = [this.initial_state];
+            this.list_of_states = [this._initial_state];
             this.update_field_states(0);
         }
+    }
+
+
+    get initial_state(): FieldState {
+        return this._initial_state;
     }
 }

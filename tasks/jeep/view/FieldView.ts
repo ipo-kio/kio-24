@@ -8,8 +8,9 @@ export class FieldView {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
     private _highlighted_position: number = -1;
-    private _reachable_radius: number = 0;
     private _field_state: FieldState = null;
+    private _highlighted_circle_center: Position = null;
+    private _highlighted_circle_radius: number = 0;
 
     constructor(field: Field, canvas: HTMLCanvasElement, position_click_action: (p: Position) => void) {
         this.field = field;
@@ -32,21 +33,8 @@ export class FieldView {
         canvas.addEventListener('mousemove', e => this._on_move(position(e)));
     }
 
-    get field_state(): FieldState {
-        return this._field_state;
-    }
-
-    set field_state(value: FieldState) {
-        this._field_state = value;
-        this.redraw();
-    }
-
-    get reachable_radius(): number {
-        return this._reachable_radius;
-    }
-
-    set reachable_radius(value: number) {
-        this._reachable_radius = value;
+    set field_state(field_state: FieldState) {
+        this._field_state = field_state;
         this.redraw();
     }
 
@@ -93,11 +81,13 @@ export class FieldView {
 
         this.draw_bg();
 
-        let field_state = this.field_state;
+        let field_state = this._field_state;
         if (field_state) {
             this.draw_values(field_state);
             this.draw_car(field_state);
+        }
 
+        if (this._highlighted_circle_center) {
             //draw reachable radius
             // this.ctx.moveTo(0, 0);
             // this.ctx.lineTo(this.canvas.width, 0);
@@ -110,8 +100,8 @@ export class FieldView {
             let dy = y2 - y1;
             let d = Math.sqrt(dx * dx + dy * dy);
 
-            let [x, y] = field_state.car_position.point;
-            let radius = field_state.car_fuel / this.field.jeep.constants.FUEL_PER_UNIT * d;
+            let [x, y] = this._highlighted_circle_center.point;
+            let radius = this._highlighted_circle_radius / this.field.jeep.constants.FUEL_PER_UNIT * d;
             this.ctx.beginPath();
             this.ctx.arc(x, y, radius, 2 * Math.PI, 0, true);
             this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
@@ -165,5 +155,11 @@ export class FieldView {
 
     private draw_car(field_state: FieldState) {
 
+    }
+
+    set_highlighted_circle(center: Position, radius: number): void {
+        this._highlighted_circle_center = center;
+        this._highlighted_circle_radius = radius;
+        this.redraw();
     }
 }

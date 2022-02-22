@@ -36,7 +36,7 @@ module.exports = function (env) {
         module: {
             rules: [
                 {
-                    test: /\.js$/,
+                    test: /\.jsx?$/,
                     exclude: /node_modules/,
                     include: sourceFolders,
                     use: {
@@ -49,7 +49,8 @@ module.exports = function (env) {
                                         "ie": "11"
                                     },
                                     "corejs": 3
-                                }]
+                                }],
+                                "@babel/preset-react"
                             ],
                             "plugins": [
                                 "@babel/plugin-transform-arrow-functions",
@@ -62,7 +63,7 @@ module.exports = function (env) {
                     }
                 },
                 {
-                    test: /\.scss$/,
+                    test: /\.s?css$/,
                     use: [
                         MiniCssExtractPlugin.loader, //TODO remove empty main (with javascript)
                         {

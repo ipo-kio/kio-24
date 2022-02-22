@@ -1,7 +1,7 @@
 {
-  "name": "kio-21",
+  "name": "kio-22",
   "version": "0.0.1",
-  "description": "kio-21 development",
+  "description": "kio 22 development",
   "main": "index.js",
   "devDependencies": {
     "@babel/core": "^7.12.10",

@@ -4,7 +4,8 @@ import Chair from "./Chair"
 
 
 class Physics {
-    constructor(plane, scene, planeWidth, planeHeight, KioApi) {
+    constructor(plane, scene, planeWidth, planeHeight, KioApi, view) {
+        this.view = view
         this.kioApi = KioApi
         this.plane = plane
         this.scene = scene
@@ -76,7 +77,7 @@ class Physics {
             this._rotationParams = {
                 point: point,
                 axis: axis,
-                angle: -0.008
+                angle: -0.01
             }
 
             if (this.inDetail === true) {
@@ -96,8 +97,8 @@ class Physics {
             } else if ((this.firstTipIndex > curTipIndex) || (this.firstTipIndex === 0 && curTipIndex === 3)) { // swap  2 -- 1 -> 1 -- 2, 0--3 (change)
                 axis = new THREE.Vector3().copy(this.global_tips_position[curTipIndex]).sub(this.global_tips_position[this.firstTipIndex])
             } else { // 1 -- 2 (ok)
-                //console.log(this.chair.group.localToWorld(this.chair.tips[this.firstTipIndex].position.clone()))
-                console.log(this.firstTipIndex)
+
+
                 axis = new THREE.Vector3().copy(this.global_tips_position[this.firstTipIndex]).sub(this.global_tips_position[curTipIndex])
             }
             axis.normalize()
@@ -131,7 +132,7 @@ class Physics {
             this._rotationParams = {
                 point: point,
                 axis: axis,
-                angle: ang * 0.002
+                angle: ang * 0.004
             }
 
             if (this.inDetail === true) {
@@ -187,6 +188,8 @@ class Physics {
             this.tiltAngle = this.tiltAngle * 180 / Math.PI
             this.tiltAngle = Math.round(Math.abs(this.tiltAngle - 90))
             this.dist = Math.round(this.dist * 100)
+
+            this.tiltAngle = this.tiltAngle ? this.tiltAngle : 0
 
             this.kioApi.submitResult({distance: this.dist, tiltAngle: this.tiltAngle})
 
@@ -250,7 +253,7 @@ class Physics {
                 }
             }
             let partsNum = Math.round(min/this.hFall)
-            this.chair.moveDown(partsNum * this.hFall - 2 * this.hFall);
+            this.chair.moveDown(partsNum * this.hFall - 20 * this.hFall);
         }
     }
 
@@ -283,7 +286,6 @@ class Physics {
                 }
             } else if (vec.z !== 0) {
                 if ((Math.abs(total.z) >= this.planeHeight / 2 - offset)) {
-                    console.log('fake')
                     return false
                 }
             }
@@ -296,6 +298,7 @@ class Physics {
         if (this.check(new THREE.Vector3(0, 0, this.h))) {
             this.chair.moveLeft(this.h)
         }
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     rightButton = () => {
@@ -303,6 +306,7 @@ class Physics {
         if (this.check(new THREE.Vector3(0, 0, -this.h))) {
             this.chair.moveRight(this.h)
         }
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     backButton = () => {
@@ -310,6 +314,7 @@ class Physics {
         if (this.check(new THREE.Vector3(-this.h, 0, 0))) {
             this.chair.moveBack(this.h)
         }
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     forwardButton = () => {
@@ -317,6 +322,7 @@ class Physics {
         if (this.check(new THREE.Vector3(this.h, 0, 0))) {
             this.chair.moveForward(this.h)
         }
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     transparentButtonOn = () => {
@@ -331,6 +337,7 @@ class Physics {
         if (!this.canMove()) return
         this.chair.rightRotation(this.hR)
         this.angle -= this.hR
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     leftRotationButton = () => {

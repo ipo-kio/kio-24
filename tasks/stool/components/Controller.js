@@ -8,7 +8,10 @@ class Controller extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {transparentChecked: false};
+        this.state = {
+            transparentChecked: false,
+            hR: 2
+        };
     }
 
 
@@ -79,6 +82,13 @@ class Controller extends Component{
                         icons={false}
                         onChange={this.TransparentSwitch} />
                 </div>
+
+                <input style = {{backgroundColor: this.state.hR === 0.1 ? '#ababab' : ''}} className="degree01Button" type='button' onClick={this.RotateOn01Degree} value="0.1°"/>
+                <input style = {{backgroundColor: this.state.hR === 0.5 ? '#ababab' : ''}} className="degree05Button" type='button' onClick={this.RotateOn05Degree} value="0.5°"/>
+                <input style = {{backgroundColor: this.state.hR === 1 ? '#ababab' : ''}} className="degree1Button" type='button' onClick={this.RotateOn1Degree} value="1°"/>
+                <input style = {{backgroundColor: this.state.hR === 2 ? '#ababab' : ''}} className="degree2Button" type='button' onClick={this.RotateOn2Degree} value="2°"/>
+                <input style = {{backgroundColor: this.state.hR === 5 ? '#ababab' : ''}} className="degree5Button" type='button' onClick={this.RotateOn5Degree} value="5°"/>
+                <input style = {{backgroundColor: this.state.hR === 10 ? '#ababab' : ''}} className="degree10Button" type='button' onClick={this.RotateOn10Degree} value="10°"/>
 
             </div>
         )

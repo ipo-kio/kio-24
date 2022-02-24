@@ -3,15 +3,15 @@ import {Sky} from "three/examples/jsm/objects/Sky";
 
 class Plane {
 
-    constructor(scene, renderer){
+    constructor(scene, renderer) {
         this.scene = scene
         this.renderer = renderer
     }
 
-    initSky = ()=> {
+    initSky = () => {
         // Add Sky
         let sky = new Sky();
-        sky.scale.setScalar( 450000 );
+        sky.scale.setScalar(450000);
         // Add Sun
         let sun = new THREE.Vector3();
 
@@ -26,30 +26,30 @@ class Plane {
         };
 
         const uniforms = sky.material.uniforms;
-        uniforms[ 'turbidity' ].value = effectController.turbidity;
-        uniforms[ 'rayleigh' ].value = effectController.rayleigh;
-        uniforms[ 'mieCoefficient' ].value = effectController.mieCoefficient;
-        uniforms[ 'mieDirectionalG' ].value = effectController.mieDirectionalG;
+        uniforms['turbidity'].value = effectController.turbidity;
+        uniforms['rayleigh'].value = effectController.rayleigh;
+        uniforms['mieCoefficient'].value = effectController.mieCoefficient;
+        uniforms['mieDirectionalG'].value = effectController.mieDirectionalG;
 
-        const phi = THREE.MathUtils.degToRad( 90 - effectController.elevation );
-        const theta = THREE.MathUtils.degToRad( effectController.azimuth );
-        sun.setFromSphericalCoords( 1, phi, theta );
-        uniforms[ 'sunPosition' ].value.copy( sun );
+        const phi = THREE.MathUtils.degToRad(90 - effectController.elevation);
+        const theta = THREE.MathUtils.degToRad(effectController.azimuth);
+        sun.setFromSphericalCoords(1, phi, theta);
+        uniforms['sunPosition'].value.copy(sun);
         this.renderer.toneMappingExposure = effectController.exposure;
-        this.scene.add( sky );
+        this.scene.add(sky);
     }
 
     initPlane = (width, height) => {
         // Plane
         let geometry = new THREE.PlaneBufferGeometry(width, height, 50, 50)
-        geometry.rotateX( - Math.PI / 2 );
+        geometry.rotateX(-Math.PI / 2);
         let gridPlane = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial({color: "#1C1C1C"}))
 
         let vertices = geometry.attributes.position.array;
 
-        for(let j = 1; j < vertices.length; j += 3){
-            vertices[j] = Math.pow(Math.sin(0.31*vertices[j-1] - 0.32*vertices[j+1]), 2)+
-                Math.pow(Math.cos(0.385*vertices[j-1] + 0.158*vertices[j+1]), 2);
+        for (let j = 1; j < vertices.length; j += 3) {
+            vertices[j] = Math.pow(Math.sin(0.31 * (vertices[j - 1] + 1) - 0.32 * (vertices[j + 1] + 1)), 2) +
+                Math.pow(Math.cos(0.385 * (vertices[j - 1] + 1) + 0.158 * (vertices[j + 1] + 1)), 2);
         }
 
         // Materials

@@ -137,8 +137,7 @@ class Scene extends Component {
         let angle = params.angle
         let lastPosition = params.pos
 
-
-        this.setState({x: params.pos.x, z: params.pos.z, angle: params.angle})
+        this.setState({x: params.pos.x.toFixed(1), z: params.pos.z.toFixed(1), angle: params.angle.toFixed(1)})
 
         this.chair.deleteFromScene()
         this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view)

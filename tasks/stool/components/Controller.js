@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "../styles/Button.css"
 import "react-toggle/style.css"
 import Toggle from 'react-toggle'
-import RotationControl from "./RotationControl"
 
 class Controller extends Component{
 
@@ -13,7 +12,6 @@ class Controller extends Component{
             hR: 2
         };
     }
-
 
     drop = () =>{
         this.props.onDrop()
@@ -62,11 +60,39 @@ class Controller extends Component{
         this.props.onLeftRotationButton()
     }
 
+    RotateOn01Degree = () =>{
+        this.setState({hR: 0.1})
+        this.props.RotateOn01Degree();
+    }
+
+    RotateOn05Degree = () =>{
+        this.setState({hR: 0.5})
+        this.props.RotateOn05Degree();
+    }
+
+    RotateOn1Degree = () =>{
+        this.setState({hR: 1})
+        this.props.RotateOn1Degree()
+    }
+
+    RotateOn2Degree = () =>{
+        this.setState({hR: 2})
+        this.props.RotateOn2Degree();
+    }
+
+    RotateOn5Degree = () =>{
+        this.setState({hR: 5})
+        this.props.RotateOn5Degree();
+    }
+
+    RotateOn10Degree = () =>{
+        this.setState({hR: 10})
+        this.props.RotateOn10Degree();
+    }
 
     render() {
         return(
             <div>
-                {/*<RotationControl/>*/}
                 <input className="DropButton" type='button' onClick={this.drop} value="DROP"/>
                 <input className="DropAndShowButton" type='button' onClick={this.dropAndShow} value="DROP AND SHOW"/>
                 <input className="LeftMoveButton" type='button' onClick={this.leftButton} value="←"/>

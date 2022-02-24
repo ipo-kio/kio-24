@@ -52,8 +52,19 @@ class Plane {
                 Math.pow(Math.cos(0.385 * (vertices[j - 1] + 1) + 0.158 * (vertices[j + 1] + 1)), 2);
         }
 
+        let count = geometry.attributes.position.count;
+        geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(count*3), 3));
+
+        let color = new THREE.Color();
+        for(let i=0; i<count; i++){
+            let position = vertices[i*3 + 1];
+            color.setRGB(0.72, 0.65 + position/6, 0.88)
+            geometry.attributes.color.setXYZ(i, color.r, color.g, color.b);
+        }
+
         // Materials
         const material = new THREE.MeshStandardMaterial({
+            vertexColors: true,
             color: "#827888",
             side: THREE.DoubleSide
         })

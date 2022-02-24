@@ -2,7 +2,6 @@ import * as THREE from "three";
 import {Vector3} from "three";
 import Chair from "./Chair"
 
-
 class Physics {
     constructor(plane, scene, planeWidth, planeHeight, KioApi, view) {
         this.view = view
@@ -12,7 +11,7 @@ class Physics {
         this.chair = new Chair(this.scene)
         this.global_tips_position = []
         this.h = 0.2
-        this.hR = 5
+        this.hR = 2
         this.hFall = 0.015
 
         this.contactNum = 0
@@ -166,8 +165,13 @@ class Physics {
             for (let i in this.chair.tips) {
                 if (this.chair.tips[i].grounded === false) {
                     let dist = this.distanceToPlane(i)
-                    this.dist = dist
-                    this.chair.showDistanceToPlane(this.global_tips_position[i], dist)
+                    if(dist <= 0.03){
+                        this.dist = 0;
+                    }
+                    else{
+                        this.dist = dist - 0.03
+                        this.chair.showDistanceToPlane(this.global_tips_position[i], this.dist)
+                    }
                     break;
                 }
             }
@@ -281,7 +285,6 @@ class Physics {
             let total = pos.clone().add(vec)
             if (vec.x !== 0) {
                 if (Math.abs(total.x) >= this.planeWidth / 2 - offset) {
-                    console.log('a')
                     return false
                 }
             } else if (vec.z !== 0) {
@@ -344,7 +347,32 @@ class Physics {
         if (!this.canMove('leftRotation')) return
 
         this.chair.leftRotation(this.hR)
-        this.angle += 5
+        this.angle += this.hR
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
+    }
+
+    RotateOn01Degree = () =>{
+        this.hR = 0.1
+    }
+
+    RotateOn05Degree = () =>{
+        this.hR = 0.5
+    }
+
+    RotateOn1Degree = () =>{
+        this.hR = 1;
+    }
+
+    RotateOn2Degree = () =>{
+        this.hR = 2;
+    }
+
+    RotateOn5Degree = () =>{
+        this.hR = 5;
+    }
+
+    RotateOn10Degree = () =>{
+        this.hR = 10;
     }
 
     deleteFromScene = () => {

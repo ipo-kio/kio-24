@@ -13,8 +13,8 @@ class Scene extends Component {
 
         this.prevPosition = new THREE.Vector3()
 
-        this.sceneHeight = 20;
-        this.sceneWidth = 20;
+        this.sceneHeight = 15;
+        this.sceneWidth = 15;
         this.init();
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -45,7 +45,6 @@ class Scene extends Component {
             renderer.render( scene, camera );
             controls.update()
             window.requestAnimationFrame(tick)
-
         }
 
         this.animationID = window.requestAnimationFrame(tick)
@@ -75,8 +74,8 @@ class Scene extends Component {
 
         //Size
         const sizes = {
-            width: window.innerWidth-29, //TODO: height of our window preferred width?
-            height: window.innerHeight-230 //
+            width: window.innerWidth-29,
+            height: window.innerHeight-230
         }
         //Camera
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
@@ -103,8 +102,7 @@ class Scene extends Component {
         this.chair = new Physics(plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi)
         this.chair.init(new THREE.Vector3(0, 0, 0), 0)
 
-//-------------
-        window.addEventListener('resize', () => { //TODO: might not work properly
+        window.addEventListener('resize', () => {
             // Update sizes
             sizes.width = window.innerWidth-29
             sizes.height = window.innerHeight-230
@@ -178,8 +176,6 @@ class Scene extends Component {
     }
 
     render() {
-
-
         return(
          <div className="stoolWrapper" ref={ref => (this.mount = ref)}>
              <Controller onDrop = {this.savePositionAndDrop}

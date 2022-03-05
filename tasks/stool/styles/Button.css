@@ -78,7 +78,6 @@
 }
 
 .rotationButton{
-
     background-size: 100% 100%;
     position: absolute;
     width: 100px;
@@ -87,3 +86,75 @@
     bottom: 4%;
     /*border: none;*/
 }
+
+.degree01Button{
+    position: absolute;
+
+    top: 60%;
+    right: 1%;
+    width: 3%;
+    height: 5%;
+}
+
+.degree05Button{
+    position: absolute;
+
+    top: 65%;
+    right: 1%;
+    width: 3%;
+    height: 5%;
+}
+
+.degree1Button{
+    position: absolute;
+
+    top: 70%;
+    right: 1%;
+    width: 3%;
+    height: 5%;
+}
+
+.degree2Button{
+    position: absolute;
+
+    top: 75%;
+    right: 1%;
+    width: 3%;
+    height: 5%;
+}
+
+.degree5Button{
+    position: absolute;
+
+    top: 80%;
+    right: 1%;
+    width: 3%;
+    height: 5%;
+}
+
+.degree10Button{
+    position: absolute;
+
+    top: 85%;
+    right: 1%;
+    width: 3%;
+    height: 5%;
+}
+
+input:hover{
+    background-color: #cbcbcb;
+}
+
+.info{
+    position: absolute;
+}
+.Z{
+
+}
+.X{
+
+}
+.Angle{
+
+}
+

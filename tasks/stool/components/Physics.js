@@ -2,16 +2,16 @@ import * as THREE from "three";
 import {Vector3} from "three";
 import Chair from "./Chair"
 
-
 class Physics {
-    constructor(plane, scene, planeWidth, planeHeight, KioApi) {
+    constructor(plane, scene, planeWidth, planeHeight, KioApi, view) {
+        this.view = view
         this.kioApi = KioApi
         this.plane = plane
         this.scene = scene
         this.chair = new Chair(this.scene)
         this.global_tips_position = []
         this.h = 0.2
-        this.hR = 5
+        this.hR = 2
         this.hFall = 0.015
 
         this.contactNum = 0
@@ -76,7 +76,7 @@ class Physics {
             this._rotationParams = {
                 point: point,
                 axis: axis,
-                angle: -0.008
+                angle: -0.01
             }
 
             if (this.inDetail === true) {
@@ -96,8 +96,8 @@ class Physics {
             } else if ((this.firstTipIndex > curTipIndex) || (this.firstTipIndex === 0 && curTipIndex === 3)) { // swap  2 -- 1 -> 1 -- 2, 0--3 (change)
                 axis = new THREE.Vector3().copy(this.global_tips_position[curTipIndex]).sub(this.global_tips_position[this.firstTipIndex])
             } else { // 1 -- 2 (ok)
-                //console.log(this.chair.group.localToWorld(this.chair.tips[this.firstTipIndex].position.clone()))
-                console.log(this.firstTipIndex)
+
+
                 axis = new THREE.Vector3().copy(this.global_tips_position[this.firstTipIndex]).sub(this.global_tips_position[curTipIndex])
             }
             axis.normalize()
@@ -131,7 +131,7 @@ class Physics {
             this._rotationParams = {
                 point: point,
                 axis: axis,
-                angle: ang * 0.002
+                angle: ang * 0.004
             }
 
             if (this.inDetail === true) {
@@ -165,8 +165,13 @@ class Physics {
             for (let i in this.chair.tips) {
                 if (this.chair.tips[i].grounded === false) {
                     let dist = this.distanceToPlane(i)
-                    this.dist = dist
-                    this.chair.showDistanceToPlane(this.global_tips_position[i], dist)
+                    if(dist <= 0.03){
+                        this.dist = 0;
+                    }
+                    else{
+                        this.dist = dist - 0.03
+                        this.chair.showDistanceToPlane(this.global_tips_position[i], this.dist)
+                    }
                     break;
                 }
             }
@@ -187,6 +192,8 @@ class Physics {
             this.tiltAngle = this.tiltAngle * 180 / Math.PI
             this.tiltAngle = Math.round(Math.abs(this.tiltAngle - 90))
             this.dist = Math.round(this.dist * 100)
+
+            this.tiltAngle = this.tiltAngle ? this.tiltAngle : 0
 
             this.kioApi.submitResult({distance: this.dist, tiltAngle: this.tiltAngle})
 
@@ -250,7 +257,7 @@ class Physics {
                 }
             }
             let partsNum = Math.round(min/this.hFall)
-            this.chair.moveDown(partsNum * this.hFall - 2 * this.hFall);
+            this.chair.moveDown(partsNum * this.hFall - 20 * this.hFall);
         }
     }
 
@@ -278,12 +285,10 @@ class Physics {
             let total = pos.clone().add(vec)
             if (vec.x !== 0) {
                 if (Math.abs(total.x) >= this.planeWidth / 2 - offset) {
-                    console.log('a')
                     return false
                 }
             } else if (vec.z !== 0) {
                 if ((Math.abs(total.z) >= this.planeHeight / 2 - offset)) {
-                    console.log('fake')
                     return false
                 }
             }
@@ -296,6 +301,7 @@ class Physics {
         if (this.check(new THREE.Vector3(0, 0, this.h))) {
             this.chair.moveLeft(this.h)
         }
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     rightButton = () => {
@@ -303,6 +309,7 @@ class Physics {
         if (this.check(new THREE.Vector3(0, 0, -this.h))) {
             this.chair.moveRight(this.h)
         }
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     backButton = () => {
@@ -310,6 +317,7 @@ class Physics {
         if (this.check(new THREE.Vector3(-this.h, 0, 0))) {
             this.chair.moveBack(this.h)
         }
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     forwardButton = () => {
@@ -317,6 +325,7 @@ class Physics {
         if (this.check(new THREE.Vector3(this.h, 0, 0))) {
             this.chair.moveForward(this.h)
         }
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     transparentButtonOn = () => {
@@ -331,13 +340,39 @@ class Physics {
         if (!this.canMove()) return
         this.chair.rightRotation(this.hR)
         this.angle -= this.hR
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
     }
 
     leftRotationButton = () => {
         if (!this.canMove('leftRotation')) return
 
         this.chair.leftRotation(this.hR)
-        this.angle += 5
+        this.angle += this.hR
+        this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)
+    }
+
+    RotateOn01Degree = () =>{
+        this.hR = 0.1
+    }
+
+    RotateOn05Degree = () =>{
+        this.hR = 0.5
+    }
+
+    RotateOn1Degree = () =>{
+        this.hR = 1;
+    }
+
+    RotateOn2Degree = () =>{
+        this.hR = 2;
+    }
+
+    RotateOn5Degree = () =>{
+        this.hR = 5;
+    }
+
+    RotateOn10Degree = () =>{
+        this.hR = 10;
     }
 
     deleteFromScene = () => {

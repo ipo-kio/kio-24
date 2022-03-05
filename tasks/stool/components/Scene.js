@@ -5,14 +5,16 @@ import Physics from "./Physics"
 import Plane from "./Plane"
 import Controller from  "./Controller"
 import "../styles/stool.css"
+import "../styles/Button.css"
 
 class Scene extends Component {
     constructor(props) {
         super(props);
+
         this.prevPosition = new THREE.Vector3()
 
-        this.sceneHeight = 20;
-        this.sceneWidth = 20;
+        this.sceneHeight = 15;
+        this.sceneWidth = 15;
         this.init();
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -20,6 +22,8 @@ class Scene extends Component {
         this.controls.maxPolarAngle = 1.2
         this.controls.minPolarAngle = 0
         this.controls.update()
+
+        this.state = {x: 0, z: 0, angle: 0}
 
         this.startAnimation()
     }
@@ -41,7 +45,6 @@ class Scene extends Component {
             renderer.render( scene, camera );
             controls.update()
             window.requestAnimationFrame(tick)
-
         }
 
         this.animationID = window.requestAnimationFrame(tick)
@@ -71,8 +74,8 @@ class Scene extends Component {
 
         //Size
         const sizes = {
-            width: window.innerWidth-29, //TODO: height of our window preferred width?
-            height: window.innerHeight-230 //
+            width: window.innerWidth-29,
+            height: window.innerHeight-230
         }
         //Camera
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
@@ -99,8 +102,7 @@ class Scene extends Component {
         this.chair = new Physics(plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi)
         this.chair.init(new THREE.Vector3(0, 0, 0), 0)
 
-//-------------
-        window.addEventListener('resize', () => { //TODO: might not work properly
+        window.addEventListener('resize', () => {
             // Update sizes
             sizes.width = window.innerWidth-29
             sizes.height = window.innerHeight-230
@@ -116,6 +118,14 @@ class Scene extends Component {
 
     }
 
+    view = (x, z, angle) => {
+        this.setState({
+            x: Math.round(x*5.0).toFixed(1),
+            z: Math.round(z*5.0).toFixed(1),
+            angle: angle.toFixed(1)
+        })
+    }
+
     getParams = () =>{
         return {
                     pos: this.prevPosition,
@@ -127,8 +137,10 @@ class Scene extends Component {
         let angle = params.angle
         let lastPosition = params.pos
 
+        this.setState({x: params.pos.x.toFixed(1), z: params.pos.z.toFixed(1), angle: params.angle.toFixed(1)})
+
         this.chair.deleteFromScene()
-        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi)
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()
@@ -140,7 +152,7 @@ class Scene extends Component {
         let lastPosition = this.prevPosition
 
         this.chair.deleteFromScene()
-        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi)
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()
@@ -163,24 +175,32 @@ class Scene extends Component {
     }
 
     render() {
-
-
         return(
          <div className="stoolWrapper" ref={ref => (this.mount = ref)}>
+             <Controller onDrop = {this.savePositionAndDrop}
+                         onDropAndShow = {this.chair.dropAndShow}
+                         onLeftMoveButton = {this.chair.leftButton}
+                         onRightMoveButton = {this.chair.rightButton}
+                         onBackMoveButton = {this.chair.backButton}
+                         onForwardMoveButton = {this.chair.forwardButton}
+                         onRestartButton = {this.restartGame}
+                         onTransparentButtonOn = {this.chair.transparentButtonOn}
+                         onTransparentButtonOff = {this.chair.transparentButtonOff}
+                         onRightRotationButton = {this.chair.rightRotationButton}
+                         onLeftRotationButton = {this.chair.leftRotationButton}
 
-
-         <Controller onDrop = {this.savePositionAndDrop}
-                     onDropAndShow = {this.chair.dropAndShow}
-                     onLeftMoveButton = {this.chair.leftButton}
-                     onRightMoveButton = {this.chair.rightButton}
-                     onBackMoveButton = {this.chair.backButton}
-                     onForwardMoveButton = {this.chair.forwardButton}
-                     onRestartButton = {this.restartGame}
-                     onTransparentButtonOn = {this.chair.transparentButtonOn}
-                     onTransparentButtonOff = {this.chair.transparentButtonOff}
-                     onRightRotationButton = {this.chair.rightRotationButton}
-                     onLeftRotationButton = {this.chair.leftRotationButton}
-                     />
+                         RotateOn01Degree = {this.chair.RotateOn01Degree}
+                         RotateOn05Degree = {this.chair.RotateOn05Degree}
+                         RotateOn1Degree = {this.chair.RotateOn1Degree}
+                         RotateOn2Degree = {this.chair.RotateOn2Degree}
+                         RotateOn5Degree = {this.chair.RotateOn5Degree}
+                         RotateOn10Degree = {this.chair.RotateOn10Degree}
+                         />
+             <div className="info">
+                <button>X= {this.state.x}</button>
+                <button>Z= {this.state.z}</button>
+                <button>Angle= {this.state.angle}</button>
+            </div>
         </div>
 
         );

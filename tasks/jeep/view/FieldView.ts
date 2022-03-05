@@ -154,7 +154,12 @@ export class FieldView {
     }
 
     private draw_car(field_state: FieldState) {
+        let jeep = this.field.jeep.kioapi.getResource('barrel') as HTMLImageElement;
+        let [x, y] = field_state.car_position.point;
 
+        let h = jeep.height;
+        let w = jeep.width;
+        this.ctx.drawImage(jeep, 0, 0, w, h, x - w / 2, y - h / 2, w, h);
     }
 
     set_highlighted_circle(center: Position, radius: number): void {

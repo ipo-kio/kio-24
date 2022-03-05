@@ -86,6 +86,7 @@ export class Jeep implements KioTask {
         this.history_view.add_listener(() => this.history_updated());
 
         this.field_view.field_state = this.history.initial_state;
+
         this.history_updated();
     }
 
@@ -156,27 +157,40 @@ export class Jeep implements KioTask {
     }
 
     history_updated() {
-        let current_index = this.history_view.current_index;
-        let current_state = this.history.state(current_index + 1);
-        let previous_state = this.history.state(current_index);
+        // state 0   -    state 1    -   state 2
+        //         step 0         [step 1]
+
+        let state = this.history.state(0);
+        let previous_state = this.history.state(0);
+
+        let current_step_index = this.history_view.current_index;
+        let current_state = this.history.state(current_step_index + 1);
+
+        let current_step_type: StepType = current_step_index == -1 ? StepType.DRIVE : this.history.step(current_step_index).type;
         this.field_view.field_state = current_state;
 
-        if (current_index != -1) {
+        //setup highlighted circle
+        let state_for_highlighted_circle: FieldState = current_step_type === StepType.DRIVE ? previous_state : current_state;
+        this.field_view.set_highlighted_circle(state.car_position, state.car_fuel);
+
+        //setup slider
+        let current_index = this.history_view.current_index;
+        if (current_index >= 0) {
             let step = this.history.step(current_index);
-            let state: FieldState;
-            if (step.type === StepType.DRIVE)
-                state = previous_state;
-            else
-                state = current_state;
-            this.field_view.set_highlighted_circle(state.car_position, state.car_fuel);
+            let state: FieldState = step.type === StepType.DRIVE ? current_state : previous_state;
+            this.slider.max_value = state.possible_to_pick();
+            this.slider.min_value = -state.car_fuel;
+            this.slider.value_no_fire = StepType.DRIVE ? 0 : (step as PickOrPut).amount;
+        } else {
+            let state: FieldState = current_state;
+            this.slider.max_value = state.possible_to_pick();
+            this.slider.min_value = -state.car_fuel;
+            this.slider.value_no_fire = 0;
         }
 
         //    pick - move - put - move
         // s0     s1     s2     s3    s4
         //        *             *
-
-        this.slider.max_value = previous_state.possible_to_pick();
-        this.slider.min_value = -previous_state.car_fuel;
     }
 }
 

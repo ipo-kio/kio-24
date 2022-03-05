@@ -66,7 +66,14 @@ export class HistoryView {
             sub_div.className = 'task-history-item'
             HistoryView.fill_sub_div(sub_div);
             this._ol.appendChild(sub_div);
+            sub_div.addEventListener('click', e => this.item_click(ind));
         }
+    }
+
+    private item_click(ind: number):void {
+        console.log("click over " + ind);
+        this._current_index = ind;
+        this.update();
     }
 
     private static fill_sub_div(sub_div: HTMLLIElement) {

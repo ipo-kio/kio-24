@@ -3,6 +3,7 @@ import CNV from "./CNV/library";
 import uniqueId from "./CNV/uniqueId";
 import {endCircleMouseEnter, endCircleMouseLeave, lineMouseEnter, lineMouseLeave} from "./eventHandlers";
 import SETTINGS from "./SETTINGS";
+import mousePosition from "./mousePosition";
 
 //функция для добавбления ребёнка к родителю
 function addEdge(parent, children){
@@ -61,11 +62,12 @@ function removeEdge(key){
 }
 
 function createEdge(e, option = {}){
+    let [clientX, clientY] = mousePosition(e);
     let line = CNV.createLine({
-        x0: option.x0 || e.clientX,
-        y0: option.y0 || e.clientY,
-        x1: option.x0 || e.clientX,
-        y1: option.y0 || e.clientY,
+        x0: option.x0 || clientX,
+        y0: option.y0 || clientY,
+        x1: option.x0 || clientX,
+        y1: option.y0 || clientY,
         className: "line",
     })
     const {LINE_WIDTH} = SETTINGS.getAll();
@@ -73,13 +75,13 @@ function createEdge(e, option = {}){
 
 
     let startCircle = CNV.createCircle({
-        x0: option.x0 || e.clientX,
-        y0: option.y0 || e.clientY,
+        x0: option.x0 || clientX,
+        y0: option.y0 || clientY,
         className: ["startCircle", "hidden"],
     })
     let endCircle = CNV.createCircle({
-        x0: option.x0 || e.clientX,
-        y0: option.y0 || e.clientY,
+        x0: option.x0 || clientX,
+        y0: option.y0 || clientY,
         className: ["endCircle", "hidden"],
 
     })

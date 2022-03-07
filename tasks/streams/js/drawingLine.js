@@ -8,6 +8,7 @@ import analyze from "./analyzeGraph/analyze";
 import innerLine from "./innerLine";
 import lineCollision from "./lineCollision";
 import recover from "./storage/recover";
+import mousePosition from "./mousePosition";
 
 
 function drawingLine(data, finishCallback = () => {}){
@@ -45,10 +46,11 @@ function drawingLine(data, finishCallback = () => {}){
     }
 
     function drawing(e){
-        data.line.update.endPosition.x = e.clientX - CNV.state.shift.x;
-        data.line.update.endPosition.y = e.clientY - CNV.state.shift.y;
-        data.endCircle.update.startPosition.x = e.clientX - CNV.state.shift.x;
-        data.endCircle.update.startPosition.y = e.clientY - CNV.state.shift.y;
+        let [clientX, clientY] = mousePosition(e);
+        data.line.update.endPosition.x = clientX - CNV.state.shift.x;
+        data.line.update.endPosition.y = clientY - CNV.state.shift.y;
+        data.endCircle.update.startPosition.x = clientX - CNV.state.shift.x;
+        data.endCircle.update.startPosition.y = clientY - CNV.state.shift.y;
     }
     store.canvas.addEventListener("mousemove", drawing);
     store.canvas.addEventListener("click", stopDrawing);

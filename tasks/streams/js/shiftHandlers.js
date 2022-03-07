@@ -13,6 +13,7 @@ import innerLine from "./innerLine";
 import lineCollision from "./lineCollision";
 import recover from "./storage/recover";
 import Store from "./Store";
+import mousePosition from "./mousePosition";
 
 
 let lastDrag;
@@ -139,6 +140,7 @@ const shiftDownHandler = (e) => {
                 }
 
                 function onMouseMove4(event, obj) {
+                    let [clientX, clientY] = mousePosition(event);
                     lastDrag = obj.line;
                     CNV.combineRender(() => {
 
@@ -146,7 +148,7 @@ const shiftDownHandler = (e) => {
                             start: obj.line.link.start,
                             end: obj.line.link.end,
                             check: obj.line.link.check,
-                        }, {x: event.clientX - CNV.state.shift.x, y: event.clientY - CNV.state.shift.y})
+                        }, {x: clientX - CNV.state.shift.x, y: clientY - CNV.state.shift.y})
 
 
                         obj.line.link.check.x = x;

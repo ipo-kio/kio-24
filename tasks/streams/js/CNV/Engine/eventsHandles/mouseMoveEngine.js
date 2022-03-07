@@ -1,8 +1,10 @@
 import {nearLine, nearDot} from "../geometry/geometry";
 import selfEvent from "./selfEvent";
+import mousePosition from "../../../mousePosition";
 
 function mouseMoveEngine(e){
     let needToRedraw = false;
+    let [clientX, clientY] = mousePosition(e);
 
     const successCallback = (link, e) => {
         let selfE = selfEvent(e, this.state.shapes[link.id]);
@@ -43,8 +45,8 @@ function mouseMoveEngine(e){
         if(link.type === "line"){
             nearLine({
                     distance: 5,
-                    userX: e.clientX,
-                    userY: e.clientY,
+                    userX: clientX,
+                    userY: clientY,
                     x1: link.start.x + this.state.shift.x,
                     y1: link.start.y + this.state.shift.y,
                     x2: link.end?.x + this.state.shift.x || link.start.x + this.state.shift.x,
@@ -57,8 +59,8 @@ function mouseMoveEngine(e){
         } else if(link.type === "circle"){
             nearDot({
                     distance: 5,
-                    userX: e.clientX,
-                    userY: e.clientY,
+                    userX: clientX,
+                    userY: clientY,
                     x0: link.start.x + this.state.shift.x,
                     y0: link.start.y + this.state.shift.y,
                 }, successCallback.bind(this, link, e),

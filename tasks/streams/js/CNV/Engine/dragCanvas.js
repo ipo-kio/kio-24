@@ -1,16 +1,18 @@
 import CNV from "../library";
 import {nearDot} from "./geometry/geometry";
 import Store from "../Store";
+import mousePosition from "../../mousePosition";
 
 function dragCanvas(){
     function onMouseDown (e){
         if(CNV.state.draggableCanvas){
             for(let i = 0; i < CNV.state.__mouseClickTargets.length; i++){
                 let link = CNV.state.__shapes[CNV.state.__mouseClickTargets[i]];
+                let [clientX, clientY] = mousePosition(e);
                 let res = nearDot({
                     distance: 5,
-                    userX: e.clientX,
-                    userY: e.clientY,
+                    userX: clientX,
+                    userY: clientY,
                     x0: link.start.x + CNV.state.shift.x,
                     y0: link.start.y + CNV.state.shift.y,
                     e: e,

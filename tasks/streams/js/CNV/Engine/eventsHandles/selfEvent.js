@@ -1,10 +1,12 @@
 import Store from "../../Store";
+import mousePosition from "../../../mousePosition";
 
 function selfEvent(e, target){
     let state = Store.getState();
+    let [clientX, clientY] = mousePosition(e);
     return {
-        clientY: e.clientY,
-        clientX: e.clientX,
+        clientY: clientY,
+        clientX: clientX,
         altKey: e.altKey,
         button: e.button,
         ctrlKey: e.ctrlKey,

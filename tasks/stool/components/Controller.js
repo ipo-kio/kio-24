@@ -11,6 +11,8 @@ class Controller extends Component{
             transparentChecked: false,
             hR: 2
         };
+
+        this.hR = 2
     }
 
     drop = () =>{
@@ -62,31 +64,37 @@ class Controller extends Component{
 
     RotateOn01Degree = () =>{
         this.setState({hR: 0.1})
+        this.hR = 0.1
         this.props.RotateOn01Degree();
     }
 
     RotateOn05Degree = () =>{
         this.setState({hR: 0.5})
+        this.hR = 0.5
         this.props.RotateOn05Degree();
     }
 
     RotateOn1Degree = () =>{
         this.setState({hR: 1})
+        this.hR = 1
         this.props.RotateOn1Degree()
     }
 
     RotateOn2Degree = () =>{
         this.setState({hR: 2})
+        this.hR = 2
         this.props.RotateOn2Degree();
     }
 
     RotateOn5Degree = () =>{
         this.setState({hR: 5})
+        this.hR = 5
         this.props.RotateOn5Degree();
     }
 
     RotateOn10Degree = () =>{
         this.setState({hR: 10})
+        this.hR = 10
         this.props.RotateOn10Degree();
     }
 

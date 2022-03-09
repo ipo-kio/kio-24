@@ -3,7 +3,7 @@ import {Vector3} from "three";
 import Chair from "./Chair"
 
 class Physics {
-    constructor(plane, scene, planeWidth, planeHeight, KioApi, view) {
+    constructor(plane, scene, planeWidth, planeHeight, KioApi, view, hR) {
         this.view = view
         this.kioApi = KioApi
         this.plane = plane
@@ -11,7 +11,7 @@ class Physics {
         this.chair = new Chair(this.scene)
         this.global_tips_position = []
         this.h = 0.2
-        this.hR = 2
+        this.hR = hR
         this.hFall = 0.015
 
         this.contactNum = 0
@@ -165,11 +165,15 @@ class Physics {
             for (let i in this.chair.tips) {
                 if (this.chair.tips[i].grounded === false) {
                     let dist = this.distanceToPlane(i)
-                    if(dist <= 0.03){
+                    if(dist <= 0.025){
                         this.dist = 0;
                     }
+                    else if(dist<=0.03){
+                        this.dist = 0.01
+                        this.chair.showDistanceToPlane(this.global_tips_position[i], this.dist)
+                    }
                     else{
-                        this.dist = dist - 0.03
+                        this.dist = dist - 0.025
                         this.chair.showDistanceToPlane(this.global_tips_position[i], this.dist)
                     }
                     break;

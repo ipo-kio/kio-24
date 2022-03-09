@@ -11,6 +11,8 @@ class Scene extends Component {
     constructor(props) {
         super(props);
 
+        this.controller = React.createRef()
+
         this.prevPosition = new THREE.Vector3()
 
         this.sceneHeight = 15;
@@ -18,12 +20,14 @@ class Scene extends Component {
         this.init();
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+        //this.camera.lookAt(0, 1, 0);
         this.controls.enableDamping = true
         this.controls.maxPolarAngle = 1.2
         this.controls.minPolarAngle = 0
         this.controls.update()
 
         this.state = {x: 0, z: 0, angle: 0}
+
 
         this.startAnimation()
     }
@@ -56,12 +60,12 @@ class Scene extends Component {
         const intensity = 0.5;
         let light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
         this.scene.add(light);
-        let pointLight = new THREE.PointLight(0xB97A20, 2)
-        pointLight.position.x = 0
-        pointLight.position.y = 2
-        pointLight.position.z = 0
-        this.scene.add(pointLight)
-        pointLight = new THREE.PointLight(0xB97A20, 0.8)
+        let pointLight = new THREE.PointLight(0xffffff, 0.8)
+        // pointLight.position.x = 0
+        // pointLight.position.y = 2
+        // pointLight.position.z = 0
+        // this.scene.add(pointLight)
+        pointLight = new THREE.PointLight(0xffffff, 0.8)
         pointLight.position.x = 2
         pointLight.position.y = 7
         pointLight.position.z = 4
@@ -82,6 +86,9 @@ class Scene extends Component {
         this.camera.position.x = 13
         this.camera.position.y = 5
         this.camera.position.z = 0
+
+        this.camera.lookAt(0,100,0)
+        console.log(this.camera.rotation);
         this.scene.add(this.camera)
 
         // Renderer
@@ -99,7 +106,7 @@ class Scene extends Component {
         plane.initPlane(this.sceneWidth, this.sceneHeight)
         this.initLights()
 
-        this.chair = new Physics(plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi)
+        this.chair = new Physics(plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, 2)
         this.chair.init(new THREE.Vector3(0, 0, 0), 0)
 
         window.addEventListener('resize', () => {
@@ -120,8 +127,8 @@ class Scene extends Component {
 
     view = (x, z, angle) => {
         this.setState({
-            x: Math.round(x*5.0).toFixed(1),
-            z: Math.round(z*5.0).toFixed(1),
+            x: Math.round(x*5.0),
+            z: Math.round(z*5.0),
             angle: angle.toFixed(1)
         })
     }
@@ -137,10 +144,10 @@ class Scene extends Component {
         let angle = params.angle
         let lastPosition = params.pos
 
-        this.setState({x: params.pos.x.toFixed(1), z: params.pos.z.toFixed(1), angle: params.angle.toFixed(1)})
+        this.view(params.pos.x, params.pos.z, params.angle)
 
         this.chair.deleteFromScene()
-        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view)
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, this.controller.current.hR)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()
@@ -152,7 +159,8 @@ class Scene extends Component {
         let lastPosition = this.prevPosition
 
         this.chair.deleteFromScene()
-        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view)
+        console.log(this.controller.current.hR)
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, this.controller.current.hR)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()
@@ -163,6 +171,7 @@ class Scene extends Component {
 
         if(!this.chair.canMove()) return
 
+        // this.prevhR = this.chair.hR ? this.chair.hR : 2
         let angle = this.chair.angle
         this.chair.chair.rightRotation(angle)
         this.prevPosition = this.chair.chair.group.position.clone()
@@ -177,7 +186,8 @@ class Scene extends Component {
     render() {
         return(
          <div className="stoolWrapper" ref={ref => (this.mount = ref)}>
-             <Controller onDrop = {this.savePositionAndDrop}
+             <Controller ref = {this.controller}
+                         onDrop = {this.savePositionAndDrop}
                          onDropAndShow = {this.chair.dropAndShow}
                          onLeftMoveButton = {this.chair.leftButton}
                          onRightMoveButton = {this.chair.rightButton}

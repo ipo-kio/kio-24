@@ -58,7 +58,7 @@ class Scene extends Component {
         const skyColor = 0xB1E1FF;  // light blue
         const groundColor = 0xB97A20;  // brownish orange
         const intensity = 0.5;
-        let light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+        let light = new THREE.HemisphereLight(skyColor, 0xffffff, intensity);
         this.scene.add(light);
         let pointLight = new THREE.PointLight(0xffffff, 0.8)
         // pointLight.position.x = 0
@@ -83,8 +83,8 @@ class Scene extends Component {
         }
         //Camera
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-        this.camera.position.x = 13
-        this.camera.position.y = 5
+        this.camera.position.x = 10
+        this.camera.position.y = 7
         this.camera.position.z = 0
 
         this.camera.lookAt(0,100,0)

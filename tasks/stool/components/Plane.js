@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import {Sky} from "three/examples/jsm/objects/Sky";
+import {Vector3} from "three";
 
 class Plane {
 
@@ -74,6 +75,27 @@ class Plane {
         this.planeMesh.receiveShadow = true;
         this.scene.add(this.planeMesh)
         this.scene.add(gridPlane)
+        //this.geoGrid(vertices);
+    }
+
+    geoGrid = (vertices) =>{
+        for (let j = 1; j < vertices.length; j += 3) {
+            // x = vertices[j-1], z = vertices[j+1]
+            let point2 = new Vector3(vertices[j-1], vertices[j], vertices[j+1]);
+            let point1 = new Vector3(-this.df_dx(vertices[j-1], vertices[j+1]), 0, this.df_dz(vertices[j-1], vertices[j+1])).add(point2);
+            let geoLine = new THREE.BufferGeometry().setFromPoints([point2, point1])
+            this.scene.add(new THREE.Line(geoLine, new THREE.LineBasicMaterial({
+                color: 0x0000ff
+            })).translateY(0.1));
+        }
+    }
+
+    df_dx = (x, z) =>{
+        return (-0.385*Math.sin(0.77*x + 0.316*z + 1.086) - 0.31*Math.sin(-0.62*x + 0.64*z + 0.02));
+    }
+
+    df_dz = (x, z) =>{
+        return (0.32*Math.sin(-0.62*x + 0.64*z + 0.02) - 0.158*Math.sin(0.77*x + 0.316*z + 0.86));
     }
 
 }

@@ -16,7 +16,7 @@ class Chair{
         this.base_materials = new THREE.MeshStandardMaterial({color: "white", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1 })
 
         // legs coordinates
-        this.chairSize = 1.3
+        this.chairSize = 1.3*1.5
         let chairSize = this.chairSize
         this.coord = [new Vector3(-chairSize/2, 5, -chairSize/2),
             new Vector3(-chairSize/2, 5, chairSize/2),
@@ -24,19 +24,19 @@ class Chair{
             new Vector3(chairSize/2, 5, -chairSize/2)]
 
         // footboard size
-        this.footboard_radius = 0.08
-        this.footboard_height = 0.3
+        this.footboard_radius = 0.08*1.5
+        this.footboard_height = 0.3*1.5
         this.footboard_segments = 10
 
         // leg size
-        this.leg_width = 0.2;
-        this.leg_height = 1.5;
-        this.leg_depth = 0.2;
+        this.leg_width = 0.2*1.5;
+        this.leg_height = 1.5*1.5;
+        this.leg_depth = 0.2*1.5;
 
         // base size
         this.base_width = chairSize + this.leg_width;
         this.base_height = chairSize + this.leg_width;
-        this.base_depth = 0.1;
+        this.base_depth = 0.1*1.5;
 
         this.leg_geometry = new THREE.BoxGeometry(
             this.leg_width, this.leg_height, this.leg_depth

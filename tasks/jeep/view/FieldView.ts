@@ -12,6 +12,9 @@ export class FieldView {
     private _highlighted_circle_center: Position = null;
     private _highlighted_circle_radius: number = 0;
 
+    private _d: number; // cell size
+    private _r: number; // barrel rotation
+
     constructor(field: Field, canvas: HTMLCanvasElement, position_click_action: (p: Position) => void) {
         this.field = field;
         this.canvas = canvas;
@@ -31,6 +34,14 @@ export class FieldView {
 
         canvas.addEventListener('click', e => this._on_click(position(e)));
         canvas.addEventListener('mousemove', e => this._on_move(position(e)));
+
+        //evaluate d, r
+        let [x1, y1] = this.field.all_positions[0].point;
+        let [x2, y2] = this.field.all_positions[1].point;
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+        this._d = Math.sqrt(dx * dx + dy * dy);
+        this._r = Math.atan2(dy, dx);
     }
 
     set field_state(field_state: FieldState) {
@@ -64,6 +75,15 @@ export class FieldView {
         if (!position_found)
             this._highlighted_position = -1;
 
+        //don't highlight out of circle
+        if (this._highlighted_position > -1) {
+            let hp = this.field.all_positions[this._highlighted_position];
+            let distance = this._highlighted_circle_center.distance(hp);
+            let need_fuel = distance * this.field.jeep.constants.FUEL_PER_UNIT
+            if (need_fuel > this._highlighted_circle_radius || need_fuel == 0)
+                this._highlighted_position = -1;
+        }
+
         if (this._highlighted_position != was_highlighted)
             this.redraw();
     }
@@ -71,9 +91,13 @@ export class FieldView {
     protected mark_area(ind: number): void {
         let [x0, y0] = this.field.all_positions[ind].point;
         let c = this.ctx;
+        c.save();
+        c.translate(x0, y0);
+        c.rotate(this._r);
         c.beginPath();
-        let r = 10;
-        c.rect(x0 - r, y0 - r, r * 2, r * 2);
+        let r = 20;
+        c.rect(-r,  -r, r * 2, r * 2);
+        c.restore();
     }
 
     redraw() {
@@ -84,6 +108,14 @@ export class FieldView {
         let field_state = this._field_state;
         if (field_state) {
             this.draw_values(field_state);
+
+            //if highlighted
+            if (this._highlighted_position >= 0) {
+                this.mark_area(this._highlighted_position);
+                this.ctx.fillStyle = 'rgba(255, 255, 0, 0.4)';
+                this.ctx.fill();
+            }
+
             this.draw_car(field_state);
         }
 
@@ -94,14 +126,9 @@ export class FieldView {
             // this.ctx.lineTo(this.canvas.width, this.canvas.height);
             // this.ctx.lineTo(0, this.canvas.height);
             // this.ctx.lineTo(0, 0);
-            let [x1, y1] = this.field.all_positions[0].point;
-            let [x2, y2] = this.field.all_positions[1].point;
-            let dx = x2 - x1;
-            let dy = y2 - y1;
-            let d = Math.sqrt(dx * dx + dy * dy);
 
             let [x, y] = this._highlighted_circle_center.point;
-            let radius = this._highlighted_circle_radius / this.field.jeep.constants.FUEL_PER_UNIT * d;
+            let radius = this._highlighted_circle_radius / this.field.jeep.constants.FUEL_PER_UNIT * this._d;
             this.ctx.beginPath();
             this.ctx.arc(x, y, radius, 2 * Math.PI, 0, true);
             this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
@@ -109,13 +136,6 @@ export class FieldView {
             this.ctx.fill();
             this.ctx.setLineDash([5, 5]);
             this.ctx.stroke();
-        }
-
-        //if highlighted
-        if (this._highlighted_position >= 0) {
-            this.mark_area(this._highlighted_position);
-            this.ctx.fillStyle = 'rgba(255, 255, 0, 0.4)';
-            this.ctx.fill();
         }
 
         this.ctx.restore();
@@ -128,6 +148,7 @@ export class FieldView {
     }
 
     private draw_values(field_state: FieldState) {
+        this.ctx.save();
         this.ctx.font = '30px Arial';
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
@@ -143,23 +164,45 @@ export class FieldView {
             //     continue;
             let text = fuel > 1e10 ? '∞' : '' + fuel;
             let [x, y] = positions[i].point;
-            this.ctx.drawImage(barrel, x - barrel.width / 2, y - barrel.height / 2, barrel.width, barrel.height);
-            this.ctx.strokeText(text, x, y);
-            this.ctx.fillText(text, x, y);
+            this.ctx.save();
+            this.ctx.translate(x, y);
+            this.ctx.rotate(this._r);
 
-            this.mark_area(i);
+            const up = 40;
+
             this.ctx.strokeStyle = 'black';
+            this.ctx.fillStyle = 'yellow';
+            this.ctx.beginPath();
+            this.ctx.arc(0, 0, 4, 0, 2 * Math.PI);
+            this.ctx.fill();
             this.ctx.stroke();
+
+            if (fuel > 0) {
+                this.ctx.drawImage(barrel, -barrel.width / 2, -barrel.height / 2 - up, barrel.width, barrel.height);
+
+                this.ctx.strokeText(text, 0, -up);
+                this.ctx.fillText(text, 0, -up);
+            }
+
+            this.ctx.restore();
+
+            // this.mark_area(i);
+            // this.ctx.stroke();
         }
+        this.ctx.restore();
     }
 
     private draw_car(field_state: FieldState) {
-        let jeep = this.field.jeep.kioapi.getResource('barrel') as HTMLImageElement;
+        let jeep = this.field.jeep.kioapi.getResource('jeep') as HTMLImageElement;
         let [x, y] = field_state.car_position.point;
 
         let h = jeep.height;
         let w = jeep.width;
-        this.ctx.drawImage(jeep, 0, 0, w, h, x - w / 2, y - h / 2, w, h);
+        this.ctx.save();
+        this.ctx.translate(x, y);
+        this.ctx.rotate(this._r);
+        this.ctx.drawImage(jeep, 0, 0, w, h, - w / 2, - h / 2, w, h);
+        this.ctx.restore();
     }
 
     set_highlighted_circle(center: Position, radius: number): void {

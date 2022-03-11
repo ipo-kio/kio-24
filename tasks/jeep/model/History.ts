@@ -1,6 +1,5 @@
 import {Step} from "./Step";
 import {FieldState} from "./FieldState";
-import {Field} from "./Field";
 
 export class History {
     private _steps: Step[];
@@ -46,6 +45,11 @@ export class History {
         return this._steps.length;
     }
 
+    get last_correct_step_index(): number {
+        this.ensure_states_evaluated();
+        return this.list_of_states.length - 2;
+    }
+
     add_listener(listener: () => void): void {
         this._update_listeners.push(listener);
     }
@@ -84,7 +88,6 @@ export class History {
             this.update_field_states(0);
         }
     }
-
 
     get initial_state(): FieldState {
         return this._initial_state;

@@ -46,11 +46,6 @@ export class Slider {
         this._max_value = max_value;
     }
 
-    set visible_max_value(value) {
-        this._visible_max_value = value;
-        this.redraw();
-    }
-
     update_max_value(value) {
         this._max_value = value;
         if (this.value > this._max_value) {
@@ -88,6 +83,27 @@ export class Slider {
         this.set_value(value, false);
     }
 
+    set_visible_range(min, max) {
+        this._has_visible_range = true;
+        this._min_visible_value = min;
+        this._max_visible_value = max;
+        this.redraw();
+    }
+
+    get min_visible_value() {
+        if (this._has_visible_range)
+            return this._min_visible_value;
+        else
+            return this._min_value;
+    }
+
+    get max_visible_value() {
+        if (this._has_visible_range)
+            return this._max_visible_value;
+        else
+            return this._max_value;
+    }
+
     resize(preferred_width) {
         this.canvas.width = preferred_width;
         this.redraw();
@@ -113,14 +129,14 @@ export class Slider {
         ctx.fillRect(0, 0, this.canvas.width, this.line_img.height);
         ctx.restore();
 
-        let xx = this.value_2_pos(this._visible_max_value) + this.img.width / 2;
+        /*let xx = this.value_2_pos(this._visible_max_value) + this.img.width / 2;
         if (xx >= 0 && xx <= this.canvas.width) {
             ctx.strokeStyle = '#8f8f8f';
             ctx.beginPath();
             ctx.moveTo(xx, line_y);
             ctx.lineTo(this.canvas.width, line_y);
             ctx.stroke();
-        }
+        }*/
 
         //thumb
 
@@ -168,7 +184,7 @@ export class Slider {
 
     value_2_pos(value) {
         let w = this.canvas.width - this.img.width;
-        return w * (value - this._min_value) / (this._max_value - this._min_value);
+        return w * (value - this.min_visible_value) / (this.max_visible_value - this.min_visible_value);
     }
 
     get thumb_rect() {
@@ -188,7 +204,7 @@ export class Slider {
     position_2_value(x) {
         x -= this.img.width / 2;
         let w = this.canvas.width - this.img.width;
-        return x * (this._max_value - this._min_value) / w + this._min_value;
+        return x * (this.max_visible_value - this.min_visible_value) / w + this.min_visible_value;
         //x = w * (this.value - this.min_value) / (this.max_value - this.min_value);
     }
 

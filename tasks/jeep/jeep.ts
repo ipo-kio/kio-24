@@ -35,7 +35,7 @@ export class Jeep implements KioTask {
             600
         );
         let initial_state = FieldState.create(this.field);
-        this.history = new History([], FieldState.create(this.field));
+        this.history = new History([new PickOrPut(0)], FieldState.create(this.field));
 
         this.level = settings.level ? 0 : +settings.level;
     }
@@ -78,6 +78,7 @@ export class Jeep implements KioTask {
         this.slider.onvaluechange = (new_value: number) => this.fuel_value_change(new_value);
         this.slider.add_ticks(1, 10, '#e6ffe0', 17);
         this.slider.add_ticks(5, 15, '#e6ffe0');
+        this.slider.set_visible_range(-this.constants.CAR_MAX_FUEL, this.constants.CAR_MAX_FUEL);
 
         console.log('problem level is', this.level);
 
@@ -150,44 +151,37 @@ export class Jeep implements KioTask {
     car_position_change(new_position: Position) {
         let current_step = this.history_view.current_step;
         let new_step = new MoveTo(new_position);
-        if (current_step != null && current_step.type == StepType.DRIVE)
-            this.history_view.update_current_step(new_step);
-        else
-            this.history_view.insert_next(new_step);
+        if (current_step != null && current_step.type == StepType.DRIVE) {
+            if (this.history_view.may_update_current_step(new_step))
+                this.history_view.update_current_step(new_step);
+        } else {
+            if (this.history_view.may_insert_next(new_step))
+                this.history_view.insert_next(new_step);
+        }
     }
 
     history_updated() {
         // state 0   -    state 1    -   state 2
         //         step 0         [step 1]
 
-        let state = this.history.state(0);
-        let previous_state = this.history.state(0);
-
         let current_step_index = this.history_view.current_index;
-        let current_state = this.history.state(current_step_index + 1);
 
-        let current_step_type: StepType = current_step_index == -1 ? StepType.DRIVE : this.history.step(current_step_index).type;
-        this.field_view.field_state = current_state;
+        let step = this.history.step(current_step_index);
+        let previous_state = this.history.state(current_step_index);
+        let next_state = this.history.state(current_step_index + 1);
+        let current_step_type: StepType = step.type;
 
         //setup highlighted circle
-        let state_for_highlighted_circle: FieldState = current_step_type === StepType.DRIVE ? previous_state : current_state;
-        this.field_view.set_highlighted_circle(state.car_position, state.car_fuel);
+        let state_for_highlighted_circle: FieldState = current_step_type === StepType.DRIVE ? previous_state : next_state;
+        this.field_view.set_highlighted_circle(state_for_highlighted_circle.car_position, state_for_highlighted_circle.car_fuel);
 
         //setup slider
-        let current_index = this.history_view.current_index;
-        if (current_index >= 0) {
-            let step = this.history.step(current_index);
-            let state: FieldState = step.type === StepType.DRIVE ? current_state : previous_state;
-            this.slider.max_value = state.possible_to_pick();
-            this.slider.min_value = -state.car_fuel;
-            this.slider.value_no_fire = StepType.DRIVE ? 0 : (step as PickOrPut).amount;
-        } else {
-            let state: FieldState = current_state;
-            this.slider.max_value = state.possible_to_pick();
-            this.slider.min_value = -state.car_fuel;
-            this.slider.value_no_fire = 0;
-        }
+        let state_for_fuel_info: FieldState = step.type === StepType.FUEL ? previous_state : next_state;
+        this.slider.max_value = state_for_fuel_info.possible_to_pick();
+        this.slider.min_value = -state_for_fuel_info.car_fuel;
+        this.slider.value_no_fire = StepType.DRIVE ? 0 : (step as PickOrPut).amount;
 
+        this.field_view.field_state = next_state;
         //    pick - move - put - move
         // s0     s1     s2     s3    s4
         //        *             *

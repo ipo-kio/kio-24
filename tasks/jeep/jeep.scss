@@ -19,7 +19,7 @@
     cursor: pointer;
     padding: 2px 6px;
 
-    &:hover {
+    &:hover, &.selected:hover {
       background-color: orangered;
 
       .task-history-value {
@@ -33,6 +33,15 @@
 
     &.selected {
       background-color: #fbff3e;
+    }
+
+    &.wrong {
+      color: rgba(0, 0, 0, 0.5);
+      text-decoration: line-through;
+
+      .task-history-value {
+        color: rgba(255, 60, 0, 0.5);
+      }
     }
 
     .task-history-value {

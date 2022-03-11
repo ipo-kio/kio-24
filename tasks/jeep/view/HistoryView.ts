@@ -36,6 +36,7 @@ export class HistoryView {
         let steps = this._history.steps;
         this.ensure_sub_divs_length(steps.length);
 
+        let last_correct_step_index = this.history.last_correct_step_index;
         for (let i = 0; i < steps.length; i++) {
             let step = steps[i];
             let sub_div = this._ol.children[i];
@@ -43,6 +44,10 @@ export class HistoryView {
                 sub_div.classList.add('selected');
             else
                 sub_div.classList.remove('selected');
+            if (i <= last_correct_step_index)
+                sub_div.classList.remove('wrong');
+            else
+                sub_div.classList.add('wrong');
             let text_span = sub_div.children[0] as HTMLSpanElement;
             let value_span = sub_div.children[1] as HTMLSpanElement;
             text_span.innerText = step.text;
@@ -92,9 +97,20 @@ export class HistoryView {
         return this.history.step(this._current_index);
     }
 
+    may_update_current_step(new_step: Step): boolean {
+        let state = this.history.state(this.current_index);
+        return new_step.change_possible(state);
+    }
+
     update_current_step(new_step: Step): void {
         this.history.update(this._current_index, new_step);
         this.update();
+    }
+
+    may_insert_next(new_step: Step): boolean {
+        // [state 0] - [step 0] - [state 1] - [step 1] - [state 2] - ...
+        let state = this.history.state(this.current_index + 1);
+        return new_step.change_possible(state);
     }
 
     insert_next(new_step: Step): void {

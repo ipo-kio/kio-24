@@ -198,11 +198,40 @@ export class FieldView {
 
         let h = jeep.height;
         let w = jeep.width;
-        this.ctx.save();
-        this.ctx.translate(x, y);
-        this.ctx.rotate(this._r);
-        this.ctx.drawImage(jeep, 0, 0, w, h, - w / 2, - h / 2, w, h);
-        this.ctx.restore();
+        let c = this.ctx;
+
+        c.save();
+        c.translate(x, y);
+        c.rotate(this._r);
+        c.drawImage(jeep, 0, 0, w, h, - w / 2, - h / 2, w, h);
+        c.restore();
+
+        //draw fuel info
+        c.save();
+        c.translate(x + w / 2, y);
+        let up = 20;
+        c.beginPath();
+
+        let fw = 60;
+        let fh = 8;
+        c.strokeStyle = 'black';
+        c.fillStyle = 'rgba(255, 28, 0, 0.9)';
+        c.rect(-fw/2-0.5, up-0.5, fw * field_state.car_fuel / this.field.jeep.constants.CAR_MAX_FUEL, fh);
+        c.fill();
+        c.beginPath();
+        c.rect(-fw/2, up-0.5, fw, fh);
+        c.stroke();
+
+        //draw fuel text
+        let text = '' + field_state.car_fuel;
+        c.font = '30px Arial';
+        c.textAlign = "center";
+        c.textBaseline = "top";
+        c.strokeStyle = 'black';
+        c.fillStyle = 'yellow';
+        c.strokeText(text, 0, up + fh);
+        c.fillText(text, 0, up + fh);
+        c.restore();
     }
 
     set_highlighted_circle(center: Position, radius: number): void {

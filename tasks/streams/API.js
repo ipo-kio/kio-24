@@ -31,10 +31,15 @@ class Streams {
     initialize(domNode, kioapi, preferred_width){
         this.kioapi = kioapi;
         this.domNode = domNode;
-        console.log("before SET", SETTINGS.getAll().NUMERIC_POWER);
         SETTINGS.set(this.settings);
-        console.log("after SET", SETTINGS.getAll().NUMERIC_POWER);
-
+        //window.problem.hidden = true;
+        // let power = prompt("Введите входную мощность");
+        // let outer = prompt("Введите выходные выходные мощности через точку с запятой. Пример: 1/4;3/4");
+        // window.problem.hidden = false;
+        // console.log(power);
+        // console.log(outer.split(";"));
+        // SETTINGS.changeProperty("TASK", outer.split(";"));
+        //SETTINGS.changeProperty("START_POWER", power);
 
         //---------------------------- copy from streams.js
 
@@ -102,16 +107,17 @@ class Streams {
         let context = canvas.getContext("2d");
         KIOsaves.id = "KIOsaves";
 
-        window.onresize = (e) => {
+        window.addEventListener("load", e => {
+            canvas.width = document.documentElement.clientWidth;
+            canvas.height = window.innerHeight - KIOcontainer.getBoundingClientRect().height - 40;
+            CNV.start();
+        })
+
+        window.addEventListener("resize", e => {
             canvas.width = document.documentElement.clientWidth;
             canvas.height = window.innerHeight - KIOcontainer.getBoundingClientRect().height - 40;
             CNV.render();
-        }
-
-        window.onload = e => {
-            canvas.width = document.documentElement.clientWidth;
-            canvas.height = window.innerHeight - KIOcontainer.getBoundingClientRect().height - 40;
-        }
+        })
 
 
         //Инициализация библиотеки CNV
@@ -134,8 +140,7 @@ class Streams {
             }
         })
 
-        //запуск
-        CNV.start();
+
 
         //Инициализация store
         store.setCanvas(canvas);
@@ -181,7 +186,6 @@ class Streams {
         //-----------------------------end copy from streams.js
     }
     parameters() {
-        console.log("params");
         const params = [
             {
                 name: "number_of_branches", //название параметра
@@ -235,16 +239,13 @@ class Streams {
     }
     loadSolution(solution) {
         //console.log("Store.API.emptySolution", Store.API.emptySolution);
+
         if(solution !== undefined){
             if(typeof solution === "string"){
                 recover(solution);
                 analyze(Store.state.lines)
-                setTimeout(()=> {
-                    CNV.render();
-                }, 0);
                 solution = JSON.parse(solution);
             }
-            //console.log("loadSolution", solution);
             if(solution){
                 this.kioapi.submitResult(solution);
             }

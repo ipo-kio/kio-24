@@ -35,6 +35,10 @@ const SETTINGS = {
         for(let key in settings){
             if(_s.hasOwnProperty(key)){
                 _s[key] = settings[key];
+                if (_s[key] === 'true')
+                    _s[key] = true;
+                if (_s[key] === 'false')
+                    _s[key] = false;
             }
         }
     }

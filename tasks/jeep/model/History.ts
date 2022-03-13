@@ -1,4 +1,4 @@
-import {Step} from "./Step";
+import {MoveTo, PickOrPut, Step, StepType} from "./Step";
 import {FieldState} from "./FieldState";
 
 export class History {
@@ -36,7 +36,23 @@ export class History {
     }
 
     insert(index: number, step: Step): void {
-        this._steps.splice(index, 0, step);
+        let previous_step_type = index == 0 ? StepType.DRIVE : this._steps[index - 1].type;
+        let new_step_type = step.type;
+        // [state 0] - [step 0] - [state 1] - [step 1] - [state 2]
+        if (index <= this._steps.length - 1) {
+            let last_state = this.state(index);
+            if (new_step_type === StepType.DRIVE && previous_step_type === StepType.FUEL) {
+                this._steps.splice(index, 0, step, new PickOrPut(0));
+            } else if (new_step_type === StepType.FUEL && previous_step_type === StepType.DRIVE) {
+                this._steps.splice(index, 0, step, new MoveTo(last_state.car_position));
+            } else if (new_step_type === StepType.DRIVE && previous_step_type === StepType.DRIVE) {
+                this._steps.splice(index, 0, new PickOrPut(0), step);
+            } else if (new_step_type === StepType.FUEL && previous_step_type === StepType.FUEL) {
+                this._steps.splice(index, 0, new MoveTo(last_state.car_position), step);
+            }
+        } else {
+            this._steps.splice(index, 0, step);
+        }
         this.fire_update();
         this.update_field_states(index);
     }
@@ -72,7 +88,7 @@ export class History {
 
         let n = this.size;
         for (let i = index; i < n; i++) {
-            let next_step = this._steps[index];
+            let next_step = this._steps[i];
             if (!next_step.change_possible(last_state))
                 break;
             let next_state = next_step.change_state(last_state);

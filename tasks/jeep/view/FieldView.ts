@@ -136,6 +136,8 @@ export class FieldView {
             this.ctx.fill();
             this.ctx.setLineDash([5, 5]);
             this.ctx.stroke();
+
+            //TODO draw car in the center of circle
         }
 
         this.ctx.restore();
@@ -203,7 +205,8 @@ export class FieldView {
         c.save();
         c.translate(x, y);
         c.rotate(this._r);
-        c.drawImage(jeep, 0, 0, w, h, - w / 2, - h / 2, w, h);
+        let k = this._d / w;
+        c.drawImage(jeep, 0, 0, w, h, - k * w / 2, - k * h / 2, k * w, k * h);
         c.restore();
 
         //draw fuel info

@@ -107,6 +107,24 @@ export class HistoryView {
         this.update();
     }
 
+    may_update_next_step(new_step: Step): boolean {
+        if (this.current_index === this.history.size - 1)
+            return this.may_insert_next(new_step);
+
+        let state = this.history.state(this.current_index + 1);
+        return new_step.change_possible(state);
+    }
+
+    update_next_step(new_step: Step): void {
+        if (this.current_index === this.history.size - 1) {
+            this.insert_next(new_step);
+        } else {
+            this.history.update(this._current_index + 1, new_step);
+            this._current_index++;
+            this.update();
+        }
+    }
+
     may_insert_next(new_step: Step): boolean {
         // [state 0] - [step 0] - [state 1] - [step 1] - [state 2] - ...
         let state = this.history.state(this.current_index + 1);

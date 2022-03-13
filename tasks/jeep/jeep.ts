@@ -28,11 +28,11 @@ export class Jeep implements KioTask {
 
         this.field = new LinearField(
             this,
-            [50, 550],
-            [550, 50],
-            10,
-            600,
-            600
+            [50, 50],
+            [850, 50],
+            32,
+            900,
+            120
         );
         let initial_state = FieldState.create(this.field);
         this.history = new History([new PickOrPut(0)], FieldState.create(this.field));
@@ -53,7 +53,7 @@ export class Jeep implements KioTask {
         domNode.innerHTML = `<div style="background: url('jeep-resources/sand.jpg')">
                 <canvas
                     style="display: inline-block; vertical-align: top"
-                    width="600" height="600"
+                    width="900" height="120"
                     class="task-canvas"
                 ></canvas><div style="display: inline-block; vertical-align: top">
                     <div class="task-history"></div>
@@ -145,7 +145,8 @@ export class Jeep implements KioTask {
         if (current_step != null && current_step.type == StepType.FUEL)
             this.history_view.update_current_step(new_step);
         else
-            this.history_view.insert_next(new_step);
+            // this.history_view.insert_next(new_step);
+            this.history_view.update_next_step(new_step);
     }
 
     car_position_change(new_position: Position) {
@@ -155,8 +156,9 @@ export class Jeep implements KioTask {
             if (this.history_view.may_update_current_step(new_step))
                 this.history_view.update_current_step(new_step);
         } else {
-            if (this.history_view.may_insert_next(new_step))
-                this.history_view.insert_next(new_step);
+            if (this.history_view.may_update_next_step(new_step))
+                // this.history_view.insert_next(new_step);
+                this.history_view.update_next_step(new_step);
         }
     }
 
@@ -179,7 +181,7 @@ export class Jeep implements KioTask {
         let state_for_fuel_info: FieldState = step.type === StepType.FUEL ? previous_state : next_state;
         this.slider.max_value = state_for_fuel_info.possible_to_pick();
         this.slider.min_value = -state_for_fuel_info.car_fuel;
-        this.slider.value_no_fire = StepType.DRIVE ? 0 : (step as PickOrPut).amount;
+        this.slider.value_no_fire = step.type == StepType.DRIVE ? 0 : (step as PickOrPut).amount;
 
         this.field_view.field_state = next_state;
         //    pick - move - put - move

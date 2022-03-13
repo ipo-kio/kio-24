@@ -28,10 +28,11 @@ export class Jeep implements KioTask {
     constructor(settings: KioTaskSettings) {
         this._constants = new Constants(settings);
 
+        let h = 46 + 2 + 63 / 2 + 2;
         this.field = new LinearField(
             this,
-            [30, 70],
-            [870, 70],
+            [30, h],
+            [870, h],
             32,
             900,
             140

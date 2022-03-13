@@ -56,7 +56,7 @@ function setAllEndCircleClick(){
 
 
 function lineMouseEnter(data, e){
-    e.target.classList.add("black");
+    e.target.classList.add("lineHover");
     if(data.children.length === 0){
         data.endCircle.classList.remove("hidden");
     }
@@ -86,7 +86,7 @@ function lineMouseEnter(data, e){
 }
 
 function lineMouseLeave(data, e){
-    e.target.classList.remove("black");
+    e.target.classList.remove("lineHover");
     if(data.children.length === 0){
         data.endCircle.classList.add("hidden");
     }
@@ -108,7 +108,7 @@ function endCircleClick(data, e){
         CNV.querySelectorAll(".finishLine").forEach(el => el.classList.remove("finishLine"));
 
         //Против бага, что после нажатия линия остаётся чёрной
-        data.line.classList.remove("black");
+        data.line.classList.remove("lineHover");
 
         //вести можно только 2 линии, не больше
         if(data.children.length < BRANCHES){

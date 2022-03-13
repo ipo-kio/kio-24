@@ -209,7 +209,6 @@ function analyze(lines) {
 
     //removeFakeLine(newLines, startLines[0]);
 
-    console.log("NUMERIC_POWER", NUMERIC_POWER);
     if(!NUMERIC_POWER){
         CNV.combineRender(() => {
             newLines.forEach((line, index) => {
@@ -228,7 +227,6 @@ function analyze(lines) {
         })
     } else {
         step(startLines[0], new Fraction(START_POWER));
-        console.log("step");
         if(REDUCING_LINES){
             CNV.combineRender(() => {
                 newLines.forEach((line, index) => {

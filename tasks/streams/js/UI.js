@@ -62,14 +62,14 @@ function UIhandlers(){
 
     delLineBtn.onclick = e => {
         setDelMode();
-        delLineBtn.classList.add("del_active");
-        drawLineBtn.classList.remove("pen_active");
+        delLineBtn.classList.add("btn_active");
+        drawLineBtn.classList.remove("btn_active");
     }
 
     drawLineBtn.onclick = e => {
         setDrawingMode();
-        delLineBtn.classList.remove("del_active");
-        drawLineBtn.classList.add("pen_active");
+        delLineBtn.classList.remove("btn_active");
+        drawLineBtn.classList.add("btn_active");
     }
 
     // awardBtn.onclick = e => {

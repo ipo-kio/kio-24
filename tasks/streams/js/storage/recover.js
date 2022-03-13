@@ -13,6 +13,8 @@ import save from "./save";
 
 
 function recover(data){
+    console.log("recover, data", data);
+
     const disk = JSON.parse(data || localStorage.getItem("__saved"));
     CNV.recover(disk.CNV);
     let script = JSON.parse(disk.SCRIPT);

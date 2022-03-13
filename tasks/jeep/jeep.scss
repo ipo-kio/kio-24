@@ -1,13 +1,18 @@
+$history_width: 20em;
+$history_height: 25em;
+
 .task-history {
 
   background-color: rgba(255, 252, 47, 0.6);
   overflow: scroll;
   display: inline-block;
-  width: 300px;
+  float: right;
+  width: $history_width;
   height: 400px;
   border: 2px solid orange;
   box-sizing: border-box;
   padding: 0.4em;
+  vertical-align: top;
 
   ol {
     font-family: sans-serif;
@@ -51,4 +56,11 @@
       color: #ff3c00;
     }
   }
+}
+
+.task-controls {
+  display: block;
+  margin-right: $history_width + 1em;
+  margin-left: 1em;
+  vertical-align: top;
 }

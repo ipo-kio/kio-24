@@ -15,6 +15,8 @@ export class Jeep implements KioTask {
     private _kioapi: KioApi;
     private domNode: HTMLElement;
     private level: number;
+    private canvas: HTMLCanvasElement;
+    private controls: HTMLDivElement;
 
     private history: History;
     private field: Field;
@@ -28,11 +30,11 @@ export class Jeep implements KioTask {
 
         this.field = new LinearField(
             this,
-            [50, 50],
-            [850, 50],
+            [30, 70],
+            [870, 70],
             32,
             900,
-            120
+            140
         );
         let initial_state = FieldState.create(this.field);
         this.history = new History([new PickOrPut(0)], FieldState.create(this.field));
@@ -52,18 +54,20 @@ export class Jeep implements KioTask {
 
         domNode.innerHTML = `<div style="background: url('jeep-resources/sand.jpg')">
                 <canvas
-                    style="display: inline-block; vertical-align: top"
+                    style="display: block"
                     width="900" height="120"
                     class="task-canvas"
-                ></canvas><div style="display: inline-block; vertical-align: top">
-                    <div class="task-history"></div>
-                    <div class="task-controls" style="width: 300px; height:200px"></div>
+                ></canvas><div style="display: block">
+                    <div class="task-history"></div><div class="task-controls"></div>
+                    <div style="clear: both"></div>
                 </div>
             </div>`;
         let canvas = domNode.getElementsByClassName('task-canvas')[0] as HTMLCanvasElement;
         let history = domNode.getElementsByClassName('task-history')[0] as HTMLDivElement;
         let controls = domNode.getElementsByClassName('task-controls')[0] as HTMLDivElement;
         canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
+        this.canvas = canvas;
+        this.controls = controls;
 
         this.slider = new Slider(
             -5,
@@ -89,6 +93,16 @@ export class Jeep implements KioTask {
         this.field_view.field_state = this.history.initial_state;
 
         this.history_updated();
+
+        let viewportResizeObserver = new ResizeObserver(entries => this.resize_elements());
+        viewportResizeObserver.observe(domNode);
+        this.resize_elements();
+    }
+
+    resize_elements() {
+        this.field_view.width = this.domNode.clientWidth;
+        this.slider.resize(this.controls.clientWidth);
+        this.field_view.redraw();
     }
 
     parameters(): KioParameterDescription[] {
@@ -121,7 +135,8 @@ export class Jeep implements KioTask {
             {id: "barrel", src: "jeep-resources/SteelBarrel.png"},
             {id: 'slider', src: "jeep-resources/slider.png"},
             {id: 'slider-hover', src: "jeep-resources/slider-hover.png"},
-            {id: 'slider-line', src: "jeep-resources/slider-line.png"}
+            {id: 'slider-line', src: "jeep-resources/slider-line.png"},
+            {id: 'cactus', src: "jeep-resources/cactus.png"}
         ];
     };
 

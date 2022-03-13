@@ -23,7 +23,29 @@ import UIhandlers from "./js/UI";
 class Streams {
     constructor(settings) {
         Store.API = this;
+
+        if ('level' in settings) {
+            let level = +settings.level;
+            switch (level) {
+                case 0:
+                    settings.NUMERIC_POWER = true;
+                    settings.START_POWER = 274;
+                    settings.LOOPS = false;
+                    settings.MERGES = true;
+                    settings.ALLOW_COLLISIONS = true;
+                    settings.TASK = ['' + 215, '' + (274 - 215)];
+                    break;
+                case 1:
+                    settings.TASK = ["13/27", "14/27"];
+                    break;
+                case 2:
+                    settings.TASK = ["19/53", "34/53"];
+                    break;
+            }
+        }
+
         this.settings = settings;
+        console.log('settings', settings);
     }
     id(){
         return "streams" + this.settings.level;
@@ -182,53 +204,62 @@ class Streams {
     }
     parameters() {
         console.log("params");
-        const params = [
-            {
-                name: "number_of_branches", //название параметра
-                title: "Количество делений потка: ", //отображение названия для пользователя
-                ordering: 'minimize', // 'maximize' - надо как можно больше, 'minimize' - как можно меньше
-                view: "", // отображение значения параметра пользователю. Можно не указывать.
-                          // Если задана строка, как в этом примере, она означает постфикс, т.е. если значение
-                          // параметра равно, например, 42, пользователь увидит 42ш.
-                          // Либо это может быть функция от одного аргумента, значения параметра, она
-                          // должна возвращать строку для отображения пользователю,
-            },
-            {
-                name: "number_of_finish",
-                title: "Количество стоков: ",
-                ordering: 'minimize',
-            },
-            {
-                name: "number_of_loops",
-                title: "Количество петель: ",
-                ordering: 'minimize',
-            },
-            {
-                name: "number_of_mergers",
-                title: "Количество слияний: ",
-                ordering: 'minimize',
-            },
-            {
-                name: "number_of_results",
-                title: "Результат: ",
-                ordering: 'maximize',
-                view: "%"
-            },
-        ];
+        let number_of_branches = {
+            name: "number_of_branches", //название параметра
+            title: "Количество делений потка: ", //отображение названия для пользователя
+            ordering: 'minimize', // 'maximize' - надо как можно больше, 'minimize' - как можно меньше
+            view: "", // отображение значения параметра пользователю. Можно не указывать.
+                      // Если задана строка, как в этом примере, она означает постфикс, т.е. если значение
+                      // параметра равно, например, 42, пользователь увидит 42ш.
+                      // Либо это может быть функция от одного аргумента, значения параметра, она
+                      // должна возвращать строку для отображения пользователю,
+        };
+        let number_of_finish = {
+            name: "number_of_finish",
+            title: "Количество стоков: ",
+            ordering: 'minimize',
+        };
+        let number_of_loops = {
+            name: "number_of_loops",
+            title: "Количество петель: ",
+            ordering: 'minimize',
+        };
+        let number_of_merges = {
+            name: "number_of_mergers",
+            title: "Количество слияний: ",
+            ordering: 'minimize',
+        };
+        let number_of_results = {
+            name: "number_of_results",
+            title: "Результат: ",
+            ordering: 'maximize',
+            view: "%"
+        };
+        let number_of_collisions = {
+            name: "number_of_collision",
+            title: "Пересечений: ",
+            ordering: 'minimize',
+            view: ""
+        };
 
-        if(SETTINGS.getAll().SHOW_NUMBER_OF_COLLISION){
-            params.push(
-                {
-                    name: "number_of_collision",
-                    title: "Пересечений: ",
-                    ordering: 'minimize',
-                    view: ""
-                },
-            )
-        }
+        const params = [];
+
+        params.push(number_of_branches, number_of_finish);
+        let loops = true;
+        //TODO неудобно доставать данные из settings, сначала их надо обработать. Сейчас есть обработка через глобальный SETTINGS, это не подходит для вызова через Java
+        if ('LOOPS' in this.settings)
+            loops = this.settings.LOOPS === 'true' || this.settings.LOOPS === true;
+        if (loops)
+            params.push(number_of_loops);
+        params.push(number_of_merges, number_of_results);
+
+        let show_number_of_collision = true;
+        if ('SHOW_NUMBER_OF_COLLISION' in this.settings)
+            show_number_of_collision = this.settings.SHOW_NUMBER_OF_COLLISION === 'true' || this.settings.SHOW_NUMBER_OF_COLLISION === true;
+        if (show_number_of_collision)
+            params.push(number_of_collisions);
 
         return params;
-
     };
     solution() {
         return save({dont_save: true});

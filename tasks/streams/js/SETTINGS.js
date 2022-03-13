@@ -13,6 +13,7 @@ _s.NUMERIC_POWER = false;
 _s.REDUCING_LINES = true;
 _s.LINE_WIDTH_MIN = 3;
 _s.LINE_WIDTH = 10;
+_s.CIRCLE_RADIUS = _s.LINE_WIDTH / 2;
 _s.LINE_DIVISION = 1.1;
 
 

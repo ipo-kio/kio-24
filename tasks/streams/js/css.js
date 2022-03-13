@@ -5,51 +5,74 @@ const css = {
     },
 
     lineWarning: {
-        color: "red",
+        color: "#ff6840",
     },
 
-    line: {
-        color: "#99D9EA",
+    lineRiver: {
+        color: "#5adcff",
         lineWidth: 10,
     },
 
-    innerLine: {
+    lineRoad: {
+        color: "#899167",
+        lineWidth: 10,
+        border: "3px solid white",
+    },
+
+    innerLineRiver: {
         color: "black",
         lineWidth: "1",
+    },
+
+    innerLineRoad: {
+        color: "white",
+        lineWidth: "1",
+        dash: true,
     },
 
     black: {
         color: "black",
     },
+
+    lineHover: {
+        color: "#00aeef",
+    },
+
+    circleHover: {
+        color: "#1c75bc",
+    },
+
     pointer:{
         color: "black",
         radius: 3,
     },
 
     startCircle: {
-        color: "#99D9EA",
+        color: "#fff",
     },
 
     endCircle:{
-        color: "#99D9EA",
+        color: "#fff",
         radius: 8,
         zIndex: 1,
     },
     endCircleActive:{
-        color: "black",
+        color: "#1A75BC",
     },
     stickyCircle:{
-        radius: 10,
-        color: "blue"
+        radius: 15,
+        color: "#1A75BC",
+        border: "2px solid white",
+        zIndex: 999,
     },
     finishLine:{
         color: "blue",
     },
     finishText: {
-        color: "green",
-        fontFamily: "sans-serif",
+        color: "#000000",
+        fontFamily: "Arial",
         backgroundColor: "white",
-        padding: 2,
+        padding: 3,
     },
     finishText2: {
         color: "green",
@@ -57,7 +80,7 @@ const css = {
         fontFamily: "Arial bold",
         backgroundColor: "white",
         zIndex: 999,
-        padding: 4,
+        padding: 15,
     },
     stickyLine: {
         color: "gray",

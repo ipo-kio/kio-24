@@ -32,6 +32,25 @@ class Streams {
         this.kioapi = kioapi;
         this.domNode = domNode;
         SETTINGS.set(this.settings);
+        // this.settings.level = 1;
+        if(this.settings.level !== undefined){
+            if(Number(this.settings.level) === 0){
+                css.line = css.lineRoad;
+                css.innerLine = css.innerLineRoad;
+                SETTINGS.changeProperty("CIRCLE_RADIUS", SETTINGS.LINE_WIDTH / 2 + 1.5);
+            } else if(Number(this.settings.level) === 0 || Number(this.settings.level) === 1){
+                css.line = css.lineRiver;
+                css.innerLine = css.innerLineRiver;
+
+            } else {
+                css.line = css.lineRiver;
+                css.innerLine = css.innerLineRiver;
+            }
+        } else {
+            css.line = css.lineRiver;
+            css.innerLine = css.innerLineRiver;
+        }
+
         //window.problem.hidden = true;
         // let power = prompt("Введите входную мощность");
         // let outer = prompt("Введите выходные выходные мощности через точку с запятой. Пример: 1/4;3/4");
@@ -49,50 +68,47 @@ class Streams {
             LOOPS, MERGES, FINISH_LIMITS  } = SETTINGS.getAll();
 
         domNode.innerHTML = `
-                            <div class="dark hidden"></div>
-
-                            <canvas id="canvas">
-                            </canvas>
-                            
-<!--                            <button id="btn_award" class="btn_reset">-->
-<!--                                <i class="fas fa-award"></i>-->
-<!--                            </button>-->
-<!--                            <button id="btn_info" class="btn_reset hidden">-->
-<!--                                <i class="fas fa-info"></i>-->
-<!--                            </button>-->
-<!--                            <button id="btn_save" class="btn_reset">-->
-<!--                                <i class="fas fa-save"></i>-->
-<!--                            </button>-->
-                            <button id="btn_pen" class="btn_reset pen_active">
-                                Строить
-                                <i class="fas fa-pen"></i>
-                            </button>
-                            <button id="btn_delete" class="btn_reset">
-                                Удалить
-                                <i class="fas fa-backspace"></i>
-                            </button>
-                            <button id="btn_prev" class="btn_reset">
-                                Назад
-                            </button>
-                            <button id="btn_next" class="btn_reset">
-                                Вперед
-                            </button>
-                            
-                            <div class="warning hidden">
-                            
+                            <div class="wrapper">
+                                 <div class="dark hidden"></div>
+    
+                                <canvas id="canvas">
+                                </canvas>
+                                
+    <!--                            <button id="btn_award" class="btn_reset">-->
+    <!--                                <i class="fas fa-award"></i>-->
+    <!--                            </button>-->
+    <!--                            <button id="btn_info" class="btn_reset hidden">-->
+    <!--                                <i class="fas fa-info"></i>-->
+    <!--                            </button>-->
+    <!--                            <button id="btn_save" class="btn_reset">-->
+    <!--                                <i class="fas fa-save"></i>-->
+    <!--                            </button>-->
+                                <div class="buttonWrapper">
+                                    <button id="btn_pen" class="btn_reset btn btn_active">
+                                        <div class="innerBtn"></div>
+                                    </button>
+                                    <button id="btn_delete" class="btn_reset btn">
+                                        <div class="innerBtn"></div>
+                                    </button>
+                                    <button id="btn_prev" class="btn_reset btn">
+                                        <div class="innerBtn"></div>
+                                    </button>
+                                    <button id="btn_next" class="btn_reset btn">
+                                        <div class="innerBtn"></div>
+                                    </button>
+                                </div>
+                                
+                                
+                                <div class="warning hidden">
+                                
+                                </div>
+                                
+                                <div class="setting_warning hidden">
+                                    <ul id="setting_list"></ul>
+                                </div>
+                         
+                                <input class="saved_code">
                             </div>
-                            
-                            <div class="setting_warning hidden">
-                                <ul id="setting_list"></ul>
-                            </div>
-                            <!--<h2 id="mode">Режим: рисование</h2>-->
-                            <input class="saved_code">
-                            <!--<button id="delLine">Удалить линию</button>-->
-<!--                            <button id="save">Скопировать код</button>-->
-<!--                            <input id="recover_input" placeholder="Вставить код">-->
-<!--                            <button id="recover_btn">Восстановить</button>-->
-<!--                            <input class="saved_code">-->
-
                     `;
 
 
@@ -131,6 +147,16 @@ class Streams {
             canvas.style.backgroundPositionY = y + "px";
             canvas.style.backgroundPositionX = x + "px";
         };
+        if(this.settings.level !== undefined){
+            if(Number(this.settings.level) === 0){
+                canvas.style.background = "url(streams-resources/road_bg_550.jpg)";
+            } else {
+                canvas.style.background = "url(streams-resources/river_bg_550.jpg)";
+            }
+        } else {
+            canvas.style.background = "url(streams-resources/river_bg_550.jpg)";
+        }
+
 
         canvas.addEventListener("click", e => {
             if(window.pageYOffset !== 0) {

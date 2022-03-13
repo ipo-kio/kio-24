@@ -15,9 +15,7 @@ function render(props){
         context: props.context,
         canvas: props.canvas,
     })
-
     const preRender = cssIndex(props.css, props.elements);
-
     preRender.keys.forEach(key => {
         let shapes = preRender.shapes[key];
         shapes.forEach(shape => {
@@ -28,6 +26,10 @@ function render(props){
                 shift: props.shift,
                 zoom: props.zoom,
             }
+            // if(shape.type === "__POINTERS_RENDER"){
+            //     console.log("__POINTERS_RENDER", shape, config);
+            // }
+
             if(shape.type === "line") lineRender(config);
             else if(shape.type === "circle") circleRender(config);
             else if(shape.type === "text") textRender(config);

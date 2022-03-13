@@ -158,7 +158,6 @@ const shiftDownHandler = (e) => {
                         while(true){
                             let curObj = objects[0];
                             if(!curObj) break;
-                            console.log("mouseMove 4 line loop");
                             let sideInCoors = getBlackPointCoord({
                                 start: curObj.line.link.start,
                                 end: curObj.line.link.end,
@@ -180,7 +179,7 @@ const shiftDownHandler = (e) => {
                 }
 
                 function mouseLeave(e){
-                    e.target.classList.remove("black");
+                    e.target.classList.remove("lineHover");
 
 
                     store.canvas.style.cursor = "default";
@@ -195,7 +194,7 @@ const shiftDownHandler = (e) => {
                 function lineMouseEnter(obj){
                     obj.line.onmouseenter = e => {
                         resetAllBut(obj);
-                        obj.line.classList.add("black");
+                        obj.line.classList.add("lineHover");
                         store.canvas.style.cursor = "move";
                         store.canvas.onmousedown = e => {
                             CNV.querySelectorAll(".finishText2").forEach(item => item.remove());
@@ -225,12 +224,12 @@ const shiftDownHandler = (e) => {
                     let item = obj.endCircle;
                     item.onmouseenter = (e) => {
                         resetAllBut(obj);
-                        item.classList.add("black");
+                        item.classList.add("#1c75bc");
                         item.classList.remove("hidden");
 
                         obj.children.forEach(child => {
                             child.line.mouseenter = undefined;
-                            child.line.classList.remove("black");
+                            child.line.classList.remove("lineHover");
                         })
 
                         obj.line.onmouseenter = undefined;
@@ -243,7 +242,7 @@ const shiftDownHandler = (e) => {
                                 item.onmouseleave = undefined;
                             }
                             store.canvas.onmouseup = e => {
-                                item.classList.remove("black");
+                                item.classList.remove("#1c75bc");
                                 set();
                                 if(e.button === 0) {
                                     document.onmousemove = undefined;
@@ -298,7 +297,7 @@ const shiftUpHandler = (e) => {
         for(let key in store.state.lines) {
             let obj = store.state.lines[key];
             let item = obj.endCircle;
-            obj.line.classList.remove("black");
+            obj.line.classList.remove("lineHover");
 
             obj.line.onmouseenter = e => lineMouseEnter(obj, e);
             obj.line.onmouseleave = e => lineMouseLeave(obj, e);

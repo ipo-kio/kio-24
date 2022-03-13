@@ -8,6 +8,12 @@ function circleRender(props){
         ownStyle: props.link.style,
     });
     if(!(style.visibility === "hidden")){
+        if(style.border){
+            props.context.beginPath();
+            props.context.fillStyle = style.border.color;
+            props.context.arc(props.link.start.x + props.shift.x, props.link.start.y + props.shift.y, style.radius + style.border.width, style.startAngle, style.endAngle);
+            props.context.fill();
+        }
         props.context.beginPath();
         props.context.fillStyle = style.color;
         props.context.arc(props.link.start.x + props.shift.x, props.link.start.y + props.shift.y, style.radius, style.startAngle, style.endAngle);

@@ -1,7 +1,16 @@
 import CNV from "../../library";
+import {cssEngine} from "../cssEngine/cssEngine";
 const {getEquationFor2points, moveTo, getEquationForLine, getCoordinates} = require("../geometry/geometry");
 
-function pointer(line, context, shift){
+function pointer(line, {context, shift, ...props}){
+    //console.log("pointer", props);
+    const style = cssEngine({
+        css: props.css,
+        classes: line.classList,
+        type: "line",
+        ownStyle: line.style,
+    });
+
     const config = {
         x0: line.start.x + shift.x,
         y0: line.start.y + shift.y,
@@ -27,7 +36,7 @@ function pointer(line, context, shift){
 
     let startPoint = moveTo(equation, -triangleRadius, linePosition.x);
     let endPoint = moveTo(equation, triangleRadius, linePosition.x);
-    context.fillStyle = "black";
+    context.fillStyle = style.color//style.color;
     context.beginPath();
     context.moveTo(startPoint.x, startPoint.y);
     context.lineTo(endPoint.x, endPoint.y);
@@ -38,8 +47,8 @@ function pointer(line, context, shift){
 function pointersRender(props){
     //console.log(CNV);
     CNV.querySelectorAll("line").forEach(shape => {
-        if(shape.isPointer ){
-            pointer(shape.link, props.context, props.shift);
+        if(shape.isPointer){
+            pointer(shape.link, props);
         }
     })
 }

@@ -88,4 +88,8 @@ export class FieldState {
     get str() {
         return `${this.car_fuel} at ${this.car_position.index} (${this.values.join(',')})`;
     }
+
+    get field_length() {
+        return this.values.length;
+    }
 }

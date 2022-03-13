@@ -7,9 +7,14 @@ export class History {
     private _initial_state: FieldState;
     private list_of_states: FieldState[] = null;
 
+    private _max_far: number;
+    private _max_far_with_return: number;
+    private _total_fuel: number;
+
     constructor(steps: Step[], initial_state: FieldState) {
         this._steps = steps;
         this._initial_state = initial_state;
+        this.update_field_states();
     }
 
     get steps(): Step[] {
@@ -33,6 +38,37 @@ export class History {
         this._steps[index] = step;
         this.fire_update();
         this.update_field_states(index);
+    }
+
+    evaluate_parameters() {
+        let current_far = 0;
+        let max_far = 0;
+        let max_far_with_return = 0;
+        let total_fuel = 0;
+        for (let i = 0; i < this.list_of_states.length; i++) {
+            let state = this.list_of_states[i];
+            current_far = state.car_position.index;
+            if (current_far > max_far)
+                max_far = current_far;
+
+            if (current_far == 0 || current_far == this._initial_state.field_length - 1) {
+                if (max_far > max_far_with_return)
+                    max_far_with_return = max_far;
+            }
+
+            if (i < this.list_of_states.length - 1) {
+                let step = this._steps[i];
+                if (step.type == StepType.FUEL && current_far == 0) {
+                    let amount = (step as PickOrPut).amount;
+                    if (amount > 0)
+                        total_fuel += amount;
+                }
+            }
+        }
+
+        this._max_far = max_far;
+        this._max_far_with_return = max_far_with_return;
+        this._total_fuel = total_fuel;
     }
 
     insert(index: number, step: Step): void {
@@ -95,6 +131,7 @@ export class History {
             this.list_of_states.push(next_state);
             last_state = next_state;
         }
+        this.evaluate_parameters();
         this.fire_update();
     }
 
@@ -107,5 +144,17 @@ export class History {
 
     get initial_state(): FieldState {
         return this._initial_state;
+    }
+
+    get max_far(): number {
+        return this._max_far;
+    }
+
+    get max_far_with_return(): number {
+        return this._max_far_with_return;
+    }
+
+    get total_fuel(): number {
+        return this._total_fuel;
     }
 }

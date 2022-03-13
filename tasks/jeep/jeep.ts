@@ -109,18 +109,24 @@ export class Jeep implements KioTask {
     parameters(): KioParameterDescription[] {
         return [
             {
-                name: "steps",
-                title: "Количество шагов",
-                ordering: 'maximize',
-                view: "ш"
+                name: "far_with_return",
+                title: "Дальность с возвращением",
+                ordering: 'maximize'
             },
             {
-                name: "max",
-                title: "Максимальное число",
-                ordering: 'minimize',
-                view: function (val) {
-                    return '[' + val + ']'
-                }
+                name: "far",
+                title: "Дальность",
+                ordering: 'maximize'
+            },
+            {
+                name: "total_fuel",
+                title: "Использовано топлива",
+                ordering: 'minimize'
+            },
+            {
+                name: "steps",
+                title: "Количество шагов",
+                ordering: 'minimize'
             }
         ];
     }
@@ -203,6 +209,13 @@ export class Jeep implements KioTask {
         //    pick - move - put - move
         // s0     s1     s2     s3    s4
         //        *             *
+
+        this.kioapi.submitResult({
+            "far": this.history.max_far,
+            "far_with_return": this.history.max_far_with_return,
+            "total_fuel": this.history.total_fuel,
+            "steps": this.history.last_correct_step_index + 1
+        });
     }
 }
 

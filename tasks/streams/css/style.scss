@@ -12,9 +12,12 @@ body{
     padding: 0;
     display: block;
     font-size: 30px;
-    background: url("streams-resources/back256.jpg");
+    //background: url("streams-resources/river_bg_550.jpg");
 }
-
+.wrapper{
+    position: relative;
+    overflow: hidden;
+}
 .saved_code{
     display: inline-block;
     position: absolute;
@@ -28,18 +31,21 @@ body{
 .warning{
     position: absolute;
     left: 50%;
-    top: 10px;
+    bottom: 10px;
     transform: translateX(-50%);
-    padding: 7px;
-    border: 3px solid lightcoral;
+    padding: 12px;
+    //border: 3px solid lightcoral;
+    background-color: #FE673C;
+    border-radius: 8px;
     font-weight: bold;
-    max-width: 450px;
-    transition: transform 0.3s ease;
-    font-family: Arial;
+    max-width: 470px;
+    transition: all 1s ease;
+    font-family: Arial, sans-serif;
     color: white;
 }
 .warning.hidden{
-    transform: translateY(-1000px);
+    transition: all 1s ease;
+    transform: translateY(-1px);
 }
 .dark{
     position: absolute;
@@ -74,6 +80,45 @@ body{
 
 .hidden{
     display: none;
+}
+.buttonWrapper{
+    display: grid;
+    grid-template-columns: repeat(4, 34px);
+    grid-gap: 14px;
+    position: absolute;
+    bottom: 17px;
+    left: 17px;
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 34px;
+    width: 34px;
+    border-radius: 8px;
+    background-color: #8dc63f;
+}
+.btn:hover{
+    background-color: #fbb040;
+}
+.btn_active{
+    background-color: #fbb040;
+}
+.innerBtn{
+    height: 20px;
+    width: 20px;
+}
+#btn_pen .innerBtn{
+    background: url("streams-resources/Button_pen.svg") no-repeat top center / cover;
+}
+#btn_delete .innerBtn{
+    background: url("streams-resources/Button_basket.svg") no-repeat top center;
+}
+#btn_prev .innerBtn{
+    background: url("streams-resources/Button_arrow_left.svg") no-repeat top center / cover;
+}
+#btn_next .innerBtn{
+    background: url("streams-resources/Button_arrow_right.svg") no-repeat top center / cover;
 }
 
 //.kio-base-info-panel.kio-base-results-info-panel{

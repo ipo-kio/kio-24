@@ -56,8 +56,12 @@ function save(options){
             item.classList.remove("finishLine");
             item.classList.add("__PLACE_FOR_FINISH_LINE")
         })
-        CNV.querySelectorAll(".black").forEach((item) => {
-            item.classList.remove("black");
+        // CNV.querySelectorAll(".black").forEach((item) => {
+        //     item.classList.remove("black");
+        //     item.classList.remove("lineHover");
+        // })
+        CNV.querySelectorAll(".lineHover").forEach((item) => {
+            item.classList.remove("lineHover");
         })
     })
     let saved = saveData(store.state, CNV.save(), options.dont_save);

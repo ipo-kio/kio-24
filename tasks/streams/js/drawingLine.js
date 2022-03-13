@@ -39,8 +39,12 @@ function drawingLine(data, finishCallback = () => {}){
         innerLine(data.line);
 
         analyze(Store.state.lines);
-        CNV.querySelectorAll(".black").forEach(item => {
-            item.classList.remove("black");
+        // CNV.querySelectorAll(".black").forEach(item => {
+        //     item.classList.remove("black");
+        //     item.classList.remove("lineHover");
+        // })
+        CNV.querySelectorAll(".lineHover").forEach(item => {
+            item.classList.remove("lineHover");
         })
 
     }

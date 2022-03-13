@@ -1,7 +1,4 @@
 import SETTINGS from "./SETTINGS";
-import Streams from "../API";
-import {logPlugin} from "@babel/preset-env/lib/debug";
-import save from "./storage/save";
 const {STACK_LIMIT} = SETTINGS.getAll();
 
 let Store = {
@@ -41,7 +38,6 @@ let Store = {
     },
 
     getStackNext(){
-        console.log("getStackNext")
         this.stack.current + 1 < this.stack.len ?
             this.stack.current += 1 :
             this.stack.current;
@@ -49,13 +45,11 @@ let Store = {
     },
 
     addToStack(data){
-        console.log("addToStack");
         if(this.stack.len !== this.stack.current + 1){
             for (let i = this.stack.current + 1; i < this.stack.stack_limit; i++) {
                 delete this.stack[i];
             }
             this.stack.len = this.stack.current + 1;
-            console.log("delete future stack");
         }
 
         if(this.stack.len < this.stack.stack_limit){

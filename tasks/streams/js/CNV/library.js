@@ -46,6 +46,7 @@ const CNV = {
         dragCanvas();
         this.canvas.addEventListener("mousemove", mouseMoveEngine.bind(this));
         this.canvas.addEventListener("click", mouseClickEngine.bind(this));
+        this.render();
     },
 
     settings: {

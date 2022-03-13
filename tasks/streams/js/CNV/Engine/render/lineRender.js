@@ -20,14 +20,31 @@ function lineRender(props){
     let yCheck = (props.link.check.y + props.shift.y) / props.zoom;
 
     if(!(style.visibility === "hidden")){
-        props.context.beginPath();
-        props.context.moveTo(x1, y1);
-        if(!props.link.pointer){
-            // props.context.lineTo(props.link.end.x + props.shift.x, props.link.end.y + props.shift.y);
-            // props.context.lineWidth = style.lineWidth;
-            // props.context.strokeStyle = style.color; //config.color;
-            // props.context.stroke();
+        //console.log("style.dashOffset", style.dashOffset);
+        if(style.dash){
+            props.context.setLineDash([6, 10]);
+        } else {
+            props.context.setLineDash([]);
+        }
 
+        if(!props.link.pointer){
+            if(style.border){
+                props.context.beginPath();
+                props.context.moveTo(x1, y1);
+                props.context.quadraticCurveTo(
+                    xCheck,
+                    yCheck,
+                    x2,
+                    y2,
+                );
+
+                props.context.lineWidth = style.lineWidth + style.border.width;
+                props.context.strokeStyle = style.border.color; //config.color;
+                props.context.stroke();
+            }
+
+            props.context.beginPath();
+            props.context.moveTo(x1, y1);
             props.context.quadraticCurveTo(
                 xCheck,
                 yCheck,
@@ -39,6 +56,8 @@ function lineRender(props){
             props.context.strokeStyle = style.color; //config.color;
             props.context.stroke();
         }else if(props.link.pointer && props.link.start.x === props.link.check.x && props.link.start.y === props.link.check.y){
+            props.context.beginPath();
+            props.context.moveTo(x1, y1);
             const shape = CNV.getElementByUniqueId(props.link.id);
             const equation = shape.system.equation;
             const endPosition = moveTo(equation, -5);
@@ -47,6 +66,8 @@ function lineRender(props){
             props.context.strokeStyle = style.color; //config.color;
             props.context.stroke();
         } else {
+            props.context.beginPath();
+            props.context.moveTo(x1, y1);
             // props.context.quadraticCurveTo(props.link.check.x, props.link.check.y, props.link.end.x, props.link.end.y);
             // props.context.lineWidth = style.lineWidth;
             // props.context.strokeStyle = style.color; //config.color;

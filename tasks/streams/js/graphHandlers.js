@@ -70,7 +70,7 @@ function createEdge(e, option = {}){
         y1: option.y0 || clientY,
         className: "line",
     })
-    const {LINE_WIDTH} = SETTINGS.getAll();
+    const {LINE_WIDTH, CIRCLE_RADIUS} = SETTINGS.getAll();
     line.style.lineWidth = LINE_WIDTH;
 
 
@@ -85,8 +85,8 @@ function createEdge(e, option = {}){
         className: ["endCircle", "hidden"],
 
     })
-    endCircle.style.radius = line.style.lineWidth / 2;
-    startCircle.style.radius = line.style.lineWidth / 2;
+    endCircle.style.radius = CIRCLE_RADIUS;
+    startCircle.style.radius = CIRCLE_RADIUS;
 
     //line.pointer = true;
 

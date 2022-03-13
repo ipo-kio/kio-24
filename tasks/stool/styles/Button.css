@@ -17,6 +17,11 @@ button{
     right: 10%;
     width: 14%;
     height: 5%;
+    background-color: #db9b71;
+}
+
+.RestartButton:hover{
+    background-color: #eab9a4;
 }
 
 .DropAndShowButton{
@@ -26,6 +31,7 @@ button{
     right: 10%;
     width: 14%;
     height: 5%;
+    background-color: #ddb56f;
 }
 
 .DropAndShowButton:hover{
@@ -38,6 +44,11 @@ button{
     right: 14%;
     width: 6%;
     height: 5%;
+    background-color: #e8d37c;
+}
+
+.DropButton:hover{
+    background-color: #fff0b0;
 }
 
 .BackMoveButton{
@@ -46,6 +57,11 @@ button{
     right: 14%;
     width: 6%;
     height: 5%;
+    background-color: #e8d37c;
+}
+
+.BackMoveButton:hover{
+    background-color: #fff0b0;
 }
 
 .ForwardMoveButton{
@@ -54,6 +70,11 @@ button{
     right: 14%;
     width: 6%;
     height: 5%;
+    background-color: #e8d37c;
+}
+
+.ForwardMoveButton:hover{
+    background-color: #fff0b0;
 }
 
 .LeftMoveButton{
@@ -62,13 +83,24 @@ button{
     right: 20.4%;
     width: 6%;
     height: 5%;
+    background-color: #e8d37c;
 }
+
+.LeftMoveButton:hover{
+    background-color: #fff0b0;
+}
+
 .RightMoveButton{
     position: absolute;
     top: 75%;
     right: 7.6%;
     width: 6%;
     height: 5%;
+    background-color: #e8d37c;
+}
+
+.RightMoveButton:hover{
+    background-color: #fff0b0;
 }
 
 .TransparentButton{
@@ -85,6 +117,11 @@ button{
     right: 7.6%;
     width: 6%;
     height: 5%;
+    background-color: #e8d37c;
+}
+
+.RightRotationButton:hover{
+    background-color: #fff0b0;
 }
 
 .LeftRotationButton{
@@ -93,43 +130,53 @@ button{
     right: 20.4%;
     width: 6%;
     height: 5%;
+    background-color: #e8d37c;
 }
 
-.rotationButton{
-    background-size: 100% 100%;
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    right: 6%;
-    bottom: 4%;
-    /*border: none;*/
+.LeftRotationButton:hover{
+    background-color: #fff0b0;
 }
 
 .degree01Button{
     position: absolute;
 
-    top: 60%;
+    top: 57%;
     right: 1%;
     width: 4%;
     height: 5%;
+    background-color: #b7ac76;
+}
+
+.degree01Button:hover{
+    background-color: #d6cda5;
 }
 
 .degree05Button{
     position: absolute;
 
-    top: 65%;
+    top: 63%;
     right: 1%;
     width: 4%;
     height: 5%;
+    background-color: #b7ac76;
+}
+
+.degree05Button:hover{
+    background-color: #d6cda5;
 }
 
 .degree1Button{
     position: absolute;
 
-    top: 70%;
+    top: 69%;
     right: 1%;
     width: 4%;
     height: 5%;
+    background-color: #b7ac76;
+}
+
+.degree1Button:hover{
+    background-color: #d6cda5;
 }
 
 .degree2Button{
@@ -139,24 +186,39 @@ button{
     right: 1%;
     width: 4%;
     height: 5%;
+    background-color: #b7ac76;
+}
+
+.degree2Button:hover{
+    background-color: #d6cda5;
 }
 
 .degree5Button{
     position: absolute;
 
-    top: 80%;
+    top: 81%;
     right: 1%;
     width: 4%;
     height: 5%;
+    background-color: #b7ac76;
+}
+
+.degree5Button:hover{
+    background-color: #d6cda5;
 }
 
 .degree10Button{
     position: absolute;
 
-    top: 85%;
+    top: 87%;
     right: 1%;
     width: 4%;
     height: 5%;
+    background-color: #b7ac76;
+}
+
+.degree10Button:hover{
+    background-color: #d6cda5;
 }
 
 input:hover{

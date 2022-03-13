@@ -59,7 +59,7 @@ class Plane {
         let color = new THREE.Color();
         for(let i=0; i<count; i++){
             let position = vertices[i*3 + 1];
-            color.setRGB(0.72, 0.65 + position/6, 0.88)
+            color.setRGB(123/255, 157/255 + position/6, 47/255)
             geometry.attributes.color.setXYZ(i, color.r, color.g, color.b);
         }
 
@@ -75,17 +75,15 @@ class Plane {
         this.planeMesh.receiveShadow = true;
         this.scene.add(this.planeMesh)
         this.scene.add(gridPlane)
-        //this.geoGrid(vertices);
     }
 
     geoGrid = (vertices) =>{
         for (let j = 1; j < vertices.length; j += 3) {
-            // x = vertices[j-1], z = vertices[j+1]
             let point2 = new Vector3(vertices[j-1], vertices[j], vertices[j+1]);
             let point1 = new Vector3(-this.df_dx(vertices[j-1], vertices[j+1]), 0, this.df_dz(vertices[j-1], vertices[j+1])).add(point2);
             let geoLine = new THREE.BufferGeometry().setFromPoints([point2, point1])
             this.scene.add(new THREE.Line(geoLine, new THREE.LineBasicMaterial({
-                color: 0x0000ff
+                color: "#68A848"
             })).translateY(0.1));
         }
     }

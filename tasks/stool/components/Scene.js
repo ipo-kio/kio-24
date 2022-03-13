@@ -20,7 +20,6 @@ class Scene extends Component {
         this.init();
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-        //this.camera.lookAt(0, 1, 0);
         this.controls.enableDamping = true
         this.controls.maxPolarAngle = 1.2
         this.controls.minPolarAngle = 0
@@ -56,16 +55,10 @@ class Scene extends Component {
 
     initLights = () => {
         const skyColor = 0xB1E1FF;  // light blue
-        const groundColor = 0xB97A20;  // brownish orange
         const intensity = 0.5;
         let light = new THREE.HemisphereLight(skyColor, 0xffffff, intensity);
         this.scene.add(light);
         let pointLight = new THREE.PointLight(0xffffff, 0.8)
-        // pointLight.position.x = 0
-        // pointLight.position.y = 2
-        // pointLight.position.z = 0
-        // this.scene.add(pointLight)
-        pointLight = new THREE.PointLight(0xffffff, 0.8)
         pointLight.position.x = 2
         pointLight.position.y = 7
         pointLight.position.z = 4
@@ -168,10 +161,7 @@ class Scene extends Component {
     }
 
     savePositionAndDrop = () =>{
-
         if(!this.chair.canMove()) return
-
-        // this.prevhR = this.chair.hR ? this.chair.hR : 2
         let angle = this.chair.angle
         this.chair.chair.rightRotation(angle)
         this.prevPosition = this.chair.chair.group.position.clone()

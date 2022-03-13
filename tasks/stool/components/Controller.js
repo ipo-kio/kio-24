@@ -114,6 +114,7 @@ class Controller extends Component{
                     <Toggle
                         defaultChecked={this.state.transparentChecked}
                         icons={false}
+                        className='Toggle'
                         onChange={this.TransparentSwitch} />
                 </div>
 

@@ -78,8 +78,8 @@ class Scene extends Component {
 
         //Size
         const sizes = {
-            width: window.innerWidth-29,
-            height: window.innerHeight-230
+            width: window.innerWidth-window.innerWidth*0.017,
+            height: window.innerHeight-window.innerHeight * 0.28
         }
         //Camera
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
@@ -111,8 +111,8 @@ class Scene extends Component {
 
         window.addEventListener('resize', () => {
             // Update sizes
-            sizes.width = window.innerWidth-29
-            sizes.height = window.innerHeight-230
+            sizes.width = window.innerWidth-window.innerWidth*0.017
+            sizes.height = window.innerHeight-window.innerHeight * 0.28
 
             // Update camera
             this.camera.aspect = sizes.width / sizes.height
@@ -207,9 +207,9 @@ class Scene extends Component {
                          RotateOn10Degree = {this.chair.RotateOn10Degree}
                          />
              <div className="info">
-                <button>X= {this.state.x}</button>
-                <button>Z= {this.state.z}</button>
-                <button>Angle= {this.state.angle}</button>
+                <button className='X'>X = {this.state.x}</button>
+                <button className='Z'>Z = {this.state.z}</button>
+                <button className='Angle'>Angle = {this.state.angle}</button>
             </div>
         </div>
 

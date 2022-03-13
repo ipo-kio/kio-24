@@ -81,7 +81,7 @@ class Physics {
 
             if (this.inDetail === true) {
                 let torus_position = new THREE.Vector3(this.chair.tips[curTipIndex].position.x,
-                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.footboard_height,
+                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.footboard_height + 0.1,
                     this.chair.tips[curTipIndex].position.z)
                 this.chair.torus(torus_position)
             }
@@ -136,10 +136,10 @@ class Physics {
 
             if (this.inDetail === true) {
                 let torus_position_1 = new THREE.Vector3(this.chair.tips[curTipIndex].position.x,
-                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.footboard_height,
+                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.footboard_height+ 0.1,
                     this.chair.tips[curTipIndex].position.z)
                 let torus_position_2 = new THREE.Vector3(this.chair.tips[curTipIndex].position.x,
-                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.tube * 4 + this.chair.footboard_height,
+                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.tube * 4 + this.chair.footboard_height + 0.1,
                     this.chair.tips[curTipIndex].position.z)
                 this.chair.torus(torus_position_1)
                 this.chair.torus(torus_position_2)
@@ -149,13 +149,13 @@ class Physics {
 
             if (this.inDetail === true) {
                 let torus_position_1 = new THREE.Vector3(this.chair.tips[curTipIndex].position.x,
-                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.footboard_height,
+                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.footboard_height+ 0.1,
                     this.chair.tips[curTipIndex].position.z)
                 let torus_position_2 = new THREE.Vector3(this.chair.tips[curTipIndex].position.x,
-                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.tube * 4 + this.chair.footboard_height,
+                    this.chair.tips[curTipIndex].position.y + this.chair.tube + this.chair.tube * 4 + this.chair.footboard_height+ 0.1,
                     this.chair.tips[curTipIndex].position.z)
                 let torus_position_3 = new THREE.Vector3(this.chair.tips[curTipIndex].position.x,
-                    this.chair.tips[curTipIndex].position.y + this.chair.tube + 2 * this.chair.tube * 4 + this.chair.footboard_height,
+                    this.chair.tips[curTipIndex].position.y + this.chair.tube + 2 * this.chair.tube * 4 + this.chair.footboard_height + 0.1,
                     this.chair.tips[curTipIndex].position.z)
                 this.chair.torus(torus_position_1)
                 this.chair.torus(torus_position_2)

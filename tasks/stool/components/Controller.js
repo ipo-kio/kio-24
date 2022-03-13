@@ -11,6 +11,8 @@ class Controller extends Component{
             transparentChecked: false,
             hR: 2
         };
+
+        this.hR = 2
     }
 
     drop = () =>{
@@ -62,31 +64,37 @@ class Controller extends Component{
 
     RotateOn01Degree = () =>{
         this.setState({hR: 0.1})
+        this.hR = 0.1
         this.props.RotateOn01Degree();
     }
 
     RotateOn05Degree = () =>{
         this.setState({hR: 0.5})
+        this.hR = 0.5
         this.props.RotateOn05Degree();
     }
 
     RotateOn1Degree = () =>{
         this.setState({hR: 1})
+        this.hR = 1
         this.props.RotateOn1Degree()
     }
 
     RotateOn2Degree = () =>{
         this.setState({hR: 2})
+        this.hR = 2
         this.props.RotateOn2Degree();
     }
 
     RotateOn5Degree = () =>{
         this.setState({hR: 5})
+        this.hR = 5
         this.props.RotateOn5Degree();
     }
 
     RotateOn10Degree = () =>{
         this.setState({hR: 10})
+        this.hR = 10
         this.props.RotateOn10Degree();
     }
 
@@ -106,15 +114,16 @@ class Controller extends Component{
                     <Toggle
                         defaultChecked={this.state.transparentChecked}
                         icons={false}
+                        className='Toggle'
                         onChange={this.TransparentSwitch} />
                 </div>
 
-                <input style = {{backgroundColor: this.state.hR === 0.1 ? '#ababab' : ''}} className="degree01Button" type='button' onClick={this.RotateOn01Degree} value="0.1°"/>
-                <input style = {{backgroundColor: this.state.hR === 0.5 ? '#ababab' : ''}} className="degree05Button" type='button' onClick={this.RotateOn05Degree} value="0.5°"/>
-                <input style = {{backgroundColor: this.state.hR === 1 ? '#ababab' : ''}} className="degree1Button" type='button' onClick={this.RotateOn1Degree} value="1°"/>
-                <input style = {{backgroundColor: this.state.hR === 2 ? '#ababab' : ''}} className="degree2Button" type='button' onClick={this.RotateOn2Degree} value="2°"/>
-                <input style = {{backgroundColor: this.state.hR === 5 ? '#ababab' : ''}} className="degree5Button" type='button' onClick={this.RotateOn5Degree} value="5°"/>
-                <input style = {{backgroundColor: this.state.hR === 10 ? '#ababab' : ''}} className="degree10Button" type='button' onClick={this.RotateOn10Degree} value="10°"/>
+                <input style = {{backgroundColor: this.state.hR === 0.1 ? '#fffff0' : ''}} className="degree01Button" type='button' onClick={this.RotateOn01Degree} value="0.1°"/>
+                <input style = {{backgroundColor: this.state.hR === 0.5 ? '#fffff0' : ''}} className="degree05Button" type='button' onClick={this.RotateOn05Degree} value="0.5°"/>
+                <input style = {{backgroundColor: this.state.hR === 1 ? '#fffff0' : ''}} className="degree1Button" type='button' onClick={this.RotateOn1Degree} value="1°"/>
+                <input style = {{backgroundColor: this.state.hR === 2 ? '#fffff0' : ''}} className="degree2Button" type='button' onClick={this.RotateOn2Degree} value="2°"/>
+                <input style = {{backgroundColor: this.state.hR === 5 ? '#fffff0' : ''}} className="degree5Button" type='button' onClick={this.RotateOn5Degree} value="5°"/>
+                <input style = {{backgroundColor: this.state.hR === 10 ? '#fffff0' : ''}} className="degree10Button" type='button' onClick={this.RotateOn10Degree} value="10°"/>
 
             </div>
         )

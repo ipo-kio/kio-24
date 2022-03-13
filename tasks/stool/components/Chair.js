@@ -10,13 +10,13 @@ class Chair{
         this.group = new THREE.Group()
 
         // footboards materials
-        this.material = new THREE.MeshStandardMaterial({color: "white", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1});
+        this.material = new THREE.MeshStandardMaterial({color: "#974112", bumpScale: 0.1, roughness: 0.8, metalness:0.3 , transparent: true, opacity: 1});
 
         // base materials
-        this.base_materials = new THREE.MeshStandardMaterial({color: "white", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1 })
+        this.base_materials = new THREE.MeshStandardMaterial({color: "#974112", bumpScale: 0.1, roughness: 0.8,metalness:0.3, transparent: true, opacity: 1 })
 
         // legs coordinates
-        this.chairSize = 1.3
+        this.chairSize = 1.3*1.5
         let chairSize = this.chairSize
         this.coord = [new Vector3(-chairSize/2, 5, -chairSize/2),
             new Vector3(-chairSize/2, 5, chairSize/2),
@@ -24,19 +24,19 @@ class Chair{
             new Vector3(chairSize/2, 5, -chairSize/2)]
 
         // footboard size
-        this.footboard_radius = 0.08
-        this.footboard_height = 0.3
+        this.footboard_radius = 0.08*1.5
+        this.footboard_height = 0.3*1.5
         this.footboard_segments = 10
 
         // leg size
-        this.leg_width = 0.2;
-        this.leg_height = 1.5;
-        this.leg_depth = 0.2;
+        this.leg_width = 0.2*1.5;
+        this.leg_height = 1.5*1.5;
+        this.leg_depth = 0.2*1.5;
 
         // base size
         this.base_width = chairSize + this.leg_width;
         this.base_height = chairSize + this.leg_width;
-        this.base_depth = 0.1;
+        this.base_depth = 0.1*1.5;
 
         this.leg_geometry = new THREE.BoxGeometry(
             this.leg_width, this.leg_height, this.leg_depth
@@ -46,7 +46,7 @@ class Chair{
         )
 
         // tube param
-        this.tube = 0.03
+        this.tube = 0.08
 
     }
 
@@ -64,7 +64,7 @@ class Chair{
 
         // for footboards
         const geometry = new THREE.ConeGeometry(this.footboard_radius, this.footboard_height, this.footboard_segments);
-        const material = new THREE.MeshStandardMaterial({color: "#FB8D02"});
+        const material = new THREE.MeshStandardMaterial({color: "#FFA812"});
         let dotMaterial = new PointsMaterial( { size: 0.05} );
 
         // create footboards and legs
@@ -120,21 +120,21 @@ class Chair{
     }
 
     torus = (pos) => {
-        let geometry = new THREE.TorusGeometry( this.footboard_height/2+0.1, this.tube, 8, 12 );
-        let material = new THREE.MeshBasicMaterial( { color:  "#483D8B" } );
-        let torus = new THREE.Mesh( geometry, material );
+        let geometry = new THREE.BoxGeometry( this.leg_width+0.001, this.footboard_height/2+0.1, this.leg_depth-0.1 );
+        let material = new THREE.MeshBasicMaterial( { color:  "#FFCC99" } );
+        let cube = new THREE.Mesh( geometry, material );
 
-        torus.rotateX(Math.PI / 2)
-        torus.position.copy(pos)
-        this.scene.add( torus );
-        this.group.add(torus)
+        cube.rotateX(Math.PI / 2)
+        cube.position.copy(pos)
+        this.scene.add( cube );
+        this.group.add(cube)
     }
 
     showDistanceToPlane = (coordinates, height) => {
         let line_geometry = new THREE.CylinderGeometry(
-            this.leg_width/4, this.leg_width/4 , height, 10, 1
+            this.leg_width/2, this.leg_width/2 , height, 10, 1
         )
-        let material = new THREE.MeshStandardMaterial({color: "red", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1})
+        let material = new THREE.MeshStandardMaterial({color: "#E81111", bumpScale: 0.1, roughness: 0.8, transparent: true, opacity: 1})
         let line = new THREE.Mesh(line_geometry, material)
         this.distHelper = line
         let line_position = new THREE.Vector3(coordinates.x, coordinates.y - height/2, coordinates.z)

@@ -11,6 +11,8 @@ class Scene extends Component {
     constructor(props) {
         super(props);
 
+        this.controller = React.createRef()
+
         this.prevPosition = new THREE.Vector3()
 
         this.sceneHeight = 15;
@@ -24,6 +26,7 @@ class Scene extends Component {
         this.controls.update()
 
         this.state = {x: 0, z: 0, angle: 0}
+
 
         this.startAnimation()
     }
@@ -52,16 +55,10 @@ class Scene extends Component {
 
     initLights = () => {
         const skyColor = 0xB1E1FF;  // light blue
-        const groundColor = 0xB97A20;  // brownish orange
         const intensity = 0.5;
-        let light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+        let light = new THREE.HemisphereLight(skyColor, 0xffffff, intensity);
         this.scene.add(light);
-        let pointLight = new THREE.PointLight(0xB97A20, 2)
-        pointLight.position.x = 0
-        pointLight.position.y = 2
-        pointLight.position.z = 0
-        this.scene.add(pointLight)
-        pointLight = new THREE.PointLight(0xB97A20, 0.8)
+        let pointLight = new THREE.PointLight(0xffffff, 0.8)
         pointLight.position.x = 2
         pointLight.position.y = 7
         pointLight.position.z = 4
@@ -74,14 +71,17 @@ class Scene extends Component {
 
         //Size
         const sizes = {
-            width: window.innerWidth-29,
-            height: window.innerHeight-230
+            width: window.innerWidth-window.innerWidth*0.017,
+            height: window.innerHeight-window.innerHeight * 0.28
         }
         //Camera
         this.camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-        this.camera.position.x = 13
-        this.camera.position.y = 5
+        this.camera.position.x = 10
+        this.camera.position.y = 7
         this.camera.position.z = 0
+
+        this.camera.lookAt(0,100,0)
+        console.log(this.camera.rotation);
         this.scene.add(this.camera)
 
         // Renderer
@@ -99,13 +99,13 @@ class Scene extends Component {
         plane.initPlane(this.sceneWidth, this.sceneHeight)
         this.initLights()
 
-        this.chair = new Physics(plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi)
+        this.chair = new Physics(plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, 2)
         this.chair.init(new THREE.Vector3(0, 0, 0), 0)
 
         window.addEventListener('resize', () => {
             // Update sizes
-            sizes.width = window.innerWidth-29
-            sizes.height = window.innerHeight-230
+            sizes.width = window.innerWidth-window.innerWidth*0.017
+            sizes.height = window.innerHeight-window.innerHeight * 0.28
 
             // Update camera
             this.camera.aspect = sizes.width / sizes.height
@@ -120,8 +120,8 @@ class Scene extends Component {
 
     view = (x, z, angle) => {
         this.setState({
-            x: Math.round(x*5.0).toFixed(1),
-            z: Math.round(z*5.0).toFixed(1),
+            x: Math.round(x*5.0),
+            z: Math.round(z*5.0),
             angle: angle.toFixed(1)
         })
     }
@@ -137,10 +137,10 @@ class Scene extends Component {
         let angle = params.angle
         let lastPosition = params.pos
 
-        this.setState({x: params.pos.x.toFixed(1), z: params.pos.z.toFixed(1), angle: params.angle.toFixed(1)})
+        this.view(params.pos.x, params.pos.z, params.angle)
 
         this.chair.deleteFromScene()
-        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view)
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, this.controller.current.hR)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()
@@ -152,7 +152,8 @@ class Scene extends Component {
         let lastPosition = this.prevPosition
 
         this.chair.deleteFromScene()
-        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view)
+        console.log(this.controller.current.hR)
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, this.controller.current.hR)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()
@@ -160,9 +161,7 @@ class Scene extends Component {
     }
 
     savePositionAndDrop = () =>{
-
         if(!this.chair.canMove()) return
-
         let angle = this.chair.angle
         this.chair.chair.rightRotation(angle)
         this.prevPosition = this.chair.chair.group.position.clone()
@@ -177,7 +176,8 @@ class Scene extends Component {
     render() {
         return(
          <div className="stoolWrapper" ref={ref => (this.mount = ref)}>
-             <Controller onDrop = {this.savePositionAndDrop}
+             <Controller ref = {this.controller}
+                         onDrop = {this.savePositionAndDrop}
                          onDropAndShow = {this.chair.dropAndShow}
                          onLeftMoveButton = {this.chair.leftButton}
                          onRightMoveButton = {this.chair.rightButton}
@@ -197,9 +197,9 @@ class Scene extends Component {
                          RotateOn10Degree = {this.chair.RotateOn10Degree}
                          />
              <div className="info">
-                <button>X= {this.state.x}</button>
-                <button>Z= {this.state.z}</button>
-                <button>Angle= {this.state.angle}</button>
+                <button className='X'>X = {this.state.x}</button>
+                <button className='Z'>Z = {this.state.z}</button>
+                <button className='Angle'>Angle = {this.state.angle}</button>
             </div>
         </div>
 

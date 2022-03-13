@@ -6,12 +6,7 @@ import CNV from "./js/CNV/library";
 
 import "./css/style.scss"
 import css from "./js/css";
-import {
-    setAllEndCircleClick,
-    resetAllEndCircleClick,
-} from "./js/eventHandlers";
-import {removeEdge, createEdge} from "./js/graphHandlers";
-import drawingLine from "./js/drawingLine";
+
 import {shiftDownHandler} from "./js/shiftHandlers";
 
 import store from "./js/Store";
@@ -229,11 +224,6 @@ class Streams {
                 ordering: 'minimize',
             },
             {
-                name: "number_of_loops",
-                title: "Количество петель: ",
-                ordering: 'minimize',
-            },
-            {
                 name: "number_of_mergers",
                 title: "Количество слияний: ",
                 ordering: 'minimize',
@@ -246,15 +236,21 @@ class Streams {
             },
         ];
 
-        if(SETTINGS.getAll().SHOW_NUMBER_OF_COLLISION){
-            params.push(
-                {
-                    name: "number_of_collision",
-                    title: "Пересечений: ",
-                    ordering: 'minimize',
-                    view: ""
-                },
-            )
+        if(this.settings.SHOW_NUMBER_OF_COLLISION){
+            params.splice(-1, 0, {
+                name: "number_of_collision",
+                title: "Пересечений: ",
+                ordering: 'minimize',
+                view: ""
+            })
+        }
+
+        if(this.settings.LOOPS){
+            params.splice(2, 0, {
+                name: "number_of_loops",
+                title: "Количество петель: ",
+                ordering: 'minimize',
+            })
         }
 
         return params;

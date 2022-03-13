@@ -23,7 +23,7 @@ _s.FINISH_LIMITS = false; //num //arr [1, 3] - range //false = no limits
 _s.TASK = ["1/4", "3/4"];
 _s.ALLOW_COLLISIONS = false;
 _s.SHOW_COLLISION_LINES = true;
-_s.SHOW_NUMBER_OF_COLLISION = true;
+_s.SHOW_NUMBER_OF_COLLISION = false;
 
 const SETTINGS = {
     changeProperty(name, value){

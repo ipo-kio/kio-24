@@ -3,7 +3,9 @@ import {Vector3} from "three";
 import Chair from "./Chair"
 
 class Physics {
-    constructor(plane, scene, planeWidth, planeHeight, KioApi, view, hR) {
+    constructor(plane, scene, planeWidth, planeHeight, KioApi, view, hR, restart) {
+
+        this.restart = restart
         this.view = view
         this.kioApi = KioApi
         this.plane = plane
@@ -341,7 +343,10 @@ class Physics {
     }
 
     rightRotationButton = () => {
-        if (!this.canMove()) return
+        if (!this.canMove()) {
+            this.restart()
+            return
+        }
         this.chair.rightRotation(this.hR)
         this.angle -= this.hR
         this.view(this.chair.group.position.x,this.chair.group.position.z,this.angle)

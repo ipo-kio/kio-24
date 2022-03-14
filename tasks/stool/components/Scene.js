@@ -81,7 +81,7 @@ class Scene extends Component {
         this.camera.position.z = 0
 
         this.camera.lookAt(0,100,0)
-        console.log(this.camera.rotation);
+
         this.scene.add(this.camera)
 
         // Renderer
@@ -99,7 +99,7 @@ class Scene extends Component {
         plane.initPlane(this.sceneWidth, this.sceneHeight)
         this.initLights()
 
-        this.chair = new Physics(plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, 2)
+        this.chair = new Physics(plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, 2, this.restartGame)
         this.chair.init(new THREE.Vector3(0, 0, 0), 0)
 
         window.addEventListener('resize', () => {
@@ -140,7 +140,8 @@ class Scene extends Component {
         this.view(params.pos.x, params.pos.z, params.angle)
 
         this.chair.deleteFromScene()
-        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, this.controller.current.hR)
+
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, this.controller.current.hR, this.restartGame)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()
@@ -152,8 +153,8 @@ class Scene extends Component {
         let lastPosition = this.prevPosition
 
         this.chair.deleteFromScene()
-        console.log(this.controller.current.hR)
-        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, this.controller.current.hR)
+
+        this.chair = new Physics(this.plane, this.scene, this.sceneWidth, this.sceneHeight, this.props.KioApi, this.view, this.controller.current.hR, this.restartGame)
         this.chair.init(lastPosition, angle)
 
         this.forceUpdate()

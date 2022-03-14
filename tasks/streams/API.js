@@ -87,7 +87,7 @@ class Streams {
             LOOPS, MERGES, FINISH_LIMITS  } = SETTINGS.getAll();
 
         domNode.innerHTML = `
-                            <div class="wrapper">
+                            <div class="streams-wrapper">
                                  <div class="dark hidden"></div>
     
                                 <canvas id="canvas">
@@ -145,12 +145,14 @@ class Streams {
         window.addEventListener("load", e => {
             canvas.width = domNode.clientWidth;
             canvas.height = Math.max(domNode.clientHeight, 500);
+            // console.log('resizing load', canvas.width, canvas.height, domNode.clientWidth, domNode.clientHeight);
             CNV.start();
         })
 
         window.addEventListener("resize", e => {
             canvas.width = domNode.clientWidth;
             canvas.height = Math.max(domNode.clientHeight, 500);
+            // console.log('resizing load', canvas.width, canvas.height, domNode.clientWidth, domNode.clientHeight);
             CNV.render();
         })
 

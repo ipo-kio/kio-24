@@ -14,7 +14,7 @@ class Physics {
         this.global_tips_position = []
         this.h = 0.2
         this.hR = hR
-        this.hFall = 0.015
+        this.hFall = 0.035
 
         this.contactNum = 0
         this.inDetail = true
@@ -252,6 +252,10 @@ class Physics {
     }
 
     dropButton = () => {
+        if (!this.canMove()) {
+            this.restart()
+            return
+        }
         if (this.canMove()) {
             this.inDetail = true
             this.toDrop = true
@@ -268,6 +272,10 @@ class Physics {
     }
 
     dropAndShow = () => {
+        if (!this.canMove()) {
+            this.restart()
+            return
+        }
         if (this.canMove()) {
             this.inDetail = true
             this.toDrop = true
@@ -303,7 +311,10 @@ class Physics {
     }
 
     leftButton = () => {
-        if (!this.canMove()) return
+        if (!this.canMove()) {
+            this.restart()
+            return
+        }
         if (this.check(new THREE.Vector3(0, 0, this.h))) {
             this.chair.moveLeft(this.h)
         }
@@ -311,7 +322,10 @@ class Physics {
     }
 
     rightButton = () => {
-        if (!this.canMove()) return
+        if (!this.canMove()) {
+            this.restart()
+            return
+        }
         if (this.check(new THREE.Vector3(0, 0, -this.h))) {
             this.chair.moveRight(this.h)
         }
@@ -319,7 +333,10 @@ class Physics {
     }
 
     backButton = () => {
-        if (!this.canMove()) return
+        if (!this.canMove()) {
+            this.restart()
+            return
+        }
         if (this.check(new THREE.Vector3(-this.h, 0, 0))) {
             this.chair.moveBack(this.h)
         }
@@ -327,7 +344,10 @@ class Physics {
     }
 
     forwardButton = () => {
-        if (!this.canMove()) return
+        if (!this.canMove()) {
+            this.restart()
+            return
+        }
         if (this.check(new THREE.Vector3(this.h, 0, 0))) {
             this.chair.moveForward(this.h)
         }
@@ -353,7 +373,10 @@ class Physics {
     }
 
     leftRotationButton = () => {
-        if (!this.canMove('leftRotation')) return
+        if (!this.canMove()) {
+            this.restart()
+            return
+        }
 
         this.chair.leftRotation(this.hR)
         this.angle += this.hR

@@ -38,7 +38,7 @@ export class Jeep implements KioTask {
             140
         );
         let initial_state = FieldState.create(this.field);
-        this.history = new History([new PickOrPut(0)], FieldState.create(this.field));
+        this.history = new History([new PickOrPut(0)], FieldState.create(this.field), this.field.all_positions);
 
         this.level = settings.level ? 0 : +settings.level;
     }
@@ -53,7 +53,7 @@ export class Jeep implements KioTask {
         this._kioapi = kioapi;
         this.domNode = domNode;
 
-        domNode.innerHTML = `<div style="background: url('${kioapi.basePath}jeep-resources/sand.jpg')">
+        domNode.innerHTML = `<div style="background: url(${kioapi.basePath}jeep-resources/sand.jpg)">
                 <canvas
                     style="display: block"
                     width="900" height="120"
@@ -148,10 +148,14 @@ export class Jeep implements KioTask {
     };
 
     solution(): Solution {
-        return {};
+        console.log('getting', this.history.serialize());
+        return this.history.serialize();
     };
 
     loadSolution(solution: Solution): void {
+        console.log('loading', solution);
+        if (solution)
+            this.history.load(solution);
     }
 
 

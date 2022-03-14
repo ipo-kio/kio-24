@@ -6,7 +6,8 @@ const SKIP = 2;
 const INDEX_FONT_SIZE = 16;
 const FUEL_INFO_HEIGHT = 10;
 const FUEL_FONT_SIZE = 24;
-const FUEL_COLOR = '#FF4444';
+// const FUEL_COLOR = '#FF4444';
+const FUEL_COLOR = 'white';
 const FUEL_OUTLINE_COLOR = FUEL_COLOR;
 
 export class FieldView {

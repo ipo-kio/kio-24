@@ -1,5 +1,6 @@
 import {MoveTo, PickOrPut, Step, StepType} from "./Step";
 import {FieldState} from "./FieldState";
+import {Position} from "./Position";
 
 export class History {
     private _steps: Step[];
@@ -10,11 +11,13 @@ export class History {
     private _max_far: number;
     private _max_far_with_return: number;
     private _total_fuel: number;
+    private all_positions: Position[];
 
-    constructor(steps: Step[], initial_state: FieldState) {
+    constructor(steps: Step[], initial_state: FieldState, all_positions: Position[]) {
         this._steps = steps;
         this._initial_state = initial_state;
         this.update_field_states();
+        this.all_positions = all_positions;
     }
 
     get steps(): Step[] {
@@ -156,5 +159,34 @@ export class History {
 
     get total_fuel(): number {
         return this._total_fuel;
+    }
+
+    serialize(): object {
+        let o = [];
+
+        for (let s of this._steps) {
+            if (s.type == StepType.FUEL)
+                o.push((s as PickOrPut).amount);
+            else
+                o.push((s as MoveTo).position.index);
+        }
+
+        return o;
+    }
+
+    load(o: any) {
+        this._steps = [];
+        let move = false;
+        for (let s of o) {
+            if (move) {
+                this._steps.push(new MoveTo(this.all_positions[s]));
+                move = false;
+            } else {
+                this._steps.push(new PickOrPut(s));
+                move = true;
+            }
+        }
+
+        this.update_field_states();
     }
 }

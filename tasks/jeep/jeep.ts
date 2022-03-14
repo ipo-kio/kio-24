@@ -28,17 +28,34 @@ export class Jeep implements KioTask {
     constructor(settings: KioTaskSettings) {
         this._constants = new Constants(settings);
 
+        let level = +settings.level;
+        let steps = 32;
+        switch (level) {
+            case 0:
+                steps = 16;
+                this._constants.CAR_MAX_FUEL = 10;
+                break;
+            case 1:
+                steps = 24;
+                this._constants.CAR_MAX_FUEL = 12;
+                break;
+            case 2:
+                this._constants.CAR_MAX_FUEL = 12;
+                steps = 32;
+                break;
+        }
+
         let h = 46 + 2 + 63 / 2 + 2;
         this.field = new LinearField(
             this,
             [30, h],
             [870, h],
-            32,
+            steps,
             900,
             140
         );
         let initial_state = FieldState.create(this.field);
-        this.history = new History([new PickOrPut(0)], FieldState.create(this.field), this.field.all_positions);
+        this.history = new History([new PickOrPut(0)], initial_state, this.field.all_positions);
 
         this.level = settings.level ? 0 : +settings.level;
     }
@@ -148,14 +165,14 @@ export class Jeep implements KioTask {
     };
 
     solution(): Solution {
-        console.log('getting', this.history.serialize());
         return this.history.serialize();
     };
 
     loadSolution(solution: Solution): void {
-        console.log('loading', solution);
-        if (solution)
-            this.history.load(solution);
+        console.log(solution);
+        this.history.load(solution);
+        this.history_view.current_index = this.history.size - 1;
+        this.history.update_field_states();
     }
 
 

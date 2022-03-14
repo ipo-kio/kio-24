@@ -149,4 +149,9 @@ export class HistoryView {
     get current_index(): number {
         return this._current_index;
     }
+
+    set current_index(ci: number) {
+        this._current_index = ci;
+        this.update();
+    }
 }

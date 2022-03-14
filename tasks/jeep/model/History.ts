@@ -186,7 +186,5 @@ export class History {
                 move = true;
             }
         }
-
-        this.update_field_states();
     }
 }

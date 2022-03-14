@@ -92,6 +92,9 @@ class Fraction{
     clone(){
         return new Fraction(this.num, this.det);
     }
+    as_float() {
+        return this.num / this.det;
+    }
 }
 
 export default Fraction;

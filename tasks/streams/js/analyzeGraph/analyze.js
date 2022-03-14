@@ -289,17 +289,16 @@ function analyze(lines) {
             return item;
         }
     })
-    let resCount = 0;
+    let minimalError = +Infinity;
     finishLines.forEach(line => {
-        for (let i = 0; i < task.length; i++) {
-            if(line.power.getStr() === task[i].getStr()){
-                resCount += 1;
-                task.splice(i, 1);
-                break;
-            }
-        }
+        let user_power = line.power.as_float();
+        let need_power = task[0].as_float();
+        let error = Math.abs(user_power - need_power) / need_power;
+        if (error < minimalError)
+            minimalError = error;
     })
-    state.analyzeInfo.number_of_results = Math.round(resCount / TASK.length * 100);
+    let multiplier = task[0].det === 1 ? 100 : 1000;
+    state.analyzeInfo.number_of_results = Math.floor((1 - minimalError) * multiplier);
 
     Store.API.loadSolution(save({dont_save: true, dont_stringify: true}));
     if(SHOW_CYCLES){

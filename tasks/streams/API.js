@@ -262,7 +262,12 @@ class Streams {
             name: "number_of_results",
             title: "Результат: ",
             ordering: 'maximize',
-            view: "%"
+            view: v => {
+                if (this.settings.NUMERIC_POWER)
+                    return v + '%';
+                else
+                    return (v/10).toFixed(1) + '%';
+            }
         };
         let number_of_collisions = {
             name: "number_of_collision",

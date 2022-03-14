@@ -143,14 +143,14 @@ class Streams {
         KIOsaves.id = "KIOsaves";
 
         window.addEventListener("load", e => {
-            canvas.width = document.documentElement.clientWidth;
-            canvas.height = window.innerHeight - KIOcontainer.getBoundingClientRect().height - 40;
+            canvas.width = domNode.clientWidth;
+            canvas.height = Math.max(domNode.clientHeight, 500);
             CNV.start();
         })
 
         window.addEventListener("resize", e => {
-            canvas.width = document.documentElement.clientWidth;
-            canvas.height = window.innerHeight - KIOcontainer.getBoundingClientRect().height - 40;
+            canvas.width = domNode.clientWidth;
+            canvas.height = Math.max(domNode.clientHeight, 500);
             CNV.render();
         })
 

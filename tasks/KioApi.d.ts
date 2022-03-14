@@ -4,6 +4,8 @@ export interface KioApi {
     getResource(id: string): HTMLElement;
 
     problem: { message(msg: string): string; }
+
+    basePath: string;
 }
 
 

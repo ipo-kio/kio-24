@@ -168,12 +168,12 @@ class Streams {
         };
         if(this.settings.level !== undefined){
             if(Number(this.settings.level) === 0){
-                canvas.style.background = "url(streams-resources/road_bg_550.jpg)";
+                canvas.style.background = `url(${kioapi.basePath}streams-resources/road_bg_550.jpg)`;
             } else {
-                canvas.style.background = "url(streams-resources/river_bg_550.jpg)";
+                canvas.style.background = `url(${kioapi.basePath}streams-resources/river_bg_550.jpg)`;
             }
         } else {
-            canvas.style.background = "url(streams-resources/river_bg_550.jpg)";
+            canvas.style.background = `url(${kioapi.basePath}streams-resources/river_bg_550.jpg)`;
         }
 
 

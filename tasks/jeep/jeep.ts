@@ -53,7 +53,7 @@ export class Jeep implements KioTask {
         this._kioapi = kioapi;
         this.domNode = domNode;
 
-        domNode.innerHTML = `<div style="background: url('jeep-resources/sand.jpg')">
+        domNode.innerHTML = `<div style="background: url('${kioapi.basePath}jeep-resources/sand.jpg')">
                 <canvas
                     style="display: block"
                     width="900" height="120"

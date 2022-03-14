@@ -251,7 +251,7 @@ class Physics {
 
     dropButton = () => {
         if (this.canMove()) {
-            this.inDetail = false
+            this.inDetail = true
             this.toDrop = true
             let min = this.distanceToPlane(0);
             for (let i = 1; i < 4; i++) {

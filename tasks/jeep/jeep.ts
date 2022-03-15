@@ -70,7 +70,7 @@ export class Jeep implements KioTask {
         this._kioapi = kioapi;
         this.domNode = domNode;
 
-        domNode.innerHTML = `<div style="background: url(${kioapi.basePath}jeep-resources/sand.jpg)">
+        domNode.innerHTML = `<div style="background: url(${kioapi.basePath}jeep-resources/sand4.jpg)">
                 <canvas
                     style="display: block"
                     width="900" height="120"
@@ -154,7 +154,7 @@ export class Jeep implements KioTask {
 
     static preloadManifest(): KioResourceDescription[] {
         return [
-            {id: "sand", src: "jeep-resources/sand.jpg"},
+            // {id: "sand", src: "jeep-resources/sand4.jpg"},
             {id: "jeep", src: "jeep-resources/SimpleGreenCarTopView.png"},
             {id: "barrel", src: "jeep-resources/SteelBarrel.png"},
             {id: 'slider', src: "jeep-resources/slider.png"},

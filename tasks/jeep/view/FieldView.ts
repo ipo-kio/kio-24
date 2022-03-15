@@ -129,8 +129,9 @@ export class FieldView {
         c.beginPath();
         let rw = this.cactus.width / 2 + SKIP;
         let rh = this.cactus.height / 2 + SKIP;
-        c.rect(-rw, -rh, rw * 2, rh * 2);
-        c.rect(-rw, this.cactus.height / 2 + SKIP + this.car_height * this.jeep.height, 2 * rw, INDEX_FONT_SIZE + 2 * SKIP);
+        let h = INDEX_FONT_SIZE + 2 * SKIP + this.cactus.height / 2 + SKIP + this.car_height * this.jeep.height
+        c.rect(-rw, -rh, rw * 2, h + rh);
+        // c.rect(-rw, this.cactus.height / 2 + SKIP + this.car_height * this.jeep.height, 2 * rw, INDEX_FONT_SIZE + 2 * SKIP);
         c.restore();
     }
 

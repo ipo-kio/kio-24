@@ -29,6 +29,14 @@ export interface KioTaskStatic {
     preloadManifest(): KioResourceDescription;
 }
 
+export interface KioTaskParameters {
+    parameters(): KioParameterDescription[];
+}
+
+export interface KioTaskParametersStatic {
+    new(settings: KioTaskSettings): KioTaskParameters;
+}
+
 export interface KioTaskSettings {
     level: string
     language?: string;

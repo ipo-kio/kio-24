@@ -47,8 +47,6 @@ export class Stool {
 //      * значение, ширина окна браузера может меняться в процессе работы с лабораторией.
 //      */
     initialize = function (domNode, kioapi, preferred_width) {
-        console.log('preferred width in problem initialization', preferred_width);
-
         //сохраняем данные для будущего использования
         this.kioapi = kioapi;
         this.domNode = domNode;
@@ -117,11 +115,22 @@ export class Stool {
 //      * @param solution решение для загрузки
 //      */
     loadSolution = function (solution) {
-        this.scene.current.loadSolution(solution)
+        if (solution) {
+            let {x, z} = solution.pos;
+            x = Math.round(5 * x);
+            let y = Math.round(5 * z);
+            let angle = solution.angle;
+            console.log(`Загружается решение x=${x} y=${y} угол=${angle}`);
+        } else
+            console.log(`Загружается решение ${solution}`);
+
+        this.scene.current.loadSolution(solution);
+
+        // if (solution)
+        //     this.kioapi.submitResult({"distance": 100, "tiltAngle": 100});
 
         // Надо вызвать kioapi.submitResult(), это уже делается в обработчике события 'change' поля ввода решения.
         // Поэтому вызываем обработчик этого события: вызываем в своём событии
-
     };
 //
 }

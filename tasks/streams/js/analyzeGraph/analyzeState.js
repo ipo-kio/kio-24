@@ -8,7 +8,7 @@ const state = {
         number_of_loops: 0,
         number_of_mergers: 0,
         number_of_finish: 0,
-        number_of_results: "0",
+        number_of_results: 0,
         number_of_collision: 0,
     }
 }

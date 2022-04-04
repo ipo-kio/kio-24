@@ -158,6 +158,13 @@ function add_task_to_config(task_name, config, task_html_template, dist_folder) 
     let task_file_ts = path.join(task_name, task_name + '.ts');
     config.entry[task_name] = fs.existsSync('tasks/' + task_file_ts) ? task_file_ts : task_file_js;
 
+    let task_file_parameters_js = path.join(task_name, task_name + '_parameters.js');
+    let task_file_parameters_ts = path.join(task_name, task_name + '_parameters.ts');
+    if (fs.existsSync('tasks/' + task_file_parameters_js))
+        config.entry[task_name + '_parameters'] = task_file_parameters_js;
+    else if (fs.existsSync('tasks/' + task_file_parameters_ts))
+        config.entry[task_name + '_parameters'] = task_file_parameters_ts;
+
     //copy html
     let output_html = process_html_template(task_html_template, task_name);
     fs.writeFileSync(path.join(dist_folder, task_name + '.html'), output_html, {encoding: "utf8"});

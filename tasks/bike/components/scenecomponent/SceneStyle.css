@@ -1,0 +1,413 @@
+.page-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    gap: 2%;
+
+    background: #B3B3B3;
+    overflow: hidden;
+}
+
+.bicycle-left{
+    border: 5px solid #66FFCC;
+    border-radius: 10px;
+    height: 91%;
+    width: 31%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding-top: 2%;
+    padding-bottom: 1%;
+    position: relative;
+}
+
+.bicycle-left-2 {
+    border: 5px solid #66FFCC;
+    border-radius: 10px;
+    height: 91%;
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+
+    padding-top: 2%;
+    padding-bottom: 1%;
+    position: relative;
+}
+
+.left-speedometer {
+    width: 180px;
+    height: 225px;
+    top: 3%;
+    left: 17%;
+}
+
+.left-speedometer-2 {
+    width: 180px;
+    height: 225px;
+
+    position: absolute;
+    top: 90px;
+    left: 90px;
+    scale: 1.5;
+}
+
+.center {
+    height: 95%;
+    width: 27%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1%;
+    padding-bottom: 1.5%;
+}
+
+.center-2 {
+    border: 5px solid #8EED00;
+    background: #B3B3B3;
+    border-radius: 10px;
+    position: absolute;
+    top: 30px;
+    height: 45%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1%;
+    padding-bottom: 1.5%;
+}
+
+.exercise-right {
+    border: 5px solid #FFFF00;
+    border-radius: 10px;
+    height: 95%;
+    width: 31%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8%;
+
+    padding-bottom: 1%;
+}
+
+.exercise-right-2 {
+    border: 5px solid #FFFF00;
+    border-radius: 10px;
+    height: 95%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 8%;
+
+    padding-bottom: 1%;
+}
+
+.right-speedometer {
+    width: 180px;
+    height: 225px;
+    top: 2%;
+    right: 15%;
+}
+
+.right-speedometer-2 {
+    width: 180px;
+    height: 225px;
+    position: absolute;
+    top: 100px;
+    right: 100px;
+    scale: 1.5;
+}
+
+.v-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.f-graphic{
+    width: 500px;
+    height: 305px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-f-label {
+    position: absolute;
+    top: 10%;
+    right: 52%;
+    font-family: 'Rubik', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 17px;
+
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    width: 40%;
+}
+
+.f-t-label {
+    position: absolute;
+    top: 83%;
+    right: 3%;
+    font-family: 'Rubik', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 17px;
+
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.b-container{
+    /*scale: 1.2;*/
+    height: 100%;
+    width: 440px;
+    position: absolute;
+    background: url("../../assets/components/BikeModel.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    top: 230px;
+    left: 80px;
+}
+
+.b-container-2{
+    /*scale: 1.2;*/
+    height: 100%;
+    width: 500px;
+    position: absolute;
+    background: url("../../assets/components/BikeModel.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    top: 530px;
+    right: 30px;
+    transform: rotateY(180deg);
+}
+
+.bike-handlebar{
+    height: 100%;
+    width: 450px;
+    position: absolute;
+    background: url("../../assets/components/BikeHandlebar.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    top: 40px;
+    left: 75px;
+
+}
+
+.bike-handlebar-2{
+    height: 100%;
+    width: 500px;
+    position: absolute;
+    background: url("../../assets/components/BikeHandlebar.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    top: 540px;
+    left: 40px;
+
+}
+
+.ex-bike-handlebar{
+    height: 40%;
+    width: 250px;
+    position: absolute;
+    background: url("../../assets/components/ExBikeHandlebar.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    top: 60px;
+    right: 350px;
+}
+
+.ex-bike-handlebar-2 {
+    height: 40%;
+    width: 250px;
+    position: absolute;
+    background: url("../../assets/components/ExBikeHandlebar.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    bottom: 0px;
+    right: 100px;
+}
+
+.e-container {
+    height: 40%;
+    width: 250px;
+    position: absolute;
+    background: url("../../assets/components/ExBikeModel.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    top: 160px;
+    right: 140px;
+}
+
+.e-container-2 {
+    height: 40%;
+    width: 240px;
+    position: absolute;
+    background: url("../../assets/components/ExBikeModel.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    bottom: 50px;
+    right: 470px;
+    transform: rotateY(180deg);
+}
+
+.center-box{
+    border-radius: 10px;
+    width: 100%;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.center-box-text {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 5px;
+
+    font-family: 'Rubik', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 17px;
+
+    text-align: left;
+    width: 100%;
+
+}
+
+.task-description{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+.task-description::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #999999;
+    border-radius: 10px;
+    background-color: #999999;
+}
+.task-description::-webkit-scrollbar {
+    width: 8px;
+    background-color: #999999;
+    border-radius: 10px;
+}
+.task-description::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px #999999;
+    background-color: #E6E6E6;
+}
+
+.check-button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+
+    width: 60%;
+    height: 15%;
+    border-radius: 10px;
+
+    font-family: 'Rubik', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.2em;
+    line-height: 20px;
+    text-align: center;
+
+    color: #E6E6E6;
+    background: #68AE00;
+
+}
+
+.check-button:active {
+    color: #666666;
+    background: #ffffff;
+}
+
+.check-button-2 {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+
+    width: 50%;
+    height: 15%;
+    border-radius: 10px;
+
+    font-family: 'Rubik', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.5em;
+    line-height: 20px;
+    text-align: center;
+
+    color: #E6E6E6;
+    background: #68AE00;
+
+}
+
+.check-button-2:active {
+    color: #666666;
+    background: #ffffff;
+}
+
+.left-speedometer-handlebar {
+    position: absolute;
+    width: 100px;
+    height: 125px;
+    top: 80px;
+    left: 250px;
+}
+
+.left-speedometer-handlebar-2 {
+    position: absolute;
+    width: 100px;
+    height: 125px;
+    top: 620px;
+    left: 235px;
+    scale: 1.4;
+}
+
+.right-speedometer-handlebar{
+    position: absolute;
+    width: 100px;
+    height: 125px;
+    top: 110px;
+    right: 425px;
+}
+
+.right-speedometer-handlebar-2{
+    position: absolute;
+    width: 100px;
+    height: 125px;
+    bottom: 190px;
+    right: 175px;
+    scale: 1.2;
+}

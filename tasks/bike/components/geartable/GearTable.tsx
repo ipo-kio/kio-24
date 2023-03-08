@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 
-const gear12 = "../../assets/gears/Vector12.svg"
-const gear14 = "../../assets/gears/Vector14.svg"
-const gear16 = "../../assets/gears/Vector16.svg"
-const gear18 = "../../assets/gears/Vector18.svg"
-const gear21 = "../../assets/gears/Vector21.svg"
-const gear24 = "../../assets/gears/Vector24.svg"
-const gear34 = "../../assets/gears/Vector34.svg"
-const gear44 = "../../assets/gears/Vector44.svg"
+const gear12 = "./bike-resources/assets/gears/Vector12.svg"
+const gear14 = "./bike-resources/assets/gears/Vector14.svg"
+const gear16 = "./bike-resources/assets/gears/Vector16.svg"
+const gear18 = "./bike-resources/assets/gears/Vector18.svg"
+const gear21 = "./bike-resources/assets/gears/Vector21.svg"
+const gear24 = "./bike-resources/assets/gears/Vector24.svg"
+const gear34 = "./bike-resources/assets/gears/Vector34.svg"
+const gear44 = "./bike-resources/assets/gears/Vector44.svg"
 
 import "./GearTable.css";
 

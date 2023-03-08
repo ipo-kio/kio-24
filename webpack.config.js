@@ -31,7 +31,7 @@ module.exports = function (env) {
         },
         resolve: {
             modules: sourceFolders,
-            extensions: ['.js', '.ts']
+            extensions: ['.js', '.ts', '.tsx', '.css', '.jsx']
         },
         module: {
             rules: [
@@ -65,18 +65,25 @@ module.exports = function (env) {
                 {
                     test: /\.s?css$/,
                     use: [
-                        MiniCssExtractPlugin.loader, //TODO remove empty main (with javascript)
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                "url": false
-                            }
+                      {
+                        'loader': MiniCssExtractPlugin.loader,  //TODO remove empty main (with javascript)
+                        'options': {
+                          'esModule': true,
                         },
-                        'sass-loader'
+                      },
+                      {
+                        'loader': 'css-loader',
+                        'options': {
+                          'url': false,
+                          'modules': true,
+                          'esModule': true,
+                        },
+                      },
+                      'sass-loader',
                     ],
                 },
                 {
-                    test: /\.ts$/,
+                    test: /\.tsx?$/,
                     use: 'ts-loader',
                     exclude: /node_modules/
                 },

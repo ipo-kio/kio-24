@@ -1,4 +1,4 @@
-import {Component, Suspense} from "react";
+import {Component} from "react";
 import "./SceneStyle.css";
 import ExerciseBikeComponent from "../animation/ExerciseBikeComponent";
 import GearTable from "../geartable/GearTable";
@@ -7,9 +7,12 @@ import PhysicsCore from "../../physics/PhysicsCore";
 import {Level} from "../../Level";
 import ExBikeSpeedComponent from "../speedometer/ExBikeSpeedComponent";
 import BikeSpeedComponent from "../speedometer/BikeSpeedComponent";
+import {KioApi} from "../../../KioApi";
+import {Solution} from "../../solution";
 
 type Props = {
-    level: Level
+    level: Level,
+    kioApi: KioApi
 }
 
 type State = {
@@ -39,11 +42,12 @@ export default class SceneComponent extends Component {
     state: State;
     props: Props;
 
+    BVList: number[] = []
+    EVList: number[] = []
+
     bicyclePhysics: PhysicsCore | undefined;
     exerciseBikePhysics: PhysicsCore | undefined;
     choosenExGears: number[]
-
-
 
     graphicsBackground: string;
     yellowColor: string;
@@ -54,7 +58,6 @@ export default class SceneComponent extends Component {
         super(props);
         this.props = props;
         this.choosenExGears = []
-
 
         this.state = {
             Tlist: [],
@@ -161,7 +164,34 @@ export default class SceneComponent extends Component {
             exerciseFlist: []
         })
 
-        this.bicyclePhysics?.subscribeToSimEnd(() => {this.setState({lockTableSpeed: false})})
+        this.bicyclePhysics?.subscribeToSimEnd(() => {
+            this.setState({lockTableSpeed: false})
+            const BFList = this.state.bicycleFlist
+            const EFList = this.state.exerciseFlist // TODO: speed up physics
+
+
+
+            let diff = 0
+            let speedDiff = 0
+
+            for (const i in BFList) {
+                diff += BFList[i] - EFList[i]
+            }
+
+            for (const i in this.BVList) {
+                speedDiff += this.BVList[i] - this.EVList[i]
+            }
+
+            diff = diff / BFList.length
+            speedDiff = speedDiff / this.BVList.length
+
+            let res: Solution = {diffF: diff, avgSpeedDiff: speedDiff}
+            console.log("ended with ", res)
+            console.log("submitted")
+            this.props.kioApi.submitResult(res)
+            this.EVList = []
+            this.BVList = []
+        })
         this.startBicycleSimulation();
         this.startExerciseSimulation();
     }
@@ -176,6 +206,8 @@ export default class SceneComponent extends Component {
             F = Math.round(F * 100) / 100;
             V = Math.round(V * 100) / 100;
             distance = Math.round(distance * 100) / 100;
+
+            this.BVList.push(V)
 
             this.setState({
                 Tlist: [...this.state.Tlist, t],
@@ -193,6 +225,10 @@ export default class SceneComponent extends Component {
 
             let x = gear % maxX
             let y = Math.floor(gear / maxX)
+
+            if (y > 2){ //TODO: check why overflow
+                return
+            }
 
             this.setState({
                 curGear: gear,
@@ -228,6 +264,8 @@ export default class SceneComponent extends Component {
                 power = Math.round(power);
                 V = Math.round(V * 100) / 100;
                 dist = Math.round(dist * 100) / 100;
+
+                this.EVList.push(V)
 
                 this.setState({
                     exerciseFlist: [...this.state.exerciseFlist, F],

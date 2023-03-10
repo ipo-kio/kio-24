@@ -60,17 +60,16 @@ export class Bike {
 
         root.render(
             <>
-                <SceneComponent level={Level.high_9_11}/>
+                <SceneComponent kioApi={kioapi} level={Level.high_9_11}/>
             </>
         )
-
     };
 
     parameters = function () {
         return [
             {
-                name: "diff",
-                title: "Разница показателей",
+                name: "diffF",
+                title: "Разница показателей силы",
                 ordering: "minimize",
                 view: "",
             },

@@ -1,7 +1,7 @@
 import InputModel from "./InputModel";
 import w1 from "./functions/w1(t)";
 
-const stepSize = 0.01;
+const stepSize = 0.03;
 
 export default class PhysicsCore{
     private inputModel: InputModel;

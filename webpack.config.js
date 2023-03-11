@@ -75,7 +75,9 @@ module.exports = function (env) {
                         'loader': 'css-loader',
                         'options': {
                           'url': false,
-                          'modules': true,
+                          'modules': {
+                              auto: /solitaire/
+                          },
                           'esModule': true,
                         },
                       },

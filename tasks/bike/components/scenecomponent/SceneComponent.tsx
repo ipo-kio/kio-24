@@ -84,6 +84,20 @@ export default class SceneComponent extends Component {
 
     }
 
+    // ----------------KIO METHODS---------------------
+
+    getTableData = () => {
+        return { tableData: this.state.tableData}
+    }
+
+    loadSolution = (data : {tableData: number[][]}) => {
+        this.setState({
+            tableData: data.tableData
+        })
+    }
+
+    // ------------------------------------------------
+
     componentDidMount = () => {
         this.loadLevel(this.props.level) // TODO: maybe just put in into constructor?
     }
@@ -141,6 +155,10 @@ export default class SceneComponent extends Component {
 
         let speedIndexes = this.state.tableData.flat()
 
+        for (let i = 0; i < speedIndexes.length; i++) {
+            speedIndexes[i] -= 1
+        }
+
         this.choosenExGears = []
 
         for (let i = 0; i < gears.length; i++) {
@@ -184,6 +202,9 @@ export default class SceneComponent extends Component {
 
             diff = diff / BFList.length
             speedDiff = speedDiff / this.BVList.length
+
+            diff = Math.round(diff * 100) / 100;
+            speedDiff = Math.round(speedDiff * 100) / 100;
 
             let res: Solution = {diffF: diff, avgSpeedDiff: speedDiff}
             console.log("ended with ", res)
@@ -379,7 +400,7 @@ export default class SceneComponent extends Component {
                                                        max_x={1.5} color={this.cyanColor}/>
                                     <div className="f-t-label" style={{color: this.cyanColor}}>
                                         <label style={{fontSize: "1.5em"}}>t</label>
-                                        <label style={{fontSize: "1em"}}>сек</label>
+                                        <label style={{fontSize: "1em"}}>ч.</label>
                                     </div>
                                     <div className="f-f-label" style={{color: this.cyanColor}}>
                                         <label style={{fontSize: "1.5em"}}>F</label>
@@ -447,7 +468,7 @@ export default class SceneComponent extends Component {
                                                        max_x={1.5} color={this.yellowColor}/>
                                     <div className="f-t-label" style={{color: this.yellowColor}}>
                                         <label style={{fontSize: "1.5em"}}>t</label>
-                                        <label style={{fontSize: "1em"}}>сек</label>
+                                        <label style={{fontSize: "1em"}}>ч.</label>
                                     </div>
                                     <div className="f-f-label" style={{color: this.yellowColor}}>
                                         <label style={{fontSize: "1.5em"}}>F</label>

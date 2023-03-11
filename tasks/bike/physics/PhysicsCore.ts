@@ -87,8 +87,6 @@ export default class PhysicsCore{
 
             this.step();
 
-
-
             if (this.subscriber){
                 this.subscriber(this.getW(), this.getV(), this.getF(), this.distance, this.getT())
                 this.distance += this.getV() * stepSize;

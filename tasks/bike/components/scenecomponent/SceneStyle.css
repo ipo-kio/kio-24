@@ -133,7 +133,7 @@
 }
 
 .f-graphic{
-    width: 500px;
+    width: 450px;
     height: 305px;
     border-radius: 10px;
     position: relative;
@@ -233,7 +233,7 @@
     background-repeat: no-repeat;
 
     top: 60px;
-    right: 350px;
+    right: 250px;
 }
 
 .ex-bike-handlebar-2 {
@@ -400,7 +400,7 @@
     width: 100px;
     height: 125px;
     top: 110px;
-    right: 425px;
+    right: 327px;
 }
 
 .right-speedometer-handlebar-2{

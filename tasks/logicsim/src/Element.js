@@ -12,7 +12,7 @@ export default class Element{
 
     getSize(){
         if(this.type==='not')
-            return {width: 160, height: 40}
+            return {width: 160, height: 80}
         else {
             return {width: 160, height: 80}
         }

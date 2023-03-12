@@ -17,16 +17,16 @@ export default class LogicSim{
         canvasParent.appendChild(this.canvas);
 
 
-        let toolBarHeight = 100
-        this.portSize = 8;
+        let toolBarHeight = 150
+        this.portSize = 12;
         this.editorMode=!!editorMode
 
         this.circuit=circuits[circuitIndex]
         this.testSetIndex = 0
         this.view = new LogicSimView(this);
 
-        this.createButtons(toolBarHeight,canvasParent)
-        this.toolbar = new Toolbar(this.view.width*0.7, this.view.height, toolBarHeight, this.portSize)
+        this.createButtons(toolBarHeight, canvasParent)
+        this.toolbar = new Toolbar(this.view.width * 0.5, this.view.height, toolBarHeight, this.portSize)
         this.toolbar.addElement('not')
         this.toolbar.addElement('and')
         this.toolbar.addElement('or')
@@ -46,12 +46,58 @@ export default class LogicSim{
         buttons.style.position="absolute";
         buttons.style.padding="10px";
         buttons.style.display="flex";
+        buttons.style.height = "10%";
 
-        buttons.style.left="70%";
+        buttons.style.left="55%";
         buttons.innerHTML=`
-            <button id="logic-sim-reset-button">CБРОС</button>
-            <button id="logic-sim-previous-button">предыдущий входной набор</button>
-            <button id="logic-sim-next-button">следующий входной набор</button>`
+            <button id="logic-sim-reset-button" 
+                    style="border: none;
+                            width: 40%; 
+                            height: 90px; 
+                            margin: 0 10px; 
+                            font-family: 'Rubik', sans-serif;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 22px;
+                            line-height: 20px;
+                            text-align: center;
+                            color: #FFFFFF;
+                            background: #2592AA;
+                            border-radius: 12px;">
+                    сброс результата
+            </button>
+            <button id="logic-sim-previous-button" 
+                    style="width: 40%; 
+                            height: 90px; 
+                            margin: 0 10px;
+                            border: none;
+                            font-family: 'Rubik', sans-serif;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 22px;
+                            line-height: 20px;
+                            text-align: center;
+                            color: #FFFFFF;
+                            background: #2592AA;
+                            border-radius: 12px;">
+                    предыдущий входной набор
+            </button>
+            <button id="logic-sim-next-button" 
+                    style="width: 40%; 
+                            height: 90px; 
+                            margin: 0 40px 0 10px;
+                            border: none;
+                            font-family: 'Rubik', sans-serif;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 22px;
+                            line-height: 20px;
+                            text-align: center;
+                            color: #FFFFFF;
+                            background: #2592AA;
+                            border-radius: 12px;">
+                    следующий входной набор
+            </button>`
         if(this.editorMode===true){
             buttons.innerHTML+=`<button id="logic-sim-save-button">сохранить</button>`
         }

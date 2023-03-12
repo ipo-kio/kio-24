@@ -9,11 +9,13 @@ interface UserState {
   creationTime?: string;
   lastSingInTime?: string;
   displayName?: string | null;
+  basePath?: string;
 }
 
 const initialState: UserState = {
   isAuth: false,
   isEmailVerified: true,
+  basePath: ".",
 };
 
 export const userSlice = createSlice({
@@ -23,9 +25,12 @@ export const userSlice = createSlice({
     setUser(state, action: PayloadAction<UserState>) {
       return action.payload;
     },
+    setBasePath(state, action: PayloadAction<string>) {
+      state.basePath = action.payload || ".";
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setBasePath } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

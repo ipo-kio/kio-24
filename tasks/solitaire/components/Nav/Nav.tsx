@@ -3,17 +3,18 @@ import { clx } from "../../utils/clx";
 
 import css from "./Nav.module.css";
 
-import { useAppDispatch } from "../../services";
+import { useAppDispatch, useAppSelector } from "../../services";
 import { restoreSnapshot } from "../../services/slices/cards";
 import { NavButton } from "./NavButton/NavButton";
 
 export const Nav: FC = () => {
-  const dispacth = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const basePath = useAppSelector(s => s.user.basePath);
   return (
     <nav className={clx(css.nav)}>
       <ul className={clx(css.nav__list)}>
-        <NavButton onClick={() => dispacth(restoreSnapshot())} title="Отменить действие">
-          <img src="./solitaire-resources/back.svg" alt="Отменить действие" />
+        <NavButton onClick={() => dispatch(restoreSnapshot())} title="Отменить действие">
+          <img src={`${basePath}/solitaire-resources/back.svg`} alt="Отменить действие" />
         </NavButton>
       </ul>
     </nav>

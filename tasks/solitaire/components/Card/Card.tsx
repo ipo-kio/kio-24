@@ -26,6 +26,7 @@ export const Card: FC<ICard> = ({ bottomCards, deepIndex, isUpFocus, index, alwa
 
   const dispatch = useAppDispatch();
   const isFreeMode = useAppSelector(s => s.cards.isFreeMode);
+  const basePath = useAppSelector(s => s.user.basePath);
 
   const [isFoucs, focusAttr] = useCardFocus(bottomCards, index);
 
@@ -49,7 +50,7 @@ export const Card: FC<ICard> = ({ bottomCards, deepIndex, isUpFocus, index, alwa
   return (
     <div className={classNames} style={isDeep} ref={setNodeRef} {...focusAttr} {...listeners} {...attributes}>
       <div className={clx(css.card, border, foucsStyle, !deepIndex && css.card__first, isRemoved && css.card__removed)}>
-        <img src={`./solitaire-resources/card_${currCard.title}.svg`} alt={`Карта ${currCard.title}`} />
+        <img src={`${basePath}/solitaire-resources/card_${currCard.title}.svg`} alt={`Карта ${currCard.title}`} />
       </div>
       {bottomCards.length > 1 && (
         <Card

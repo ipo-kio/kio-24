@@ -21,21 +21,30 @@ export const CardWrapper: FC<ICardWrapper> = ({ cell, index, isUpFocus, startCar
   // prettier-ignore
   const { setNodeRef, over, isOver: isElOver } = useDroppable({id: index});
   const isOver = over?.id !== dragId && isElOver;
-  const wraperrClass = clx(css.wrapper, isOver && css.wrapper__over);
+  const warperClass = clx(css.wrapper, isOver && css.wrapper__over);
+  const basePath = useAppSelector(s => s.user.basePath);
 
   return (
     <>
       {cell.length ? (
-        <div className={wraperrClass} style={cssVars} ref={setNodeRef}>
-          {!startCard && <img src="./solitaire-resources/lines.svg" alt="Стрелка назад" aria-hidden="false" />}
+        <div className={warperClass} style={cssVars} ref={setNodeRef}>
+          {!startCard && (
+            <img src={`${basePath}/solitaire-resources/lines.svg`} alt="Стрелка назад" aria-hidden="false" />
+          )}
           <Card isUpFocus={isUpFocus} bottomCards={cell} deepIndex={0} index={index} />
-          {!endCard && <img src="./solitaire-resources/arrow.svg" alt="Стрелка вперед" aria-hidden="false" />}
+          {!endCard && (
+            <img src={`${basePath}/solitaire-resources/arrow.svg`} alt="Стрелка вперед" aria-hidden="false" />
+          )}
         </div>
       ) : (
-        <div className={wraperrClass}>
-          {!startCard && <img src="./solitaire-resources/lines.svg" alt="Стрелка назад" aria-hidden="false" />}
+        <div className={warperClass}>
+          {!startCard && (
+            <img src={`${basePath}/solitaire-resources/lines.svg`} alt="Стрелка назад" aria-hidden="false" />
+          )}
           <EmptyCard ref={setNodeRef} isOver={isOver} />
-          {!endCard && <img src="./solitaire-resources/arrow.svg" alt="Стрелка вперед" aria-hidden="false" />}
+          {!endCard && (
+            <img src={`${basePath}/solitaire-resources/arrow.svg`} alt="Стрелка вперед" aria-hidden="false" />
+          )}
         </div>
       )}
     </>

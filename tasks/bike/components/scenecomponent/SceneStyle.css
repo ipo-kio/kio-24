@@ -54,6 +54,7 @@
     top: 90px;
     left: 90px;
     scale: 1.5;
+    z-index: 10;
 }
 
 .center {
@@ -270,7 +271,7 @@
     background-repeat: no-repeat;
 
     bottom: 50px;
-    right: 470px;
+    right: 374px;
     transform: rotateY(180deg);
 }
 

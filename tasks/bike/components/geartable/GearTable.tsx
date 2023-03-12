@@ -1,16 +1,17 @@
 import React, {Component} from "react";
 
 
-const gear12 = "./bike-resources/Vector12.svg"
-const gear14 = "./bike-resources/Vector14.svg"
-const gear16 = "./bike-resources/Vector16.svg"
-const gear18 = "./bike-resources/Vector18.svg"
-const gear21 = "./bike-resources/Vector21.svg"
-const gear24 = "./bike-resources/Vector24.svg"
-const gear34 = "./bike-resources/Vector34.svg"
-const gear44 = "./bike-resources/Vector44.svg"
+let gear12 = "/bike-resources/Vector12.svg"
+let gear14 = "/bike-resources/Vector14.svg"
+let gear16 = "/bike-resources/Vector16.svg"
+let gear18 = "/bike-resources/Vector18.svg"
+let gear21 = "/bike-resources/Vector21.svg"
+let gear24 = "/bike-resources/Vector24.svg"
+let gear34 = "/bike-resources/Vector34.svg"
+let gear44 = "/bike-resources/Vector44.svg"
 
 import "./GearTable.css";
+import {KioApi} from "../../../KioApi";
 
 type Props = {
     tableData: number[][]
@@ -18,6 +19,7 @@ type Props = {
     selectedSpeedX?: number
     selectedSpeedY?: number
     lockSpeed: boolean
+    kioApi: KioApi
 }
 
 enum HighlightType {
@@ -47,6 +49,31 @@ export default class GearTable extends Component {
     constructor(props: Props) {
         super(props);
         this.props = props;
+
+        console.log("base path is -------------", this.props.kioApi.basePath)
+
+        if (this.props.kioApi.basePath){
+            gear12 =props.kioApi.basePath + "/bike-resources/Vector12.svg"
+            gear14 =props.kioApi.basePath + "/bike-resources/Vector14.svg"
+            gear16 =props.kioApi.basePath + "/bike-resources/Vector16.svg"
+            gear18 =props.kioApi.basePath + "/bike-resources/Vector18.svg"
+            gear21 =props.kioApi.basePath + "/bike-resources/Vector21.svg"
+            gear24 =props.kioApi.basePath + "/bike-resources/Vector24.svg"
+            gear34 =props.kioApi.basePath + "/bike-resources/Vector34.svg"
+            gear44 =props.kioApi.basePath + "/bike-resources/Vector44.svg"
+        }
+        else {
+            gear12 ="." + "/bike-resources/Vector12.svg"
+            gear14 ="." + "/bike-resources/Vector14.svg"
+            gear16 ="." + "/bike-resources/Vector16.svg"
+            gear18 ="." + "/bike-resources/Vector18.svg"
+            gear21 ="." + "/bike-resources/Vector21.svg"
+            gear24 ="." + "/bike-resources/Vector24.svg"
+            gear34 ="." + "/bike-resources/Vector34.svg"
+            gear44 ="." + "/bike-resources/Vector44.svg"
+        }
+
+
 
         this.state = {
             cells: [[]]

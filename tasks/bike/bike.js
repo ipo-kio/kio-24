@@ -57,11 +57,13 @@ export class Bike {
 
         const root = ReactDOM.createRoot(this.domNode);
 
-
+        //{
+        // "level" : "1"
+        // }
 
         root.render(
             <>
-                <SceneComponent ref = {this.sceneRef} kioApi={kioapi} level={Level.high_9_11}/>
+                <SceneComponent ref = {this.sceneRef} kioApi={kioapi} level={+this.settings.level === 1 ? Level.middle_6_8 : Level.high_9_11}/>
             </>
         )
     };

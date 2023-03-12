@@ -54,6 +54,7 @@
     top: 90px;
     left: 90px;
     scale: 1.5;
+    z-index: 10;
 }
 
 .center {
@@ -133,7 +134,7 @@
 }
 
 .f-graphic{
-    width: 500px;
+    width: 450px;
     height: 305px;
     border-radius: 10px;
     position: relative;
@@ -228,12 +229,13 @@
     height: 40%;
     width: 250px;
     position: absolute;
-    background: url("./bike-resources/ExBikeHandlebar.svg");
+    /*background: url("./bike-resources/ExBikeHandlebar.svg");*/
+    scale: 0.8;
     background-size: contain;
     background-repeat: no-repeat;
 
     top: 60px;
-    right: 350px;
+    right: 250px;
 }
 
 .ex-bike-handlebar-2 {
@@ -269,7 +271,7 @@
     background-repeat: no-repeat;
 
     bottom: 50px;
-    right: 470px;
+    right: 374px;
     transform: rotateY(180deg);
 }
 
@@ -400,7 +402,7 @@
     width: 100px;
     height: 125px;
     top: 110px;
-    right: 425px;
+    right:312px;
 }
 
 .right-speedometer-handlebar-2{

@@ -1,13 +1,14 @@
 import React, {Component} from "react";
 
-const gear12 = "./bike-resources/assets/gears/Vector12.svg"
-const gear14 = "./bike-resources/assets/gears/Vector14.svg"
-const gear16 = "./bike-resources/assets/gears/Vector16.svg"
-const gear18 = "./bike-resources/assets/gears/Vector18.svg"
-const gear21 = "./bike-resources/assets/gears/Vector21.svg"
-const gear24 = "./bike-resources/assets/gears/Vector24.svg"
-const gear34 = "./bike-resources/assets/gears/Vector34.svg"
-const gear44 = "./bike-resources/assets/gears/Vector44.svg"
+
+const gear12 = "./bike-resources/Vector12.svg"
+const gear14 = "./bike-resources/Vector14.svg"
+const gear16 = "./bike-resources/Vector16.svg"
+const gear18 = "./bike-resources/Vector18.svg"
+const gear21 = "./bike-resources/Vector21.svg"
+const gear24 = "./bike-resources/Vector24.svg"
+const gear34 = "./bike-resources/Vector34.svg"
+const gear44 = "./bike-resources/Vector44.svg"
 
 import "./GearTable.css";
 
@@ -75,6 +76,9 @@ export default class GearTable extends Component {
     private get2dArray = () => {
         let array2 = this.state.cells.map((row) => {
             return row.map((cell) => {
+                if (cell.value === 0){
+                    return 1
+                }
                 return cell.value
             })
         })
@@ -131,8 +135,14 @@ export default class GearTable extends Component {
                 cells.push(
                     <input
                         onChange={(e) => {
+                            const inp = +e.target.value
+
+                            if (!(inp >= 0 && inp <= 12)) {
+                                return 1
+                            }
+
                             let tableData = this.state.cells
-                            tableData[row][cellData].value = +e.target.value // TODO: validation
+                            tableData[row][cellData].value = inp // TODO: validation
                             this.setState({
                                 cells: tableData
                             })

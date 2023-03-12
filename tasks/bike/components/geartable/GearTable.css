@@ -9,6 +9,11 @@
     line-height: 30px;
 }
 
+@font-face{
+    font-family:'digital-font';
+    src: url(./bike-resources/DS-DIGIB.TTF) format('truetype');
+}
+
 .table{
     display: grid;
     position: relative;

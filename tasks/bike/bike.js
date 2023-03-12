@@ -22,6 +22,7 @@ export class Bike {
 //      */
     constructor(settings) {
         this.settings = settings;
+        this.sceneRef = React.createRef()
     }
 //
 // // Далее перечисляются функции, которые нужно реализовать
@@ -41,7 +42,7 @@ export class Bike {
 //      * @param preferred_width ширина div, в котором нужно создать условие задачи. Рекомендуется не использовать это
 //      * значение, ширина окна браузера может меняться в процессе работы с лабораторией.
 //      */
-    initialize = function (domNode, kioapi, preferred_width) {
+    initialize = (domNode, kioapi, preferred_width) => {
         //сохраняем данные для будущего использования
         this.kioapi = kioapi;
         this.domNode = domNode;
@@ -54,23 +55,22 @@ export class Bike {
         //initInterface - это наш собственный приватный метод
         //В коде, по историческим причинам, используется jquery. Сейчас рекомендуется разрабатывать без него.
 
-        this.scene = React.createRef()
-
         const root = ReactDOM.createRoot(this.domNode);
+
+
 
         root.render(
             <>
-                <SceneComponent level={Level.high_9_11}/>
+                <SceneComponent ref = {this.sceneRef} kioApi={kioapi} level={Level.high_9_11}/>
             </>
         )
-
     };
 
     parameters = function () {
         return [
             {
-                name: "diff",
-                title: "Разница показателей",
+                name: "diffF",
+                title: "Разница показателей силы",
                 ordering: "minimize",
                 view: "",
             },
@@ -101,7 +101,12 @@ export class Bike {
 //      * строки, числа, массивы, внутренние объекты.
 //      */
     solution = function () {
-        return {}
+        if (!this.sceneRef.current){
+            return {tableData: [[]]}
+        }
+        console.log("sent solution", this.sceneRef.current)
+        console.log("sent solution", this.sceneRef.current.getTableData())
+        return this.sceneRef.current.getTableData()
     };
 //
 //     /**
@@ -110,10 +115,8 @@ export class Bike {
 //      * @param solution решение для загрузки
 //      */
     loadSolution = function (solution) {
-
-
-        // Надо вызвать kioapi.submitResult(), это уже делается в обработчике события 'change' поля ввода решения.
-        // Поэтому вызываем обработчик этого события: вызываем в своём событии
+        console.log("loaded silution - ", this.sceneRef.current.loadSolution(solution))
+        this.sceneRef.current.loadSolution(solution)
     };
 //
 }

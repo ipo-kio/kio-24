@@ -94,8 +94,9 @@ export default class LogicSimView {
             elementSize.width,elementSize.height);
         this.ctx.fillStyle="white";
         this.ctx.font = "bold 20px Rubik, sans-serif";
-        if(element.type!=='bar')
+        if(element.type!=='bar'){
             this.ctx.fillText(element.type.toString().toUpperCase(),element.pos.x,element.pos.y,elementSize.width)
+        }
     }
 
     drawPort(port){
@@ -109,7 +110,7 @@ export default class LogicSimView {
         this.ctx.fillStyle="white";
         this.ctx.font = "bold 20px Rubik, sans-serif";
         this.ctx.border = "5px solid red";
-        if(port.element.type==='bar' && port.type !=="common"){
+        if(port.element.type==='bar'){
             this.ctx.fillText(port.element.portValues[port.id].toString(), pos.x, pos.y - pos.y%2 + 2, port.size)
         }
     }

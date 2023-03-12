@@ -19,6 +19,7 @@ export class Logicsim {
 
         const container = document.createElement("div")
         container.style.height = "720px"
+        container.style.width = "100%"
         this.domNode.appendChild(container)
 
         this.logicSim = new LogicSim(container, 0, this.onSubmitResult, false)

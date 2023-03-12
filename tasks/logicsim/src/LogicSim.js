@@ -103,8 +103,11 @@ export default class LogicSim{
         }
         buttons.style.top=`${this.view.height-toolBarHeight/2 - buttons.clientHeight/2}px`;
         document.querySelector('#logic-sim-reset-button').addEventListener('click',(e)=>this.resetButtonPressed(e))
+        document.querySelector('#logic-sim-reset-button').addEventListener('mousemove',(e)=>this.mouseUp(e))
         document.querySelector('#logic-sim-previous-button').addEventListener('click',(e)=>this.previousButtonPressed(e))
+        document.querySelector('#logic-sim-previous-button').addEventListener('mousemove',(e)=>this.mouseUp(e))
         document.querySelector('#logic-sim-next-button').addEventListener('click',(e)=>this.nextButtonPressed(e))
+        document.querySelector('#logic-sim-next-button').addEventListener('mousemove',(e)=>this.mouseUp(e))
         if(this.editorMode===true) {
             document.querySelector('#logic-sim-save-button').addEventListener('click', (e) => this.saveButtonPressed(e))
         }
@@ -157,7 +160,8 @@ export default class LogicSim{
         return Array(this.circuit.ports - str.length).fill("0").concat([...str])
     }
 
-    resetButtonPressed(){
+    resetButtonPressed(e){
+
         console.log("circuit cleared")
         this.core.clear()
         this.loadCircuit(this.circuit)
@@ -175,7 +179,7 @@ export default class LogicSim{
         this.update(true)
     }
     saveButtonPressed(){
-        console.log(JSON.stringify(this.core.elements.filter(e=>e.type!=="bar").map(element=>{
+        const text = this.circuit.ports + " ---------- TASK --------------\n" + JSON.stringify(this.core.elements.filter(e=>e.type!=="bar").map(element=>{
             return {
                 name: element.name,
                 type: element.type,
@@ -184,8 +188,7 @@ export default class LogicSim{
                     y: element.pos.y / this.view.height
                 }
             }
-        })))
-        console.log(JSON.stringify(this.core.wires.map(wire => {
+        })) + "\n-------------\n" + JSON.stringify(this.core.wires.map(wire => {
             return {
                 startPort:{
                     element:wire.startPort.element.name,
@@ -198,7 +201,9 @@ export default class LogicSim{
                     id:wire.endPort.id
                 }
             }
-        })))
+        })) + "\n--------END---------"
+
+        navigator.clipboard.writeText(text).then(() => alert("Задание скопировано, нажмите пкм --> вставить"))
     }
 
     initMouse(){

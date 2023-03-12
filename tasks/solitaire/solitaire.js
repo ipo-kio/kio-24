@@ -9,7 +9,7 @@ import { setCards, setStats, setSnapshots, setStatsHistory } from "./services/sl
 import { getDistanceBySolution, getDropsBySolution } from "./utils/checkSolution";
 import { level1Cards, level2Cards, startCards } from "./constants/card";
 import { getProgress, filterSolutions } from "./utils/cardStack";
-
+import { setBasePath } from "./services/slices/user";
 export class Solitaire {
   // Разработка задачи начинается с выбора идентификатора. Он должен состоять из маленьких букв, возможно, с подчеркиваниями.
   // В этой задаче идентификатор будет `collatz_js`. Каталог с задачей должен называться как id задачи. Основной файл с
@@ -43,9 +43,8 @@ export class Solitaire {
           store.dispatch(setCards(JSON.parse(level2Cards)));
           break;
       }
-   
     } else {
-      console.warn("Уровень не выбран")
+      console.warn("Уровень не выбран");
       store.dispatch(setCards(JSON.parse(startCards)));
     }
     store.dispatch(setStats({ length: 0, steps: 0, drops: 0 }));
@@ -94,6 +93,9 @@ export class Solitaire {
         if (!(length || steps || drops || progress)) return;
         kioapi.submitResult(store.getState().cards.stats);
       });
+
+      store.dispatch(setBasePath(kioapi.basePath));
+
       root.render(
         <React.StrictMode>
           <Provider store={store}>

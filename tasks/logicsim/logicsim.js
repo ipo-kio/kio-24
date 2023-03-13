@@ -5,7 +5,7 @@ export class Logicsim {
 
     constructor(settings) {
         this.settings = settings;
-        this.logicSim = undefined;
+        this.logicSim = null;
     }
 
     id = function () {
@@ -65,7 +65,8 @@ export class Logicsim {
 //      * строки, числа, массивы, внутренние объекты.
 //      */
     solution = () => {
-        return {}
+        if (!this.logicSim) return
+        return this.logicSim.getCircuit()
     };
 //
 //     /**
@@ -74,7 +75,9 @@ export class Logicsim {
 //      * @param solution решение для загрузки
 //      */
     loadSolution = function (solution) {
-
+        if (!solution) return
+        this.logicSim.core.clear()
+        this.logicSim.loadCircuit(solution)
     };
 //
 }

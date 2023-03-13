@@ -20,17 +20,18 @@ export default class LogicSimView {
         if(canvas.getContext('2d')) {
             this.ctx = canvas.getContext('2d');
             this.ctx.fillStyle="black";
-            this.ctx.canvas.style.background = "#8FD9DE";
             this.ctx.textAlign="center"
             this.ctx.textBaseline="middle"
-            this.ctx.font = "24px serif";
+            this.ctx.fillStyle="white";
+            this.ctx.font = "bold 20px Rubik, sans-serif";
 
         }
 
     }
 
     clear(){
-        this.ctx.clearRect(0,0,this.width,this.height);
+        this.ctx.fillStyle="#8FD9DE";
+        this.ctx.fillRect(0,0,this.width,this.height);
         this.ctx.fillStyle = "#ACE9ED";
         this.ctx.fillRect(this.width/2, 0, this.width, this.height);
 
@@ -62,28 +63,37 @@ export default class LogicSimView {
 
     }
     drawWires(wires){
-        wires.forEach(wire=> {
-            this.drawWire(wire.startPort.getPos(),
-                          wire.endPort.getPos())
-
-        })
+        wires.forEach(wire=>this.drawWire(wire))
     }
 
-    drawWire(start,end){
+    drawWire(wire){
+        let start = wire.startPort.getPos();
+        let end =  wire.endPort.getPos()
         this.ctx.beginPath();
         this.ctx.moveTo(start.x, start.y);
         this.ctx.lineTo(end.x, end.y);
         this.ctx.lineWidth=this.wireWidth;
-        if (start.x >= this.width/2) this.ctx.strokeStyle = "white";
-        else this.ctx.strokeStyle="#1A768A"
+        if(wire.active) this.ctx.strokeStyle="yellow"
+        else {
+            if (start.x>=this.width/2 && end.x>=this.width/2) this.ctx.strokeStyle = "white";
+            else this.ctx.strokeStyle = "#1A768A"
+        }
         this.ctx.stroke();
     }
 
     getElementColor(element) {
         if (element.draggable) return "#C199D3";
-        if (element.type ){
-            if (element.type === 'bar' && element.pos.x > this.width/2 && element.pos.y <= this.height - 150) return "#ACE9ED";
-            return (element.type==='bar')?"#8FD9DE":"#9772AB"
+        if(element.name === "output_bar") {
+            return "#8FD9DE"
+        }
+        else if(element.name === "input_bar"){
+            return "#ACE9ED"
+        }
+        else if(element.name === "common_bar"){
+            return "#8FD9DE"
+        }
+        else {
+            return "#9772AB"
         }
     }
 
@@ -93,7 +103,6 @@ export default class LogicSimView {
         this.ctx.fillRect(element.pos.x - elementSize.width/2,element.pos.y - elementSize.height/2,
             elementSize.width,elementSize.height);
         this.ctx.fillStyle="white";
-        this.ctx.font = "bold 20px Rubik, sans-serif";
         if(element.type!=='bar'){
             this.ctx.fillText(element.type.toString().toUpperCase(),element.pos.x,element.pos.y,elementSize.width)
         }
@@ -101,14 +110,17 @@ export default class LogicSimView {
 
     drawPort(port){
         let pos = port.getPos()
-        if (port.element.type === 'bar') this.ctx.fillStyle = "#1A768A";
-        else if (pos.x >= this.width/2 && pos.y <= this.height - 150) this.ctx.fillStyle = "#A04899";
+        if (port.element.type === 'bar') {
+            this.ctx.fillStyle = "#1A768A";
+            if(port.type==="input" && !port.element.portValid[port.id])
+                this.ctx.fillStyle = "#FF768A";
+        }
+        else if (port.element.draggable) this.ctx.fillStyle = "#A04899";
         else this.ctx.fillStyle="#71416C";
         this.ctx.beginPath();
         this.ctx.arc(pos.x, pos.y, port.size, 0, 2 * Math.PI);
         this.ctx.fill();
         this.ctx.fillStyle="white";
-        this.ctx.font = "bold 20px Rubik, sans-serif";
         this.ctx.border = "5px solid red";
         if(port.element.type==='bar'){
             this.ctx.fillText(port.element.portValues[port.id].toString(), pos.x, pos.y - pos.y%2 + 2, port.size)

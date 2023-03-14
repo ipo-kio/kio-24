@@ -22,7 +22,11 @@ export class Logicsim {
         container.style.width = "100%"
         this.domNode.appendChild(container)
 
-        this.logicSim = new LogicSim(container, 0, this.onSubmitResult, false)
+        if (!this.settings.level) {
+            console.error("Wrong level provided")
+        }
+
+        this.logicSim = new LogicSim(container, +this.settings.level, this.onSubmitResult, false)
     };
 
     parameters = function () {
@@ -70,7 +74,7 @@ export class Logicsim {
         return this.logicSim.getCircuit()
     };
 //
-//     /** 0000 0001 1110  =>   3/16 = 18.75%
+//     /**
 //      * Загрузка решения в задачу. В качестве аргумента solution будет передан объект, который
 //      * до этого был сформирован в методе solution. При загрузке решения нужно обновить данные через kioapi.submitResult
 //      * @param solution решение для загрузки

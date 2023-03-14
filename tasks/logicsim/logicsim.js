@@ -32,7 +32,7 @@ export class Logicsim {
                 name: "passedFraction",
                 title: "Процент успешных тестов",
                 ordering: "maximize",
-                view: "",
+                view: "%",
             },
             {
                 name: "elementsUsed",
@@ -44,6 +44,7 @@ export class Logicsim {
     };
 
     onSubmitResult = (res) => {
+        res.passedFraction *= 100
         this.kioapi.submitResult(res)
     }
 //
@@ -69,7 +70,7 @@ export class Logicsim {
         return this.logicSim.getCircuit()
     };
 //
-//     /**
+//     /** 0000 0001 1110  =>   3/16 = 18.75%
 //      * Загрузка решения в задачу. В качестве аргумента solution будет передан объект, который
 //      * до этого был сформирован в методе solution. При загрузке решения нужно обновить данные через kioapi.submitResult
 //      * @param solution решение для загрузки

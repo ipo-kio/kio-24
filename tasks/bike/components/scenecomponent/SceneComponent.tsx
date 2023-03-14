@@ -16,25 +16,27 @@ type Props = {
 }
 
 type State = {
-    Tlist: number[];
-    wList: number[];
+    Tlist: number[]
+    wList: number[]
 
-    bicycleFlist: number[];
-    bicycleSpeed: number;
-    bicycleDistance: number[];
+    bicycleFlist: number[]
+    bicycleSpeed: number
+    bicycleSpeedList: number[]
+    bicycleDistance: number[]
 
-    exerciseFlist: number[];
-    exerciseSpeed: number;
-    exercisePower: number;
-    exerciseDistance: number[];
-    curMode: number;
+    exerciseFlist: number[]
+    exerciseSpeed: number
+    exerciseSpeedList: number[]
+    exercisePower: number
+    exerciseDistance: number[]
+    curMode: number
 
-    curGear: number;
-    curX: number;
-    curY: number;
-    lockTableSpeed: boolean;
+    curGear: number
+    curX: number
+    curY: number
+    lockTableSpeed: boolean
 
-    tableData: number[][];
+    tableData: number[][]
 }
 
 export default class SceneComponent extends Component {
@@ -59,15 +61,17 @@ export default class SceneComponent extends Component {
         this.props = props;
         this.choosenExGears = []
 
-        this.state = {
+        this.state = { // TODO: reset state on sim restart
             Tlist: [],
             wList: [],
             bicycleFlist: [],
             bicycleSpeed: 0,
+            bicycleSpeedList: [],
             exerciseFlist: [],
             exerciseDistance: [],
             bicycleDistance: [],
             exerciseSpeed: 0,
+            exerciseSpeedList: [],
             exercisePower: 0,
             curMode: 0,
             curGear: 0,
@@ -99,7 +103,7 @@ export default class SceneComponent extends Component {
     // ------------------------------------------------
 
     componentDidMount = () => {
-        this.loadLevel(this.props.level) // TODO: maybe just put in into constructor?
+        this.loadLevel(this.props.level) //maybe just put in into constructor?
     }
 
     private loadLevel = (selectedLvl: Level) => {
@@ -235,7 +239,8 @@ export default class SceneComponent extends Component {
                 wList: [...this.state.wList, W],
                 bicycleFlist: [...this.state.bicycleFlist, F],
                 bicycleDistance: [...this.state.bicycleDistance, distance],
-                bicycleSpeed: V
+                bicycleSpeed: V,
+                bicycleSpeedList: [...this.state.bicycleSpeedList, V]
             })
         }
 
@@ -291,6 +296,7 @@ export default class SceneComponent extends Component {
                 this.setState({
                     exerciseFlist: [...this.state.exerciseFlist, F],
                     exerciseSpeed: V,
+                    exerciseSpeedList: [...this.state.exerciseSpeedList, V],
                     exercisePower: power,
                     exerciseDistance: [...this.state.exerciseDistance, dist]
                 })
@@ -311,24 +317,18 @@ export default class SceneComponent extends Component {
         // this.updateExerciseBikeGears(arr)
     }
 
-    // updateExerciseBikeGears = (arr: number[][]) => {
-    //     if (this.bicyclePhysics) {
-    //         let gears: number[] = []
-    //         arr.forEach((row) => {
-    //             row.forEach((value) => {
-    //                 // @ts-ignore
-    //                 gears.push(this.bicyclePhysics.getNi()[value - 1])
-    //             })
-    //         })
-    //
-    //         // @ts-ignore
-    //         this.exerciseBikePhysics.setNi(gears)
-    //
-    //     }
-    //
-    // };
+
+
 
     render() {
+
+        const speedDiff: number[] = []
+
+        const maxSize = Math.max(this.state.exerciseSpeedList.length, this.state.bicycleSpeedList.length);
+
+        for (let i = 0; i < maxSize; i++) {
+            speedDiff.push(Math.abs(this.state.exerciseSpeedList[i] - this.state.bicycleSpeedList[i]))
+        }
 
         let sum = 0
         this.state.tableData.forEach((row) => {
@@ -441,17 +441,17 @@ export default class SceneComponent extends Component {
 
                             <div className="v-box">
                                 <div className="f-graphic" style={{background: this.graphicsBackground}}>
-                                    <GraphicsComponent x={this.state.Tlist} x_label_name={""} y={this.state.wList}
+                                    <GraphicsComponent x={this.state.Tlist} x_label_name={""} y={speedDiff}
                                                        y_label_name={""} result_label_name={""}
-                                                       max_y={2}
-                                                       max_x={1.5} color={this.greenColor}/>
+                                                       max_y={(speedDiff[speedDiff.length-1] > 20) ? speedDiff[speedDiff.length-1] + 10 : 20}
+                                                       max_x={1.6} color={this.greenColor}/>
                                     <div className="f-t-label" style={{color: this.greenColor}}>
                                         <label style={{fontSize: "1.5em"}}>t</label>
                                         <label style={{fontSize: "1em"}}>сек</label>
                                     </div>
                                     <div className="f-f-label" style={{color: this.greenColor}}>
-                                        <label style={{fontSize: "1.5em"}}>W</label>
-                                        <label style={{fontSize: "1em"}}>обороты/сек</label>
+                                        <label style={{fontSize: "1.5em"}}>V, км/ч</label>
+                                        <label style={{fontSize: "1em"}}>Абсолютная разность скоростей</label>
                                     </div>
                                 </div>
                             </div>

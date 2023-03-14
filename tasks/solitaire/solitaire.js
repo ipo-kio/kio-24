@@ -112,7 +112,7 @@ export class Solitaire {
     return [
       {
         name: "length",
-        title: "Длинна перемещений",
+        title: "Длина перемещений",
         ordering: "minimize",
         view: "",
       },

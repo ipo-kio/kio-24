@@ -13,6 +13,7 @@ export default class LogicSim{
         this.testCallback = testCallback
         this.canvasParent = container;
         this.canvas = document.createElement('canvas');
+        this.canvas.style.display = "block"
         this.canvasParent.appendChild(this.canvas);
 
         let toolBarHeight = 150
@@ -37,17 +38,18 @@ export default class LogicSim{
 
     createButtons(toolBarHeight,parent){
         let buttons = document.createElement('div');
+        parent.position = "relative"
         parent.appendChild(buttons);
         buttons.style.position="absolute";
         buttons.style.padding="10px";
         buttons.style.display="flex";
-        buttons.style.height = "10%";
+        // buttons.style.height = "140px";
 
-        buttons.style.left="55%";
+        buttons.style.right="30px";
         buttons.innerHTML=`
             <button id="logic-sim-reset-button" 
                     style="border: none;
-                            width: 40%; 
+                            width: 150px; 
                             height: 90px; 
                             margin: 0 10px; 
                             font-family: 'Rubik', sans-serif;
@@ -62,7 +64,7 @@ export default class LogicSim{
                     сброс результата
             </button>
             <button id="logic-sim-previous-button" 
-                    style="width: 40%; 
+                    style="width: 150px; 
                             height: 90px; 
                             margin: 0 10px;
                             border: none;
@@ -78,7 +80,7 @@ export default class LogicSim{
                     предыдущий входной набор
             </button>
             <button id="logic-sim-next-button" 
-                    style="width: 40%; 
+                    style="width: 150px; 
                             height: 90px; 
                             margin: 0 40px 0 10px;
                             border: none;

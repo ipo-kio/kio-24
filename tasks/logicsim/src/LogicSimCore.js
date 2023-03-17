@@ -155,11 +155,11 @@ export default class LogicSimCore {
     generateCircuit(inputValues){
 
         let circuit = new this.Circuit();
-        let machinesToConnect = []
-        circuit.addMachine("OFF",this.elementTypeMap['0'])
+        //let machinesToConnect = []
+        //circuit.addMachine("OFF",this.elementTypeMap['0'])
         this.elements.filter(element=>element.type!=="bar").forEach(element=>{
             circuit.addMachine(element.name,this.elementTypeMap[element.type])
-            machinesToConnect.push({name: element.name, unconnected: Array(element.getPortCount().input).fill(true)})
+            //machinesToConnect.push({name: element.name, unconnected: Array(element.getPortCount().input).fill(true)})
         })
         let inputs = this.elements.find(element => element.name === "output_bar")
         inputs.getPorts().map(port=>{
@@ -176,17 +176,17 @@ export default class LogicSimCore {
         this.wires.forEach(wire=>{
             let names = this.mapWireElementNames(wire)
             circuit.addConnection(names.outName,names.outId,names.inName,names.inId)
-            let machine = machinesToConnect.find(x=>x.name === names.inName)
+            /*let machine = machinesToConnect.find(x=>x.name === names.inName)
             if(machine)
-                machine.unconnected[names.inId] = false
+                machine.unconnected[names.inId] = false*/
         })
 
-        machinesToConnect.forEach(machine=>{
+        /*machinesToConnect.forEach(machine=>{
             machine.unconnected.forEach((c,i)=>{
                 if(c===true)
                     circuit.addConnection('OFF',0,machine.name,i)
             })
-        })
+        })*/
 
         return circuit;
     }
@@ -202,16 +202,17 @@ export default class LogicSimCore {
             let outputValues = Array(inputValues.length).fill('0').map((x, i) => {
                 return simulationResult.state[`O${i}`][0]
             })
-            let commonValues = Array(inputValues.length).fill('0').map((x, i) => {
-                return simulationResult.state[`C${i}`][0]
-            })
+
 
             if (display) {
                 this.simulationResult = simulationResult;
                 let outputs = this.elements.find(element => element.name === "input_bar")
-                outputs.portValues = outputValues.map(v => (+(!!v)).toString())
+                outputs.portValues = outputValues.map(v =>(v!==undefined)?(+(!!v)).toString():undefined)
                 outputs.portValid = outputs.portValues.map((v,i) => v === inputValues[i])
                 let common = this.elements.find(element => element.name === "common_bar")
+                let commonValues = Array(common.portCount).fill('0').map((x, i) => {
+                    return simulationResult.state[`C${i}`][0]
+                })
                 common.portValues = commonValues.map(v => (+(!!v)).toString())
 
                 this.wires.forEach(wire => {

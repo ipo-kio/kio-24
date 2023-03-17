@@ -13,11 +13,11 @@ export default class LogicSim{
         this.testCallback = testCallback
         this.canvasParent = container;
         this.canvas = document.createElement('canvas');
-        this.canvas.style.display = "block"
         this.canvasParent.appendChild(this.canvas);
 
         let toolBarHeight = 150
         this.portSize = 12;
+        this.innerPortSize = 8
         this.editorMode=!!editorMode
 
         this.circuit=circuits[circuitIndex]
@@ -25,12 +25,12 @@ export default class LogicSim{
         this.view = new LogicSimView(this);
 
         this.createButtons(toolBarHeight, this.canvasParent)
-        this.toolbar = new Toolbar(this.view.width * 0.5, this.view.height, toolBarHeight, this.portSize)
+        this.toolbar = new Toolbar(this.view.width * 0.5, this.view.height, toolBarHeight, this.innerPortSize)
         this.toolbar.addElement('not')
         this.toolbar.addElement('and')
         this.toolbar.addElement('or')
 
-        this.core = new LogicSimCore(this.portSize,this.editorMode)
+        this.core = new LogicSimCore(this.innerPortSize,this.editorMode)
         this.initMouse()
         this.loadCircuit(this.circuit)
 
@@ -38,18 +38,17 @@ export default class LogicSim{
 
     createButtons(toolBarHeight,parent){
         let buttons = document.createElement('div');
-        parent.position = "relative"
         parent.appendChild(buttons);
         buttons.style.position="absolute";
         buttons.style.padding="10px";
         buttons.style.display="flex";
-        // buttons.style.height = "140px";
+        buttons.style.height = "10%";
 
-        buttons.style.right="30px";
+        buttons.style.left="55%";
         buttons.innerHTML=`
             <button id="logic-sim-reset-button" 
                     style="border: none;
-                            width: 150px; 
+                            width: 40%; 
                             height: 90px; 
                             margin: 0 10px; 
                             font-family: 'Rubik', sans-serif;
@@ -64,7 +63,7 @@ export default class LogicSim{
                     сброс результата
             </button>
             <button id="logic-sim-previous-button" 
-                    style="width: 150px; 
+                    style="width: 40%; 
                             height: 90px; 
                             margin: 0 10px;
                             border: none;
@@ -80,7 +79,7 @@ export default class LogicSim{
                     предыдущий входной набор
             </button>
             <button id="logic-sim-next-button" 
-                    style="width: 150px; 
+                    style="width: 40%; 
                             height: 90px; 
                             margin: 0 40px 0 10px;
                             border: none;
@@ -134,12 +133,12 @@ export default class LogicSim{
                     y:element.pos.y * this.view.height
                 },
                 (element.draggable?element.draggable:false) || this.editorMode,
-                this.portSize))
+                this.innerPortSize))
         })
 
         this.addBar(this.view.width-50/2,'input',50,circuit.ports,this.portSize*1.5)
         this.addBar(50/2,'output',50,circuit.ports,this.portSize*1.5)
-        this.addBar(this.view.width/2,'common',5,circuit.ports,this.portSize)
+        this.addBar(this.view.width/2,'common',5,circuit.centerPorts,this.portSize * 1.5)
 
         circuit.wires.forEach(wire => {
             let startPort = this.findPort(wire.startPort)
@@ -183,6 +182,7 @@ export default class LogicSim{
         return  {
             name:"test" + new Date().toDateString(),
             ports: this.circuit.ports,
+            centerPorts: this.circuit.centerPorts,
             tests: [...Array(Math.pow(2, this.circuit.ports)).keys()],
             elements: this.core.elements.filter(e=>e.type!=="bar").map(element=>{
                 let draggable = element.draggable

@@ -12,9 +12,9 @@ export default class Element{
 
     getSize(){
         if(this.type==='not')
-            return {width: 80, height: 60}
+            return {width: 55, height: 38}
         else {
-            return {width: 80, height: 60}
+            return {width: 55, height: 38}
         }
     }
 

@@ -17,6 +17,7 @@ export default class LogicSim{
 
         let toolBarHeight = 150
         this.portSize = 12;
+        this.innerPortSize = 8
         this.editorMode=!!editorMode
 
         this.circuit=circuits[circuitIndex]
@@ -24,12 +25,12 @@ export default class LogicSim{
         this.view = new LogicSimView(this);
 
         this.createButtons(toolBarHeight, this.canvasParent)
-        this.toolbar = new Toolbar(this.view.width * 0.5, this.view.height, toolBarHeight, this.portSize)
+        this.toolbar = new Toolbar(this.view.width * 0.5, this.view.height, toolBarHeight, this.innerPortSize)
         this.toolbar.addElement('not')
         this.toolbar.addElement('and')
         this.toolbar.addElement('or')
 
-        this.core = new LogicSimCore(this.portSize,this.editorMode)
+        this.core = new LogicSimCore(this.innerPortSize,this.editorMode)
         this.initMouse()
         this.loadCircuit(this.circuit)
 
@@ -132,12 +133,12 @@ export default class LogicSim{
                     y:element.pos.y * this.view.height
                 },
                 (element.draggable?element.draggable:false) || this.editorMode,
-                this.portSize))
+                this.innerPortSize))
         })
 
         this.addBar(this.view.width-50/2,'input',50,circuit.ports,this.portSize*1.5)
         this.addBar(50/2,'output',50,circuit.ports,this.portSize*1.5)
-        this.addBar(this.view.width/2,'common',5,circuit.ports,this.portSize)
+        this.addBar(this.view.width/2,'common',5,circuit.centerPorts,this.portSize * 1.5)
 
         circuit.wires.forEach(wire => {
             let startPort = this.findPort(wire.startPort)
@@ -181,6 +182,7 @@ export default class LogicSim{
         return  {
             name:"test" + new Date().toDateString(),
             ports: this.circuit.ports,
+            centerPorts: this.circuit.centerPorts,
             tests: [...Array(Math.pow(2, this.circuit.ports)).keys()],
             elements: this.core.elements.filter(e=>e.type!=="bar").map(element=>{
                 let draggable = element.draggable

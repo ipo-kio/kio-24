@@ -2,7 +2,7 @@
 export default class LogicSimView {
     constructor(controller) {
         this.controller = controller
-        this.wireWidth = 6;
+        this.wireWidth = 4;
         this.initCanvas(controller.canvas)
     }
 
@@ -23,7 +23,7 @@ export default class LogicSimView {
             this.ctx.textAlign="center"
             this.ctx.textBaseline="middle"
             this.ctx.fillStyle="white";
-            this.ctx.font = "bold 20px Rubik, sans-serif";
+            this.ctx.font = "bold 15px Rubik, sans-serif";
 
         }
 
@@ -73,10 +73,11 @@ export default class LogicSimView {
         this.ctx.moveTo(start.x, start.y);
         this.ctx.lineTo(end.x, end.y);
         this.ctx.lineWidth=this.wireWidth;
-        if(wire.active) this.ctx.strokeStyle="yellow"
+        if(wire.active===undefined) this.ctx.strokeStyle="gray"
+        else if(wire.active) this.ctx.strokeStyle="yellow"
         else {
             if (start.x>=this.width/2 && end.x>=this.width/2) this.ctx.strokeStyle = "white";
-            else this.ctx.strokeStyle = "#1A768A"
+            else this.ctx.strokeStyle = "#ffffff"
         }
         this.ctx.stroke();
     }
@@ -112,7 +113,8 @@ export default class LogicSimView {
         let pos = port.getPos()
         if (port.element.type === 'bar') {
             this.ctx.fillStyle = "#1A768A";
-            if(port.type==="input" && !port.element.portValid[port.id])
+            if(port.type==="input" && port.element.portValues[port.id] === undefined)  this.ctx.fillStyle = "gray";
+            else if(port.type==="input" && !port.element.portValid[port.id])
                 this.ctx.fillStyle = "#FF768A";
         }
         else if (port.element.draggable) this.ctx.fillStyle = "#A04899";
@@ -123,7 +125,7 @@ export default class LogicSimView {
         this.ctx.fillStyle="white";
         this.ctx.border = "5px solid red";
         if(port.element.type==='bar'){
-            this.ctx.fillText(port.element.portValues[port.id].toString(), pos.x, pos.y - pos.y%2 + 2, port.size)
+            this.ctx.fillText(port.element.portValues[port.id]?port.element.portValues[port.id].toString():"", pos.x, pos.y - pos.y%2 + 2, port.size)
         }
     }
 

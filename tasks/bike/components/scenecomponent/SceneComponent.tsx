@@ -340,7 +340,7 @@ export default class SceneComponent extends Component {
         sum += this.state.curGear + 1 + (this.state.lockTableSpeed ? 1 : 0)
 
         return (
-            (this.props.level !== (Level.low_1_5 || Level.middle_6_8)) ? // Это всё для маленьких
+            (this.props.level === (Level.low_1_5 || Level.middle_6_8)) ? // Это всё для маленьких
                 <div className="page-container">
                     <div className="bicycle-left-2">
                         <div className="left-speedometer-2">

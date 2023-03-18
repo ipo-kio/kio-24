@@ -250,7 +250,7 @@ export default class GearTable extends Component {
 
 
         return (
-            <div style={{position: "relative", transform: "translateX(-24px)"}}>
+            <div>
                 <div className="outer">
                     <div className="top">
                         {topPanel}

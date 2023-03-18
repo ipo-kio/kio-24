@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    width: 98vw;
+    width: 98%;
     gap: 2%;
 
     background: #B3B3B3;
@@ -29,32 +29,25 @@
 .bicycle-left-2 {
     border: 5px solid #66FFCC;
     border-radius: 10px;
-    height: 91%;
+    height: 97%;
     width: 55%;
     display: flex;
     flex-direction: column;
-
-    padding-top: 2%;
-    padding-bottom: 1%;
-    position: relative;
+    /* padding-left: 30px; */
+    margin-left: 30px;
 }
 
 .left-speedometer {
-    width: 180px;
-    height: 225px;
+    width: 161px;
+    height: 190px;
     top: 3%;
     left: 17%;
 }
 
 .left-speedometer-2 {
-    width: 180px;
-    height: 225px;
-
-    position: absolute;
-    top: 90px;
-    left: 90px;
-    scale: 1.5;
-    z-index: 10;
+    width: 178px;
+    height: 221px;
+    margin: 30px 0px 20% 10px;
 }
 
 .center {
@@ -73,9 +66,9 @@
     background: #B3B3B3;
     border-radius: 10px;
     position: absolute;
-    top: 30px;
-    height: 45%;
-    width: 60%;
+    top: 47px;
+    height: 35%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -105,25 +98,23 @@
     width: 40%;
     display: flex;
     flex-direction: column;
-    gap: 8%;
-
+    gap: 10%;
     padding-bottom: 1%;
+    align-items: flex-end;
+    padding-right: 30px;
 }
 
 .right-speedometer {
-    width: 180px;
-    height: 225px;
+    width: 156px;
+    height: 190px;
     top: 2%;
     right: 15%;
 }
 
 .right-speedometer-2 {
-    width: 180px;
-    height: 225px;
-    position: absolute;
-    top: 100px;
-    right: 100px;
-    scale: 1.5;
+    width: 178px;
+    height: 221px;
+    margin: 30px 10px 20% 0px;
 }
 
 .v-box {
@@ -133,8 +124,17 @@
     width: 100%;
 }
 
+.bicycle-image {
+    background: url(./bike-resources/bike_test.svg);
+    width: 100%;
+    scale: 1;
+    height: 80%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 .f-graphic{
-    width: 450px;
+    width: 500px;
     height: 305px;
     border-radius: 10px;
     position: relative;
@@ -173,29 +173,26 @@
 }
 
 .b-container{
-    /*scale: 1.2;*/
+    scale: 0.8;
     height: 100%;
     width: 440px;
     position: absolute;
-    background: url("./bike-resources/BikeModel.svg");
+    background: url(./bike-resources/BikeModel.svg);
     background-size: contain;
     background-repeat: no-repeat;
-
-    top: 230px;
-    left: 80px;
+    top: 216px;
+    left: -19px;
 }
 
 .b-container-2{
-    /*scale: 1.2;*/
     height: 100%;
     width: 500px;
     position: absolute;
-    background: url("./bike-resources/BikeModel.svg");
+    background: url(./bike-resources/BikeModel.svg);
     background-size: contain;
     background-repeat: no-repeat;
-
-    top: 530px;
-    right: 30px;
+    top: 559px;
+    right: 21px;
     transform: rotateY(180deg);
 }
 
@@ -203,25 +200,23 @@
     height: 100%;
     width: 450px;
     position: absolute;
-    background: url("./bike-resources/BikeHandlebar.svg");
+    background: url(./bike-resources/BikeHandlebar.svg);
     background-size: contain;
     background-repeat: no-repeat;
-
-    top: 40px;
-    left: 75px;
-
+    top: -22px;
+    scale: 0.8;
+    left: -18px;
 }
 
 .bike-handlebar-2{
     height: 100%;
-    width: 500px;
+    width: 389px;
     position: absolute;
-    background: url("./bike-resources/BikeHandlebar.svg");
+    /*background: url(./bike-resources/bike_test.svg);*/
     background-size: contain;
     background-repeat: no-repeat;
-
-    top: 540px;
-    left: 40px;
+    top: 416px;
+    left: 26px;
 
 }
 
@@ -229,36 +224,33 @@
     height: 40%;
     width: 250px;
     position: absolute;
-    /*background: url("./bike-resources/ExBikeHandlebar.svg");*/
-    scale: 0.8;
+    /*background: url(./bike-resources/bike_test.svg);*/
     background-size: contain;
     background-repeat: no-repeat;
-
-    top: 60px;
-    right: 250px;
+    top: 30px;
+    right: 238px;
+    scale: 0.75;
 }
 
 .ex-bike-handlebar-2 {
     height: 40%;
     width: 250px;
     position: absolute;
-    background: url("./bike-resources/ExBikeHandlebar.svg");
+    /*background: url(./bike-resources/ExBikeHandlebar.svg);*/
     background-size: contain;
     background-repeat: no-repeat;
-
-    bottom: 0px;
-    right: 100px;
+    bottom: 132px;
+    right: 78px;
 }
 
 .e-container {
     height: 40%;
     width: 250px;
     position: absolute;
-    background: url("./bike-resources/ExBikeModel.svg");
+    background: url(./bike-resources/ExBikeModel.svg);
     background-size: contain;
     background-repeat: no-repeat;
-
-    top: 160px;
+    top: 183px;
     right: 140px;
 }
 
@@ -266,12 +258,11 @@
     height: 40%;
     width: 240px;
     position: absolute;
-    background: url("./bike-resources/ExBikeModel.svg");
+    background: url(./bike-resources/ExBikeModel.svg);
     background-size: contain;
     background-repeat: no-repeat;
-
-    bottom: 50px;
-    right: 374px;
+    bottom: 26px;
+    right: 310px;
     transform: rotateY(180deg);
 }
 
@@ -329,18 +320,15 @@
     font: inherit;
     cursor: pointer;
     outline: inherit;
-
-    width: 60%;
+    width: 80%;
     height: 15%;
     border-radius: 10px;
-
     font-family: 'Rubik', sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 1.2em;
     line-height: 20px;
     text-align: center;
-
     color: #E6E6E6;
     background: #68AE00;
 
@@ -384,32 +372,68 @@
     position: absolute;
     width: 100px;
     height: 125px;
-    top: 80px;
-    left: 250px;
+    top: 104px;
+    left: 155px;
 }
 
 .left-speedometer-handlebar-2 {
     position: absolute;
     width: 100px;
     height: 125px;
-    top: 620px;
-    left: 235px;
-    scale: 1.4;
+    top: 477px;
+    left: 170px;
+    scale: 1.2;
 }
 
 .right-speedometer-handlebar{
     position: absolute;
     width: 100px;
     height: 125px;
-    top: 110px;
-    right:312px;
+    top: 91px;
+    right: 303px;
 }
 
 .right-speedometer-handlebar-2{
     position: absolute;
     width: 100px;
     height: 125px;
-    bottom: 190px;
-    right: 175px;
+    bottom: 324px;
+    right: 156px;
     scale: 1.2;
+}
+
+.bike-module {
+    background: url(./bike-resources/bike_module.svg);
+    width: 386px;
+    scale: 1;
+    height: 80%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.e-bike-module {
+    background: url(./bike-resources/e-bike-module.svg);
+    width: 386px;
+    scale: 1;
+    height: 80%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.bike-module-2 {
+    background: url(./bike-resources/bike_module-2.svg);
+    width: 95%;
+    scale: 1;
+    height: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.e-bike-module-2 {
+    background: url(./bike-resources/e-bike-module-2.svg);
+    width: 95%;
+    scale: 1;
+    height: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
 }

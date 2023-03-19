@@ -123,8 +123,7 @@ export default class GearTable extends Component {
 
     highlightCell = (x: number, y: number) => {
 
-        //this.props.onSelectedItem(x, y);
-        console.log(this.props.lockSpeed)
+        this.props.onSelectedItem(x, y);
 
         this.forall((cell) => {
             cell.highlighted = HighlightType.NONE

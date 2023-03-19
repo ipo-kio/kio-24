@@ -38,11 +38,14 @@ export default class LogicSim{
 
     createButtons(toolBarHeight,parent){
         let buttons = document.createElement('div');
+        parent.style.position = "relative"
         parent.appendChild(buttons);
         buttons.style.position="absolute";
         buttons.style.padding="10px";
         buttons.style.display="flex";
         buttons.style.height = "10%";
+        buttons.style.right = "0"
+        buttons.style.bottom = "30px"
 
         buttons.style.left="55%";
         buttons.innerHTML=`
@@ -97,7 +100,7 @@ export default class LogicSim{
         if(this.editorMode===true){
             buttons.innerHTML+=`<button id="logic-sim-save-button">сохранить</button>`
         }
-        buttons.style.top=`${this.view.height-toolBarHeight/2 - buttons.clientHeight/2}px`;
+        // buttons.style.top=`${this.view.height-toolBarHeight/2 - buttons.clientHeight/2}px`;
         document.querySelector('#logic-sim-reset-button').addEventListener('click',(e)=>this.resetButtonPressed(e))
         document.querySelector('#logic-sim-reset-button').addEventListener('mouseup',(e)=>this.mouseUp(e))
         document.querySelector('#logic-sim-reset-button').addEventListener('mousemove',(e)=>this.mouseMove(e))

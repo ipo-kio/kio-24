@@ -18,14 +18,17 @@ export class Logicsim {
         this.domNode = domNode;
 
         const container = document.createElement("div")
-        container.style.height = "720px"
-        container.style.width = "100%"
+        container.style.height = "761px"
+        container.style.width = "1280px"
+        domNode.style.overflowX = "auto"
+        domNode.style.overflowY = "hidden"
         this.domNode.appendChild(container)
 
         if (!this.settings.level) {
             console.error("Wrong level provided")
         }
 
+        // this.logicSim = new LogicSim(container, 2, this.onSubmitResult, true)
         this.logicSim = new LogicSim(container, +this.settings.level, this.onSubmitResult, false)
     };
 

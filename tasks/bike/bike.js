@@ -47,6 +47,15 @@ export class Bike {
         this.kioapi = kioapi;
         this.domNode = domNode;
 
+        domNode.style.width = "1500px"
+        domNode.style.height = "760px"
+        domNode.style.overflowX = "auto"
+        domNode.style.overflowY = "hidden"
+
+        //    width: 1500px;
+        //     height: 760px;
+        //     overflow-x: auto;
+
         //settings могут иметь произвольные данные для инициализации, например, уровень
         // console.log('problem level is', this.settings.level);
 

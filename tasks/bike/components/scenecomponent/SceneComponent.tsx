@@ -143,8 +143,8 @@ export default class SceneComponent extends Component {
     }
 
     startSimulation = () => {
-        let gears = [3.4, 3.14, 2.75, 2.83, 2.8, 2.42, 2.125, 1.88, 1.61, 1.57, 1.41, 1.21, 1.06, 1.0, 0.94, 0.80, 0.75, 0.68].reverse()
-        let exgears = [0.4, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6] // TODO validate table based on number of modes here
+        let gears = [3.4, 3.14, 2.75, 2.83, 2.8, 2.42, 2.125, 1.88, 1.61, 1.57, 1.41, 1.21, 1.06, 1.0, 0.94, 0.80, 0.75, 0.68]
+        let exgears = [0.4, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
 
         this.setState({
                 curMode: 0,
@@ -354,7 +354,7 @@ export default class SceneComponent extends Component {
                     <div className="bicycle-left-2">
                         <div className="left-speedometer-2">
                             <BikeSpeedComponent color={this.cyanColor} left={this.state.curY + 1 + ""} right={this.state.curX + 1 +""} speed={this.state.bicycleSpeed}
-                                                distance={this.state.bicycleDistance} isBlur={false}/>
+                                                distance={this.state.bicycleDistance} isBlur={false} />
                         </div>
                         <div className="bike-module-2"/>
                     </div>

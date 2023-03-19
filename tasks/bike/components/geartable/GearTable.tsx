@@ -263,7 +263,7 @@ export default class GearTable extends Component {
                     </div>
                 </div>
 
-                <div style={{gridTemplateColumns: `repeat(${this.props.tableData[0].length}, 40px)`}} className="table">
+                <div style={{gridTemplateColumns: `repeat(${this.props.tableData[0].length}, 45px)`}} className="table">
                     {cells}
                 </div>
             </div>

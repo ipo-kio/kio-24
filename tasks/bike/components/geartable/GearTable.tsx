@@ -123,7 +123,8 @@ export default class GearTable extends Component {
 
     highlightCell = (x: number, y: number) => {
 
-        this.props.onSelectedItem(x, y);
+        //this.props.onSelectedItem(x, y);
+        console.log(this.props.lockSpeed)
 
         this.forall((cell) => {
             cell.highlighted = HighlightType.NONE
@@ -263,7 +264,7 @@ export default class GearTable extends Component {
                     </div>
                 </div>
 
-                <div style={{gridTemplateColumns: `repeat(${this.props.tableData[0].length}, 55px)`}} className="table">
+                <div style={{gridTemplateColumns: `repeat(${this.props.tableData[0].length}, 40px)`}} className="table">
                     {cells}
                 </div>
             </div>

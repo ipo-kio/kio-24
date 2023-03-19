@@ -198,17 +198,17 @@ export default class SceneComponent extends Component {
                 diff += BFList[i] - EFList[i]
             }
 
+            let diffArray = [];
+
             for (const i in this.BVList) {
+                diffArray.push(this.BVList[i] - this.EVList[i])
                 speedDiff += this.BVList[i] - this.EVList[i]
             }
 
             diff = diff / BFList.length
-            speedDiff = speedDiff / this.BVList.length
-
             diff = Math.round(diff * 100) / 100;
-            speedDiff = Math.round(speedDiff * 100) / 100;
 
-            let res: Solution = {diffF: diff, avgSpeedDiff: speedDiff}
+            let res: Solution = {diffF: diff, maxSpeedDeviation: Math.max(...diffArray)}
             console.log("ended with ", res)
             console.log("submitted")
             this.props.kioApi.submitResult(res)
@@ -314,7 +314,6 @@ export default class SceneComponent extends Component {
     }
 
     tableSelectedItem = (row: number, col: number) => {
-        // TODO if sim not started
         this.setState({
             curX: row,
             curY: col
@@ -424,7 +423,7 @@ export default class SceneComponent extends Component {
                                 </div>
                             </div>
 
-                            <div className="center-box" style={{height: "40%", flexDirection: "column"}}>
+                            <div className="center-box-table">
                                 <GearTable key={sum} tableData={this.state.tableData}
                                            onChange={this.tableChange}
                                            lockSpeed={this.state.lockTableSpeed}

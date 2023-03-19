@@ -77,8 +77,8 @@ export class Bike {
                 view: "",
             },
             {
-                name: "avgSpeedDiff",
-                title: "Разница средней скорости",
+                name: "maxSpeedDeviation",
+                title: "Максимальное отклонение скорости",
                 ordering: "minimize",
                 view: "",
             }

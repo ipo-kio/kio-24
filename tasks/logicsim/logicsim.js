@@ -28,7 +28,7 @@ export class Logicsim {
             console.error("Wrong level provided")
         }
 
-        // this.logicSim = new LogicSim(container, 0, this.onSubmitResult, true)
+        // this.logicSim = new LogicSim(container, 2, this.onSubmitResult, true)
         this.logicSim = new LogicSim(container, +this.settings.level, this.onSubmitResult, false)
     };
 

@@ -19,7 +19,8 @@ type Props = {
     selectedSpeedX?: number
     selectedSpeedY?: number
     lockSpeed: boolean
-    kioApi: KioApi
+    kioApi: KioApi,
+    onSelectedItem: (row: number, col: number) => void
 }
 
 enum HighlightType {
@@ -121,6 +122,8 @@ export default class GearTable extends Component {
     }
 
     highlightCell = (x: number, y: number) => {
+
+        this.props.onSelectedItem(x, y);
 
         this.forall((cell) => {
             cell.highlighted = HighlightType.NONE

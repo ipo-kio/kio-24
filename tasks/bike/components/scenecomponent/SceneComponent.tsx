@@ -82,6 +82,8 @@ export default class SceneComponent extends Component {
         this.cyanColor = "#66FFCC";
         this.greenColor = "#8EED00";
 
+        this.tableSelectedItem = this.tableSelectedItem.bind(this);
+
     }
 
     // ----------------KIO METHODS---------------------
@@ -311,6 +313,14 @@ export default class SceneComponent extends Component {
         // this.updateExerciseBikeGears(arr)
     }
 
+    tableSelectedItem = (row: number, col: number) => {
+        // TODO if sim not started
+        this.setState({
+            curX: row,
+            curY: col
+        });
+    }
+
     // updateExerciseBikeGears = (arr: number[][]) => {
     //     if (this.bicyclePhysics) {
     //         let gears: number[] = []
@@ -352,12 +362,14 @@ export default class SceneComponent extends Component {
 
                     <div className="center-2">
                         <div className="center-box" style={{height: "85%", flexDirection: "column"}}>
-                            <GearTable key={sum} tableData={this.state.tableData}
+                            <GearTable key={sum}
+                                       tableData={this.state.tableData}
                                        onChange={this.tableChange}
                                        lockSpeed={this.state.lockTableSpeed}
                                        selectedSpeedX={this.state.curY}
                                        selectedSpeedY={this.state.curX}
                                        kioApi={this.props.kioApi}
+                                       onSelectedItem={this.tableSelectedItem}
                             />
                             <button className="check-button-2" onClick={this.startSimulation}>ПРОВЕРИТЬ РЕЗУЛЬТАТ
                             </button>
@@ -419,6 +431,7 @@ export default class SceneComponent extends Component {
                                            selectedSpeedX={this.state.curY}
                                            selectedSpeedY={this.state.curX}
                                            kioApi={this.props.kioApi}
+                                           onSelectedItem={this.tableSelectedItem}
                                 />
                                 <button className="check-button" onClick={this.startSimulation}>ПРОВЕРИТЬ РЕЗУЛЬТАТ
                                 </button>

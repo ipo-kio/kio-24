@@ -16,25 +16,27 @@ type Props = {
 }
 
 type State = {
-    Tlist: number[];
-    wList: number[];
+    Tlist: number[]
+    wList: number[]
 
-    bicycleFlist: number[];
-    bicycleSpeed: number;
-    bicycleDistance: number;
+    bicycleFlist: number[]
+    bicycleSpeed: number
+    bicycleSpeedList: number[]
+    bicycleDistance: number[]
 
-    exerciseFlist: number[];
-    exerciseSpeed: number;
-    exercisePower: number;
-    exerciseDistance: number;
-    curMode: number;
+    exerciseFlist: number[]
+    exerciseSpeed: number
+    exerciseSpeedList: number[]
+    exercisePower: number
+    exerciseDistance: number[]
+    curMode: number
 
-    curGear: number;
-    curX: number;
-    curY: number;
-    lockTableSpeed: boolean;
+    curGear: number
+    curX: number
+    curY: number
+    lockTableSpeed: boolean
 
-    tableData: number[][];
+    tableData: number[][]
 }
 
 export default class SceneComponent extends Component {
@@ -59,15 +61,17 @@ export default class SceneComponent extends Component {
         this.props = props;
         this.choosenExGears = []
 
-        this.state = {
+        this.state = { // TODO: reset state on sim restart
             Tlist: [],
             wList: [],
             bicycleFlist: [],
             bicycleSpeed: 0,
+            bicycleSpeedList: [],
             exerciseFlist: [],
-            exerciseDistance: 0,
-            bicycleDistance: 0,
+            exerciseDistance: [],
+            bicycleDistance: [],
             exerciseSpeed: 0,
+            exerciseSpeedList: [],
             exercisePower: 0,
             curMode: 0,
             curGear: 0,
@@ -101,7 +105,7 @@ export default class SceneComponent extends Component {
     // ------------------------------------------------
 
     componentDidMount = () => {
-        this.loadLevel(this.props.level) // TODO: maybe just put in into constructor?
+        this.loadLevel(this.props.level) //maybe just put in into constructor?
     }
 
     private loadLevel = (selectedLvl: Level) => {
@@ -236,8 +240,9 @@ export default class SceneComponent extends Component {
                 Tlist: [...this.state.Tlist, t],
                 wList: [...this.state.wList, W],
                 bicycleFlist: [...this.state.bicycleFlist, F],
-                bicycleDistance: distance,
-                bicycleSpeed: V
+                bicycleDistance: [...this.state.bicycleDistance, distance],
+                bicycleSpeed: V,
+                bicycleSpeedList: [...this.state.bicycleSpeedList, V]
             })
         }
 
@@ -293,8 +298,9 @@ export default class SceneComponent extends Component {
                 this.setState({
                     exerciseFlist: [...this.state.exerciseFlist, F],
                     exerciseSpeed: V,
+                    exerciseSpeedList: [...this.state.exerciseSpeedList, V],
                     exercisePower: power,
-                    exerciseDistance: dist
+                    exerciseDistance: [...this.state.exerciseDistance, dist]
                 })
         }
 
@@ -339,6 +345,14 @@ export default class SceneComponent extends Component {
 
     render() {
 
+        const speedDiff: number[] = []
+
+        const maxSize = Math.max(this.state.exerciseSpeedList.length, this.state.bicycleSpeedList.length);
+
+        for (let i = 0; i < maxSize; i++) {
+            speedDiff.push(Math.abs(this.state.exerciseSpeedList[i] - this.state.bicycleSpeedList[i]))
+        }
+
         let sum = 0
         this.state.tableData.forEach((row) => {
             row.forEach((value) => {
@@ -354,7 +368,7 @@ export default class SceneComponent extends Component {
                     <div className="bicycle-left-2">
                         <div className="left-speedometer-2">
                             <BikeSpeedComponent color={this.cyanColor} left={this.state.curY + 1 + ""} right={this.state.curX + 1 +""} speed={this.state.bicycleSpeed}
-                                                distance={this.state.bicycleDistance} isBlur={false} />
+                                                distance={this.state.bicycleDistance[this.state.bicycleDistance.length - 1]} isBlur={false} />
                         </div>
                         <div className="bike-module-2"/>
                     </div>
@@ -378,7 +392,7 @@ export default class SceneComponent extends Component {
                     <div className="exercise-right-2">
                         <div className="right-speedometer-2">
                             <ExBikeSpeedComponent color={this.yellowColor} time={(this.state.Tlist[this.state.Tlist.length-1])?.toString() || "0.00"} power={this.state.exercisePower}
-                                                  speed={this.state.exerciseSpeed} distance={this.state.exerciseDistance} mode={this.state.curMode.toString() || "1"} isBlur={false}/>
+                                                  speed={this.state.exerciseSpeed} distance={this.state.exerciseDistance[this.state.exerciseDistance.length - 1]} mode={this.state.curMode.toString() || "1"} isBlur={false}/>
                         </div>
                         <div className="e-bike-module-2"/>
                     </div>
@@ -394,18 +408,18 @@ export default class SceneComponent extends Component {
                             <div className="v-box">
                                 <div className="f-graphic" style={{background: this.graphicsBackground}}>
                                     <GraphicsComponent x={this.state.Tlist} x_label_name={""}
-                                                       y={this.state.bicycleFlist}
+                                                       y={this.state.bicycleDistance}
                                                        y_label_name={""} result_label_name={""}
-                                                       max_y={this.state.bicycleFlist[this.state.bicycleFlist.length - 1] > 10 ?
-                                                           this.state.bicycleFlist[this.state.bicycleFlist.length - 1] + 5 : 10}
-                                                       max_x={1.5} color={this.cyanColor}/>
+                                                       max_y={this.state.bicycleDistance[this.state.bicycleDistance.length - 1] > 10 ?
+                                                           this.state.bicycleDistance[this.state.bicycleDistance.length - 1] + 5 : 10}
+                                                       max_x={1.6} color={this.cyanColor}/>
                                     <div className="f-t-label" style={{color: this.cyanColor}}>
                                         <label style={{fontSize: "1.5em"}}>t</label>
                                         <label style={{fontSize: "1em"}}>ч.</label>
                                     </div>
                                     <div className="f-f-label" style={{color: this.cyanColor}}>
-                                        <label style={{fontSize: "1.5em"}}>F</label>
-                                        <label style={{fontSize: "1em"}}>сила</label>
+                                        <label style={{fontSize: "1.5em"}}>S</label>
+                                        <label style={{fontSize: "1em"}}>Дистанция, км</label>
                                     </div>
                                 </div>
                             </div>
@@ -415,11 +429,11 @@ export default class SceneComponent extends Component {
                             <div className="center-box" style={{height: "30%"}}>
                                 <div className="left-speedometer">
                                     <BikeSpeedComponent color={this.cyanColor} left={this.state.curY + 1 + ""} right={this.state.curX + 1 +""} speed={this.state.bicycleSpeed}
-                                                        distance={this.state.bicycleDistance} isBlur={false}/>
+                                                        distance={this.state.bicycleDistance[this.state.bicycleDistance.length - 1]} isBlur={false}/>
                                 </div>
                                 <div className="right-speedometer">
                                     <ExBikeSpeedComponent color={this.yellowColor} time={(this.state.Tlist[this.state.Tlist.length-1])?.toString() || "0.00"} power={this.state.exercisePower}
-                                                          speed={this.state.exerciseSpeed} distance={this.state.exerciseDistance} mode={this.state.curMode.toString() || "1"} isBlur={false}/>
+                                                          speed={this.state.exerciseSpeed} distance={this.state.exerciseDistance[this.state.exerciseDistance.length - 1]} mode={this.state.curMode.toString() || "1"} isBlur={false}/>
                                 </div>
                             </div>
 
@@ -438,17 +452,17 @@ export default class SceneComponent extends Component {
 
                             <div className="v-box">
                                 <div className="f-graphic" style={{background: this.graphicsBackground}}>
-                                    <GraphicsComponent x={this.state.Tlist} x_label_name={""} y={this.state.wList}
+                                    <GraphicsComponent x={this.state.Tlist} x_label_name={""} y={speedDiff}
                                                        y_label_name={""} result_label_name={""}
-                                                       max_y={2}
-                                                       max_x={1.5} color={this.greenColor}/>
+                                                       max_y={(speedDiff[speedDiff.length-1] > 20) ? speedDiff[speedDiff.length-1] + 10 : 20}
+                                                       max_x={1.6} color={this.greenColor}/>
                                     <div className="f-t-label" style={{color: this.greenColor}}>
                                         <label style={{fontSize: "1.5em"}}>t</label>
                                         <label style={{fontSize: "1em"}}>сек</label>
                                     </div>
                                     <div className="f-f-label" style={{color: this.greenColor}}>
-                                        <label style={{fontSize: "1.5em"}}>W</label>
-                                        <label style={{fontSize: "1em"}}>обороты/сек</label>
+                                        <label style={{fontSize: "1.5em"}}>V, км/ч</label>
+                                        <label style={{fontSize: "1em"}}>Абсолютная разность скоростей</label>
                                     </div>
                                 </div>
                             </div>
@@ -459,18 +473,18 @@ export default class SceneComponent extends Component {
                             <div className="v-box">
                                 <div className="f-graphic" style={{background: this.graphicsBackground}}>
                                     <GraphicsComponent x={this.state.Tlist} x_label_name={""}
-                                                       y={this.state.exerciseFlist}
+                                                       y={this.state.exerciseDistance}
                                                        y_label_name={""} result_label_name={""}
-                                                       max_y={this.state.exerciseFlist[this.state.exerciseFlist.length - 1] > 10 ?
-                                                           this.state.exerciseFlist[this.state.bicycleFlist.length - 1] + 5 : 10}
+                                                       max_y={this.state.bicycleDistance[this.state.bicycleDistance.length - 1] > 10 ?
+                                                           this.state.bicycleDistance[this.state.bicycleDistance.length - 1] + 5 : 10}
                                                        max_x={1.5} color={this.yellowColor}/>
                                     <div className="f-t-label" style={{color: this.yellowColor}}>
                                         <label style={{fontSize: "1.5em"}}>t</label>
                                         <label style={{fontSize: "1em"}}>ч.</label>
                                     </div>
                                     <div className="f-f-label" style={{color: this.yellowColor}}>
-                                        <label style={{fontSize: "1.5em"}}>F</label>
-                                        <label style={{fontSize: "1em"}}>сила</label>
+                                        <label style={{fontSize: "1.5em"}}>S</label>
+                                        <label style={{fontSize: "1em"}}>Дистанция, км</label>
                                     </div>
                                 </div>
                             </div>

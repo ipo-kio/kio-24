@@ -25,7 +25,7 @@ export default class ExBikeSpeedComponent extends Component {
                     <div className={this.props.isBlur ? "ex-bike-speed-box blur-mode" : "ex-bike-speed-box"} style={{marginTop: "-20px"}}>
 
                             <div className={this.props.isBlur ? "ex-bike-speed-box-2 blur-mode" : "ex-bike-speed-box-2"} style={{maxHeight: "55px"}}>
-                                <text className="inbox-title" style={{fontSize: "20px"}}>MODE</text>
+                                <text className="inbox-title"  style={{fontSize: "20px", top: "21px"}}>MODE</text>
                                 <section style={{fontSize: "40px"}}>
                                     <text style={{fontSize: "30px"}}>{this.props.mode}</text>
                                     {/*<text style={{fontSize: "20px"}}>KM/H</text>*/}

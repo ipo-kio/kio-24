@@ -167,7 +167,7 @@ export default class GearTable extends Component {
                         onChange={(e) => {
                             const inp = +e.target.value
 
-                            if (!(inp >= 0 && inp <= 12)) {
+                            if (!(inp >= 0 && inp <= 16)) {
                                 return 1
                             }
 
@@ -204,7 +204,7 @@ export default class GearTable extends Component {
             <img src={gear44}/>,
             <img src={gear34} style={{scale: "0.65"}}/>,
             <img src={gear24}/>,
-        ].reverse()
+        ]
 
         let topgearsN = [
             24, 34 , 44
@@ -212,7 +212,7 @@ export default class GearTable extends Component {
 
         let leftgearsN = [
             12,14,16,18,21,24
-        ]
+        ].reverse()
 
         let leftgears = [
             <img src={gear12}/>,

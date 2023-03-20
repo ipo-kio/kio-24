@@ -21,10 +21,10 @@ export default class PhysicsCore{
 
     constructor(gears: number[]) {
         this.inputModel = {
-            kd: 1,
+            kd: 1.2,
             l: 1.5,
             ni: gears, // gears
-            w: w1
+            w: t => 1.2
         };
         this.distance = 0;
         this.t = 0;

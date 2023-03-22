@@ -167,9 +167,9 @@ export default class SceneComponent extends Component {
         // }
 
         this.choosenExGears = this.state.tableData.flat().map(elem => elem * 22);
-        console.log(this.choosenExGears)
-        console.log(this.BVList)
-        console.log(this.EVList)
+
+
+
 
 
         // for (let i = 0; i < gears.length; i++) {
@@ -190,7 +190,8 @@ export default class SceneComponent extends Component {
             Tlist: [],
             wList: [],
             bicycleFlist: [],
-            exerciseFlist: []
+            exerciseFlist: [],
+            exerciseDistance: [],
         })
 
         this.bicyclePhysics?.subscribeToSimEnd(() => {
@@ -218,8 +219,8 @@ export default class SceneComponent extends Component {
             diff = Math.round(diff * 100) / 100;
 
             let res: Solution = {diffF: diff, maxSpeedDeviation: Math.round(Math.max(...diffArray) * 100) / 100}
-            console.log("ended with ", res)
-            console.log("submitted")
+
+
             this.props.kioApi.submitResult(res)
             this.EVList = []
             this.BVList = []
@@ -260,7 +261,7 @@ export default class SceneComponent extends Component {
             let y = Math.floor(gear / maxX)
 
             if (y > 2){ //TODO: check why overflow
-                console.log("problem")
+
                 return
             }
 
@@ -300,6 +301,8 @@ export default class SceneComponent extends Component {
                 dist = Math.round(dist * 100) / 100;
 
                 this.EVList.push(V)
+
+
 
                 this.setState({
                     exerciseFlist: [...this.state.exerciseFlist, F],
@@ -350,6 +353,8 @@ export default class SceneComponent extends Component {
     // };
 
     render() {
+
+
 
         const speedDiff: number[] = []
 

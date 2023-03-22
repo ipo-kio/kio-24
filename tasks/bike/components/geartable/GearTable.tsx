@@ -51,8 +51,6 @@ export default class GearTable extends Component {
         super(props);
         this.props = props;
 
-        console.log("base path is -------------", this.props.kioApi.basePath)
-
         if (this.props.kioApi.basePath){
             gear12 =props.kioApi.basePath + "/bike-resources/Vector12.svg"
             gear14 =props.kioApi.basePath + "/bike-resources/Vector14.svg"

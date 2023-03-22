@@ -168,10 +168,6 @@ export default class SceneComponent extends Component {
 
         this.choosenExGears = this.state.tableData.flat().map(elem => elem * 22);
 
-
-
-
-
         // for (let i = 0; i < gears.length; i++) {
         //     this.choosenExGears.push(exgears[speedIndexes[i]])
         // }
@@ -194,15 +190,17 @@ export default class SceneComponent extends Component {
             exerciseDistance: [],
         })
 
+        this.EVList = []
+        this.BVList = []
+
         this.bicyclePhysics?.subscribeToSimEnd(() => {
             this.setState({lockTableSpeed: false})
-            const BFList = this.state.bicycleFlist
-            const EFList = this.state.exerciseFlist // TODO: speed up physics
+            const BFList = this.BVList
+            const EFList = this.EVList // TODO: speed up physics
 
 
 
             let diff = 0
-            let speedDiff = 0
 
             for (const i in BFList) {
                 diff += Math.abs(BFList[i] - EFList[i])
@@ -212,7 +210,6 @@ export default class SceneComponent extends Component {
 
             for (const i in this.BVList) {
                 diffArray.push(this.BVList[i] - this.EVList[i])
-                speedDiff += this.BVList[i] - this.EVList[i]
             }
 
             diff = diff / BFList.length
@@ -222,8 +219,7 @@ export default class SceneComponent extends Component {
 
 
             this.props.kioApi.submitResult(res)
-            this.EVList = []
-            this.BVList = []
+
         })
         this.startBicycleSimulation();
         this.startExerciseSimulation();
@@ -354,11 +350,10 @@ export default class SceneComponent extends Component {
 
     render() {
 
-
-
         const speedDiff: number[] = []
 
         const maxSize = Math.max(this.BVList.length, this.EVList.length);
+
 
         for (let i = 0; i < maxSize; i++) {
             speedDiff.push(Math.abs(this.BVList[i] - this.EVList[i]))

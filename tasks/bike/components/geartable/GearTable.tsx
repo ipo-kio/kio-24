@@ -72,8 +72,6 @@ export default class GearTable extends Component {
             gear44 ="." + "/bike-resources/Vector44.svg"
         }
 
-
-
         this.state = {
             cells: [[]]
         }

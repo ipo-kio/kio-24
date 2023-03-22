@@ -81,7 +81,7 @@ export class Bike {
         return [
             {
                 name: "diffF",
-                title: "Сумма отклонений скоростей",
+                title: "Среднее отклонение скорости",
                 ordering: "minimize",
                 view: "",
             },

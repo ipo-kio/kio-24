@@ -47,7 +47,7 @@ export class Solitaire {
       console.warn("Уровень не выбран");
       store.dispatch(setCards(JSON.parse(startCards)));
     }
-    store.dispatch(setStats({ length: 0, steps: 0, drops: 0 }));
+    store.dispatch(setStats({ length: 0, steps: 0, drops: 0, isReady: false }));
     store.dispatch(setSnapshots([]));
     store.dispatch(setStatsHistory([]));
   }
@@ -110,6 +110,12 @@ export class Solitaire {
 
   parameters = function () {
     return [
+      {
+        name: "isReady",
+        title: "Собран ли пасьянс",
+        ordering: "maximize",
+        view: "",
+      },
       {
         name: "length",
         title: "Длина перемещений",
@@ -180,11 +186,10 @@ export class Solitaire {
     try {
       if (!taskSolution?.solution) return;
       const { solution, stats: statsHistory } = taskSolution;
-
       const stats = {
+        isReady: statsHistory[statsHistory.length - 1]?.isReady || false,
         steps: solution.length - 1,
         length: statsHistory[statsHistory.length - 1]?.length || getDistanceBySolution(filterSolutions(solution)),
-        // progress: getProgress(solution[solution.length - 1]),
         drops: getDropsBySolution(filterSolutions(solution)),
       };
 

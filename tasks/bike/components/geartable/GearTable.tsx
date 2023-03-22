@@ -51,8 +51,6 @@ export default class GearTable extends Component {
         super(props);
         this.props = props;
 
-        console.log("base path is -------------", this.props.kioApi.basePath)
-
         if (this.props.kioApi.basePath){
             gear12 =props.kioApi.basePath + "/bike-resources/Vector12.svg"
             gear14 =props.kioApi.basePath + "/bike-resources/Vector14.svg"
@@ -73,8 +71,6 @@ export default class GearTable extends Component {
             gear34 ="." + "/bike-resources/Vector34.svg"
             gear44 ="." + "/bike-resources/Vector44.svg"
         }
-
-
 
         this.state = {
             cells: [[]]
@@ -168,7 +164,7 @@ export default class GearTable extends Component {
                         onChange={(e) => {
                             const inp = +e.target.value
 
-                            if (!(inp >= 0 && inp <= 16)) {
+                            if (!(inp >= 0 && inp <= 100)) {
                                 return 1
                             }
 

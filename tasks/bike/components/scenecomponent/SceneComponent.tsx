@@ -147,7 +147,7 @@ export default class SceneComponent extends Component {
     }
 
     startSimulation = () => {
-        let gears = [3.4, 3.14, 2.75, 2.83, 2.8, 2.42, 2.125, 1.88, 1.61, 1.57, 1.41, 1.21, 1.06, 1.0, 0.94, 0.80, 0.75, 0.68]
+        let gears = [3.4, 3.14, 2.83, 2.8, 2.75, 2.42, 2.125, 1.88, 1.61, 1.57, 1.41, 1.21, 1.06, 1.0, 0.94, 0.80, 0.75, 0.68]
         let exgears = [0.2, 0.6, 1, 1.4, 2, 2.4, 2.8, 3.2, 3.6, 4, 4.4, 4.8, 5.2, 5.6, 6, 6.8]
         // let exgears = [0.2, 0.4, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4]
 
@@ -160,17 +160,21 @@ export default class SceneComponent extends Component {
             }
         )
 
-        let speedIndexes = this.state.tableData.flat()
+        // let speedIndexes = this.state.tableData.flat()
+        //
+        // for (let i = 0; i < speedIndexes.length; i++) {
+        //     speedIndexes[i] -= 1
+        // }
 
-        for (let i = 0; i < speedIndexes.length; i++) {
-            speedIndexes[i] -= 1
-        }
+        this.choosenExGears = this.state.tableData.flat().map(elem => elem * 22);
+        console.log(this.choosenExGears)
+        console.log(this.BVList)
+        console.log(this.EVList)
 
-        this.choosenExGears = []
 
-        for (let i = 0; i < gears.length; i++) {
-            this.choosenExGears.push(exgears[speedIndexes[i]])
-        }
+        // for (let i = 0; i < gears.length; i++) {
+        //     this.choosenExGears.push(exgears[speedIndexes[i]])
+        // }
 
         if (this.bicyclePhysics) {
             this.bicyclePhysics.stop()
@@ -349,10 +353,10 @@ export default class SceneComponent extends Component {
 
         const speedDiff: number[] = []
 
-        const maxSize = Math.max(this.state.exerciseSpeedList.length, this.state.bicycleSpeedList.length);
+        const maxSize = Math.max(this.BVList.length, this.EVList.length);
 
         for (let i = 0; i < maxSize; i++) {
-            speedDiff.push(Math.abs(this.state.exerciseSpeedList[i] - this.state.bicycleSpeedList[i]))
+            speedDiff.push(Math.abs(this.BVList[i] - this.EVList[i]))
         }
 
         let sum = 0
@@ -433,7 +437,7 @@ export default class SceneComponent extends Component {
                                                         distance={this.state.bicycleDistance[this.state.bicycleDistance.length - 1]} isBlur={false}/>
                                 </div>
                                 <div className="right-speedometer">
-                                    <ExBikeSpeedComponent color={this.yellowColor} time={(this.state.Tlist[this.state.Tlist.length-1])?.toString() || "0.00"} power={this.state.exercisePower}
+                                    <ExBikeSpeedComponent color={this.yellowColor} time={(this.state.Tlist[this.state.Tlist.length-1])?.toString() || "0.00"} power={this.state.exercisePower/22}
                                                           speed={this.state.exerciseSpeed} distance={this.state.exerciseDistance[this.state.exerciseDistance.length - 1]} mode={this.state.curMode.toString() || "1"} isBlur={false}/>
                                 </div>
                             </div>

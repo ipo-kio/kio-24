@@ -150,7 +150,7 @@ export default class PhysicsCore{
     }
 
     public getVex(): number{
-        return this.u * Math.sqrt((2*this.selectedNi) / this.inputModel.kd)
+        return this.u * Math.sqrt((2*(this.selectedNi / (2*this.u*this.u))) / this.inputModel.kd)
     }
 
     public getF(): number {
@@ -158,11 +158,11 @@ export default class PhysicsCore{
     }
 
     public getFex(): number{
-        return this.selectedNi * this.u
+        return (this.selectedNi / (2*this.u*this.u)) * this.u
     }
 
     public getPowerEx(): number{
-        return 2 * this.selectedNi * this.u * this.u
+        return 2 * (this.selectedNi / (2*this.u*this.u)) * this.u * this.u
     }
 
     public getT(): number {

@@ -168,7 +168,7 @@ export default class GearTable extends Component {
                         onChange={(e) => {
                             const inp = +e.target.value
 
-                            if (!(inp >= 0 && inp <= 16)) {
+                            if (!(inp >= 0 && inp <= 100)) {
                                 return 1
                             }
 

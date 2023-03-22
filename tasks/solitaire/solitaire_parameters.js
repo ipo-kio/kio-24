@@ -1,9 +1,14 @@
 export class Solitaire {
-  constructor(settings) {
-  }
+  constructor(settings) {}
 
   parameters = function () {
     return [
+      {
+        name: "isReady",
+        title: "Собран ли пасьянс",
+        ordering: "maximize",
+        view: "(1 - Да, 0 - Нет)",
+      },
       {
         name: "progress",
         title: "Беспорядки",
@@ -30,5 +35,4 @@ export class Solitaire {
       },
     ];
   };
-
 }

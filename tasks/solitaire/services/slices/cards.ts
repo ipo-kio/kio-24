@@ -2,9 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MAX_CARD_VALUE } from "../../constants/card";
 import { TCard, TCell, TGrid } from "../../types/card";
 import { isValidStack } from "../../utils/isValidStack";
-import { getProgress, hasFullStack } from "../../utils/cardStack";
+import { checkReadyDeck, getProgress, hasFullStack } from "../../utils/cardStack";
 
 export interface IStats {
+  isReady: boolean;
   length: number;
   steps: number;
   drops: number;
@@ -32,6 +33,7 @@ const initialState: SelectState = {
   snapshots: [],
   statsSnapshots: [],
   stats: {
+    isReady: false,
     length: 0,
     steps: 0,
     drops: 0,
@@ -77,14 +79,14 @@ export const cardSlice = createSlice({
       state.dragId = dragIndex !== undefined ? dragIndex : -1;
     },
     checkFullStacks(state) {
-      const cards = state.cards;
-      if (!cards) return;
-      cards.forEach((cell, i) => {
-        const findId = hasFullStack(cell);
-        if (~findId) {
-          for (let j = findId; j < findId + MAX_CARD_VALUE + 1; j++) cards[i][j].removed = true;
-        }
-      });
+      // const cards = state.cards;
+      // if (!cards) return;
+      // cards.forEach((cell, i) => {
+      //   const findId = hasFullStack(cell);
+      //   if (~findId) {
+      //     for (let j = findId; j < findId + MAX_CARD_VALUE + 1; j++) cards[i][j].removed = true;
+      //   }
+      // });
       if (state.cards) state.stats.progress = getProgress(state.cards);
     },
 
@@ -115,6 +117,10 @@ export const cardSlice = createSlice({
       state.stats.steps++;
       state.stats.length += Math.abs(+fromIndex - toIndex);
       if (state.cards) state.stats.progress = getProgress(state.cards);
+
+      //? Is ready set
+
+      state.stats.isReady = checkReadyDeck(state.cards);
     },
     clearDrag(state) {
       state.dragCards = null;

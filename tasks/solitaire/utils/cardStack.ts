@@ -36,6 +36,19 @@ export function getProgress(grid: TGrid) {
   return res;
 }
 
+export function checkReadyDeck(grid?: TGrid | null) {
+  if (!grid) return false;
+  let isReady = true;
+  grid.forEach((cell, i) => {
+    const findId = hasFullStack(cell);
+    console.log("find", findId);
+    if (findId === -1 && cell.length != 0) {
+      isReady = false;
+    }
+  });
+  return isReady;
+}
+
 export function filterSolutions(solution: TGrid[] | IStats[]) {
   // @ts-ignore
   return solution?.filter((el: TGrid | IStats, i: number, arr: TGrid[] | IStats[]) => {

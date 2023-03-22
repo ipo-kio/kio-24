@@ -164,6 +164,7 @@ export default class GearTable extends Component {
 
                 cells.push(
                     <input
+                        disabled={this.props.lockSpeed}
                         onChange={(e) => {
                             const inp = +e.target.value
 
@@ -212,7 +213,7 @@ export default class GearTable extends Component {
 
         let leftgearsN = [
             12,14,16,18,21,24
-        ].reverse()
+        ]
 
         let leftgears = [
             <img src={gear12}/>,
@@ -221,7 +222,7 @@ export default class GearTable extends Component {
             <img src={gear18}/>,
             <img src={gear21}/>,
             <img src={gear24}/>,
-        ].reverse()
+        ]
 
         let topPanel = [];  // panels vise-versa
         for (let cell in this.state.cells) {

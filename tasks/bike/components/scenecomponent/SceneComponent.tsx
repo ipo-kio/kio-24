@@ -148,7 +148,8 @@ export default class SceneComponent extends Component {
 
     startSimulation = () => {
         let gears = [3.4, 3.14, 2.75, 2.83, 2.8, 2.42, 2.125, 1.88, 1.61, 1.57, 1.41, 1.21, 1.06, 1.0, 0.94, 0.80, 0.75, 0.68]
-        let exgears = [0.2, 0.4, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4]
+        let exgears = [0.2, 0.6, 1, 1.4, 2, 2.4, 2.8, 3.2, 3.6, 4, 4.4, 4.8, 5.2, 5.6, 6, 6.8]
+        // let exgears = [0.2, 0.4, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4]
 
         this.setState({
                 curMode: 0,
@@ -199,7 +200,7 @@ export default class SceneComponent extends Component {
             let speedDiff = 0
 
             for (const i in BFList) {
-                diff += BFList[i] - EFList[i]
+                diff += Math.abs(BFList[i] - EFList[i])
             }
 
             let diffArray = [];
@@ -255,13 +256,14 @@ export default class SceneComponent extends Component {
             let y = Math.floor(gear / maxX)
 
             if (y > 2){ //TODO: check why overflow
+                console.log("problem")
                 return
             }
 
             this.setState({
                 curGear: gear,
-                curX: x,
-                curY: y,
+                curX: y,
+                curY: x,
                 curMode: this.state.tableData[y][x]
             })
         }
@@ -379,8 +381,8 @@ export default class SceneComponent extends Component {
                                        tableData={this.state.tableData}
                                        onChange={this.tableChange}
                                        lockSpeed={this.state.lockTableSpeed}
-                                       selectedSpeedX={this.state.curY}
-                                       selectedSpeedY={this.state.curX}
+                                       selectedSpeedX={this.state.curX}
+                                       selectedSpeedY={this.state.curY}
                                        kioApi={this.props.kioApi}
                                        onSelectedItem={this.tableSelectedItem}
                             />
@@ -410,8 +412,7 @@ export default class SceneComponent extends Component {
                                     <GraphicsComponent x={this.state.Tlist} x_label_name={""}
                                                        y={this.state.bicycleDistance}
                                                        y_label_name={""} result_label_name={""}
-                                                       max_y={this.state.bicycleDistance[this.state.bicycleDistance.length - 1] > 10 ?
-                                                           this.state.bicycleDistance[this.state.bicycleDistance.length - 1] + 5 : 10}
+                                                       max_y={40}
                                                        max_x={1.6} color={this.cyanColor}/>
                                     <div className="f-t-label" style={{color: this.cyanColor}}>
                                         <label style={{fontSize: "1.5em"}}>t</label>
@@ -428,7 +429,7 @@ export default class SceneComponent extends Component {
                         <div className="center">
                             <div className="center-box" style={{height: "30%"}}>
                                 <div className="left-speedometer">
-                                    <BikeSpeedComponent color={this.cyanColor} left={this.state.curX + 1 + ""} right={this.state.curY + 1 +""} speed={this.state.bicycleSpeed}
+                                    <BikeSpeedComponent color={this.cyanColor} left={ 2 - this.state.curX + 1 + ""} right={ 5 - this.state.curY + 1 +""} speed={this.state.bicycleSpeed}
                                                         distance={this.state.bicycleDistance[this.state.bicycleDistance.length - 1]} isBlur={false}/>
                                 </div>
                                 <div className="right-speedometer">
@@ -441,8 +442,8 @@ export default class SceneComponent extends Component {
                                 <GearTable key={sum} tableData={this.state.tableData}
                                            onChange={this.tableChange}
                                            lockSpeed={this.state.lockTableSpeed}
-                                           selectedSpeedX={this.state.curY}
-                                           selectedSpeedY={this.state.curX}
+                                           selectedSpeedX={this.state.curX}
+                                           selectedSpeedY={this.state.curY}
                                            kioApi={this.props.kioApi}
                                            onSelectedItem={this.tableSelectedItem}
                                 />
@@ -454,7 +455,7 @@ export default class SceneComponent extends Component {
                                 <div className="f-graphic" style={{background: this.graphicsBackground}}>
                                     <GraphicsComponent x={this.state.Tlist} x_label_name={""} y={speedDiff}
                                                        y_label_name={""} result_label_name={""}
-                                                       max_y={(speedDiff[speedDiff.length-1] > 20) ? speedDiff[speedDiff.length-1] + 10 : 20}
+                                                       max_y={40}
                                                        max_x={1.6} color={this.greenColor}/>
                                     <div className="f-t-label" style={{color: this.greenColor}}>
                                         <label style={{fontSize: "1.5em"}}>t</label>
@@ -475,8 +476,7 @@ export default class SceneComponent extends Component {
                                     <GraphicsComponent x={this.state.Tlist} x_label_name={""}
                                                        y={this.state.exerciseDistance}
                                                        y_label_name={""} result_label_name={""}
-                                                       max_y={this.state.bicycleDistance[this.state.bicycleDistance.length - 1] > 10 ?
-                                                           this.state.bicycleDistance[this.state.bicycleDistance.length - 1] + 5 : 10}
+                                                       max_y={40}
                                                        max_x={1.5} color={this.yellowColor}/>
                                     <div className="f-t-label" style={{color: this.yellowColor}}>
                                         <label style={{fontSize: "1.5em"}}>t</label>

@@ -126,7 +126,10 @@ export class Bike {
 //      * @param solution решение для загрузки
 //      */
     loadSolution = function (solution) {
-        console.log("loaded silution - ", this.sceneRef.current.loadSolution(solution))
+        if (!solution) {
+            this.sceneRef.current.loadSolution(null)
+        }
+        // console.log("loaded silution - ", solution)
         this.sceneRef.current.loadSolution(solution)
     };
 //

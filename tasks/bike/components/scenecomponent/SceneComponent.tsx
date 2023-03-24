@@ -93,12 +93,32 @@ export default class SceneComponent extends Component {
     // ----------------KIO METHODS---------------------
 
     getTableData = () => {
-        return { tableData: this.state.tableData}
+        return {tableData: this.state.tableData}
     }
 
-    loadSolution = (data : {tableData: number[][]}) => {
+    loadSolution = (data: { tableData: number[][] }) => {
+
+        this.bicyclePhysics?.stop()
+        this.exerciseBikePhysics?.stop()
+
         this.setState({
-            tableData: data.tableData
+            exerciseDistance: [],
+            bicycleDistance: [],
+            curMode: 0,
+            curGear: 0,
+            curX: 0,
+            curY: 0,
+            lockTableSpeed: false,
+        })
+        this.EVList = []
+        this.BVList = []
+
+        if (data === null || data.tableData.length < 2) {
+            this.loadLevel(this.props.level)
+            return
+        }
+        this.setState({
+            tableData: data.tableData,
         })
     }
 
@@ -147,6 +167,12 @@ export default class SceneComponent extends Component {
     }
 
     startSimulation = () => {
+
+        // this.props.kioApi.submitResult({diffF: "-", maxSpeedDeviation: "-"})
+
+        this.bicyclePhysics?.stop()
+        this.exerciseBikePhysics?.stop()
+
         let gears = [3.4, 3.14, 2.83, 2.8, 2.75, 2.42, 2.125, 1.88, 1.61, 1.57, 1.41, 1.21, 1.06, 1.0, 0.94, 0.80, 0.75, 0.68]
         let exgears = [0.2, 0.6, 1, 1.4, 2, 2.4, 2.8, 3.2, 3.6, 4, 4.4, 4.8, 5.2, 5.6, 6, 6.8]
         // let exgears = [0.2, 0.4, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4]
@@ -156,9 +182,14 @@ export default class SceneComponent extends Component {
                 curGear: 0,
                 curX: 0,
                 curY: 0,
-                lockTableSpeed: true
+                lockTableSpeed: true,
+                exerciseDistance: [],
+                bicycleDistance: []
             }
         )
+
+        this.BVList = []
+        this.EVList = []
 
         // let speedIndexes = this.state.tableData.flat()
         //
@@ -171,13 +202,13 @@ export default class SceneComponent extends Component {
         // for (let i = 0; i < gears.length; i++) {
         //     this.choosenExGears.push(exgears[speedIndexes[i]])
         // }
-
-        if (this.bicyclePhysics) {
-            this.bicyclePhysics.stop()
-        }
-        if (this.exerciseBikePhysics) {
-            this.exerciseBikePhysics.stop()
-        }
+        //
+        // if (this.bicyclePhysics) {
+        //     this.bicyclePhysics.stop()
+        // }
+        // if (this.exerciseBikePhysics) {
+        //     this.exerciseBikePhysics.stop()
+        // }
 
         this.bicyclePhysics = new PhysicsCore(gears);
         this.exerciseBikePhysics = new PhysicsCore(this.choosenExGears);
@@ -199,7 +230,6 @@ export default class SceneComponent extends Component {
             const EFList = this.EVList // TODO: speed up physics
 
 
-
             let diff = 0
 
             for (const i in BFList) {
@@ -209,14 +239,13 @@ export default class SceneComponent extends Component {
             let diffArray = [];
 
             for (const i in this.BVList) {
-                diffArray.push(this.BVList[i] - this.EVList[i])
+                diffArray.push(Math.abs(this.BVList[i] - this.EVList[i]))
             }
 
             diff = diff / BFList.length
             diff = Math.round(diff * 100) / 100;
 
             let res: Solution = {diffF: diff, maxSpeedDeviation: Math.round(Math.max(...diffArray) * 100) / 100}
-
 
             this.props.kioApi.submitResult(res)
 
@@ -227,7 +256,7 @@ export default class SceneComponent extends Component {
 
     startBicycleSimulation = () => {
 
-        const subscriber = (W: number, V: number, F: number, distance: number ,t: number) => {
+        const subscriber = (W: number, V: number, F: number, distance: number, t: number) => {
 
             //round t and W to 2 digits after comma
             t = Math.round(t * 100) / 100;
@@ -256,7 +285,7 @@ export default class SceneComponent extends Component {
             let x = gear % maxX
             let y = Math.floor(gear / maxX)
 
-            if (y > 2){ //TODO: check why overflow
+            if (y > 2) { //TODO: check why overflow
 
                 return
             }
@@ -291,22 +320,21 @@ export default class SceneComponent extends Component {
         // }
 
         const subscriber = (W: number, V: number, F: number, power: number, dist: number, t: number) => {
-                F = Math.round(F * 100) / 100;
-                power = Math.round(power);
-                V = Math.round(V * 100) / 100;
-                dist = Math.round(dist * 100) / 100;
+            F = Math.round(F * 100) / 100;
+            power = Math.round(power);
+            V = Math.round(V * 100) / 100;
+            dist = Math.round(dist * 100) / 100;
 
-                this.EVList.push(V)
+            this.EVList.push(V)
 
 
-
-                this.setState({
-                    exerciseFlist: [...this.state.exerciseFlist, F],
-                    exerciseSpeed: V,
-                    exerciseSpeedList: [...this.state.exerciseSpeedList, V],
-                    exercisePower: power,
-                    exerciseDistance: [...this.state.exerciseDistance, dist]
-                })
+            this.setState({
+                exerciseFlist: [...this.state.exerciseFlist, F],
+                exerciseSpeed: V,
+                exerciseSpeedList: [...this.state.exerciseSpeedList, V],
+                exercisePower: power,
+                exerciseDistance: [...this.state.exerciseDistance, dist]
+            })
         }
 
         if (this.exerciseBikePhysics) {
@@ -331,29 +359,11 @@ export default class SceneComponent extends Component {
         });
     }
 
-    // updateExerciseBikeGears = (arr: number[][]) => {
-    //     if (this.bicyclePhysics) {
-    //         let gears: number[] = []
-    //         arr.forEach((row) => {
-    //             row.forEach((value) => {
-    //                 // @ts-ignore
-    //                 gears.push(this.bicyclePhysics.getNi()[value - 1])
-    //             })
-    //         })
-    //
-    //         // @ts-ignore
-    //         this.exerciseBikePhysics.setNi(gears)
-    //
-    //     }
-    //
-    // };
-
     render() {
 
         const speedDiff: number[] = []
 
         const maxSize = Math.max(this.BVList.length, this.EVList.length);
-
 
         for (let i = 0; i < maxSize; i++) {
             speedDiff.push(Math.abs(this.BVList[i] - this.EVList[i]))
@@ -373,8 +383,10 @@ export default class SceneComponent extends Component {
                 <div className="page-container">
                     <div className="bicycle-left-2">
                         <div className="left-speedometer-2">
-                            <BikeSpeedComponent color={this.cyanColor} left={this.state.curX + 1 + ""} right={this.state.curY + 1 +""} speed={this.state.bicycleSpeed}
-                                                distance={this.state.bicycleDistance[this.state.bicycleDistance.length - 1]} isBlur={false} />
+                            <BikeSpeedComponent color={this.cyanColor} left={this.state.curX + 1 + ""}
+                                                right={this.state.curY + 1 + ""} speed={this.state.bicycleSpeed}
+                                                distance={this.state.bicycleDistance[this.state.bicycleDistance.length - 1]}
+                                                isBlur={false}/>
                         </div>
                         <div className="bike-module-2"/>
                     </div>
@@ -397,8 +409,12 @@ export default class SceneComponent extends Component {
 
                     <div className="exercise-right-2">
                         <div className="right-speedometer-2">
-                            <ExBikeSpeedComponent color={this.yellowColor} time={(this.state.Tlist[this.state.Tlist.length-1])?.toString() || "0.00"} power={this.state.exercisePower}
-                                                  speed={this.state.exerciseSpeed} distance={this.state.exerciseDistance[this.state.exerciseDistance.length - 1]} mode={this.state.curMode.toString() || "1"} isBlur={false}/>
+                            <ExBikeSpeedComponent color={this.yellowColor}
+                                                  time={(this.state.Tlist[this.state.Tlist.length - 1])?.toString() || "0.00"}
+                                                  power={this.state.exercisePower}
+                                                  speed={this.state.exerciseSpeed}
+                                                  distance={this.state.exerciseDistance[this.state.exerciseDistance.length - 1]}
+                                                  mode={this.state.curMode.toString() || "1"} isBlur={false}/>
                         </div>
                         <div className="e-bike-module-2"/>
                     </div>
@@ -433,12 +449,19 @@ export default class SceneComponent extends Component {
                         <div className="center">
                             <div className="center-box" style={{height: "30%"}}>
                                 <div className="left-speedometer">
-                                    <BikeSpeedComponent color={this.cyanColor} left={ 2 - this.state.curX + 1 + ""} right={ 5 - this.state.curY + 1 +""} speed={this.state.bicycleSpeed}
-                                                        distance={this.state.bicycleDistance[this.state.bicycleDistance.length - 1]} isBlur={false}/>
+                                    <BikeSpeedComponent color={this.cyanColor} left={2 - this.state.curX + 1 + ""}
+                                                        right={5 - this.state.curY + 1 + ""}
+                                                        speed={this.state.bicycleSpeed}
+                                                        distance={this.state.bicycleDistance[this.state.bicycleDistance.length - 1]}
+                                                        isBlur={false}/>
                                 </div>
                                 <div className="right-speedometer">
-                                    <ExBikeSpeedComponent color={this.yellowColor} time={(this.state.Tlist[this.state.Tlist.length-1])?.toString() || "0.00"} power={this.state.exercisePower/22}
-                                                          speed={this.state.exerciseSpeed} distance={this.state.exerciseDistance[this.state.exerciseDistance.length - 1]} mode={this.state.curMode.toString() || "1"} isBlur={false}/>
+                                    <ExBikeSpeedComponent color={this.yellowColor}
+                                                          time={(this.state.Tlist[this.state.Tlist.length - 1])?.toString() || "0.00"}
+                                                          power={this.state.exercisePower / 22}
+                                                          speed={this.state.exerciseSpeed}
+                                                          distance={this.state.exerciseDistance[this.state.exerciseDistance.length - 1]}
+                                                          mode={this.state.curMode.toString() || "1"} isBlur={false}/>
                                 </div>
                             </div>
 

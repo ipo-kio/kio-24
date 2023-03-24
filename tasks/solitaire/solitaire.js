@@ -114,7 +114,9 @@ export class Solitaire {
         name: "isReady",
         title: "Собран ли пасьянс",
         ordering: "maximize",
-        view: "",
+        view: function (v) {
+          if (+v > 0) return "Да"; else return "Нет";
+        },
       },
       {
         name: "length",
@@ -156,6 +158,7 @@ export class Solitaire {
   //      */
   solution = function () {
     try {
+      console.log('saving solution ...')
       // var x = this.process == null ? 0 : this.process.x;
       const state = store.getState();
 
@@ -175,6 +178,7 @@ export class Solitaire {
     } catch (e) {
       console.error(e);
     }
+    console.log("return nothing")
   };
   //
   //     /**
@@ -184,6 +188,8 @@ export class Solitaire {
   //      */
   loadSolution = function (taskSolution) {
     try {
+      console.log("loading solution", taskSolution);
+      console.trace()
       if (!taskSolution?.solution) return;
       const { solution, stats: statsHistory } = taskSolution;
       const stats = {

@@ -4,6 +4,14 @@ function Solitaire(settings) {
 Solitaire.prototype.parameters = function () {
     return [
         {
+            name: "isReady",
+            title: "Собран ли пасьянс",
+            ordering: "maximize",
+            view: function (v) {
+                if (+v > 0) return "Да"; else return "Нет";
+            },
+        },
+        {
             name: "progress",
             title: "Беспорядки",
             ordering: "minimize",

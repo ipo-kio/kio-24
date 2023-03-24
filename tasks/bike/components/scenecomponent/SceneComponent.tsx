@@ -96,7 +96,7 @@ export default class SceneComponent extends Component {
         return {tableData: this.state.tableData}
     }
 
-    loadSolution = (data: { tableData: number[][] }) => {
+    loadSolution = (data: { tableData: number[][], res: Solution }) => {
 
         this.bicyclePhysics?.stop()
         this.exerciseBikePhysics?.stop()
@@ -114,8 +114,12 @@ export default class SceneComponent extends Component {
         this.BVList = []
 
         if (data === null || data.tableData.length < 2) {
+            let res: Solution = {res: false, diffF: 0, maxSpeedDeviation: 0}
+            this.props.kioApi.submitResult(res)
             this.loadLevel(this.props.level)
             return
+        } else {
+            this.props.kioApi.submitResult(data.res);
         }
         this.setState({
             tableData: data.tableData,
@@ -167,8 +171,8 @@ export default class SceneComponent extends Component {
     }
 
     startSimulation = () => {
-
-        // this.props.kioApi.submitResult({diffF: "-", maxSpeedDeviation: "-"})
+        let res: Solution = {res: false, diffF: 0, maxSpeedDeviation: 0}
+        this.props.kioApi.submitResult(res)
 
         this.bicyclePhysics?.stop()
         this.exerciseBikePhysics?.stop()
@@ -235,23 +239,35 @@ export default class SceneComponent extends Component {
             for (const i in BFList) {
                 diff += Math.abs(BFList[i] - EFList[i])
             }
-
             let diffArray = [];
-
             for (const i in this.BVList) {
                 diffArray.push(Math.abs(this.BVList[i] - this.EVList[i]))
             }
-
             diff = diff / BFList.length
             diff = Math.round(diff * 100) / 100;
-
-            let res: Solution = {diffF: diff, maxSpeedDeviation: Math.round(Math.max(...diffArray) * 100) / 100}
-
+            let res: Solution = {res: true, diffF: diff, maxSpeedDeviation: Math.round(Math.max(...diffArray) * 100) / 100}
             this.props.kioApi.submitResult(res)
 
         })
         this.startBicycleSimulation();
         this.startExerciseSimulation();
+    }
+
+    getResult = () => {
+        const BFList = this.BVList
+        const EFList = this.EVList
+        let diff = 0
+        for (const i in BFList) {
+            diff += Math.abs(BFList[i] - EFList[i])
+        }
+        let diffArray = [];
+        for (const i in this.BVList) {
+            diffArray.push(Math.abs(this.BVList[i] - this.EVList[i]))
+        }
+        diff = diff / BFList.length
+        diff = Math.round(diff * 100) / 100;
+        let res: Solution = {res: true, diffF: diff, maxSpeedDeviation: Math.round(Math.max(...diffArray) * 100) / 100}
+        return res;
     }
 
     startBicycleSimulation = () => {
@@ -358,6 +374,23 @@ export default class SceneComponent extends Component {
             curY: col
         });
     }
+
+    // updateExerciseBikeGears = (arr: number[][]) => {
+    //     if (this.bicyclePhysics) {
+    //         let gears: number[] = []
+    //         arr.forEach((row) => {
+    //             row.forEach((value) => {
+    //                 // @ts-ignore
+    //                 gears.push(this.bicyclePhysics.getNi()[value - 1])
+    //             })
+    //         })
+    //
+    //         // @ts-ignore
+    //         this.exerciseBikePhysics.setNi(gears)
+    //
+    //     }
+    //
+    // };
 
     render() {
 

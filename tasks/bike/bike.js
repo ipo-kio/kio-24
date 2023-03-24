@@ -80,6 +80,12 @@ export class Bike {
     parameters = function () {
         return [
             {
+                name: "res",
+                title: "Задача решена",
+                ordering: "maximize",
+                view: "",
+            },
+            {
                 name: "diffF",
                 title: "Среднее отклонение скорости",
                 ordering: "minimize",
@@ -115,9 +121,7 @@ export class Bike {
         if (!this.sceneRef.current){
             return {tableData: [[]]}
         }
-        console.log("sent solution", this.sceneRef.current)
-        console.log("sent solution", this.sceneRef.current.getTableData())
-        return this.sceneRef.current.getTableData()
+        return {...this.sceneRef.current.getTableData(), res: this.sceneRef.current.getResult()};
     };
 //
 //     /**

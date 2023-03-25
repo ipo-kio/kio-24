@@ -81,9 +81,11 @@ export class Bike {
         return [
             {
                 name: "res",
-                title: "Задача решена",
+                title: "Результат вычислен",
                 ordering: "maximize",
-                view: "",
+                view: function (v) {
+                    if (v > 0) return "Да"; else return "-"
+                },
             },
             {
                 name: "diffF",

@@ -365,6 +365,9 @@ export default class SceneComponent extends Component {
             tableData: arr
         })
 
+        let res: Solution = {res: false, diffF: 0, maxSpeedDeviation: 0}
+        this.props.kioApi.submitResult(res)
+
         // this.updateExerciseBikeGears(arr)
     }
 

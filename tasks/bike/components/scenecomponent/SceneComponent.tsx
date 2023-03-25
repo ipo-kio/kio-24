@@ -96,7 +96,7 @@ export default class SceneComponent extends Component {
         return {tableData: this.state.tableData}
     }
 
-    loadSolution = (data: { tableData: number[][], res: Solution }) => {
+    loadSolution = (data: { tableData: number[][], res: Solution } | null) => {
 
         this.bicyclePhysics?.stop()
         this.exerciseBikePhysics?.stop()
@@ -112,14 +112,24 @@ export default class SceneComponent extends Component {
         })
         this.EVList = []
         this.BVList = []
+        let res: Solution = {res: false, diffF: 0, maxSpeedDeviation: 0}
 
         if (data === null || data.tableData.length < 2) {
-            let res: Solution = {res: false, diffF: 0, maxSpeedDeviation: 0}
+
             this.props.kioApi.submitResult(res)
             this.loadLevel(this.props.level)
             return
         } else {
-            this.props.kioApi.submitResult(data.res);
+            this.setState({
+                tableData: data.tableData,
+            })
+            if (data.res.res) {
+                if (data.res.diffF){
+                    this.props.kioApi.submitResult(data.res);
+                    return;
+                }
+            }
+            this.props.kioApi.submitResult(res)
         }
         this.setState({
             tableData: data.tableData,

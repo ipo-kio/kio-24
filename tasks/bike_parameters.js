@@ -5,21 +5,23 @@ Bike.prototype.parameters = function () {
     return [
         {
             name: "res",
-            title: "Задача решена",
+            title: "Результат вычислен",
             ordering: "maximize",
-            view: "",
+            view: function (v) {
+                if (v > 0) return "да"; else return "нет"
+            },
         },
         {
             name: "diffF",
             title: "Среднее отклонение скорости",
             ordering: "minimize",
-            view: "",
+            view: ""
         },
         {
             name: "maxSpeedDeviation",
             title: "Максимальное отклонение скорости",
             ordering: "minimize",
-            view: "",
+            view: ""
         }
     ];
 };

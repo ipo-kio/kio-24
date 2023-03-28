@@ -24,6 +24,7 @@ export class Bike {
         this.settings = settings;
         this.sceneRef = React.createRef()
     }
+
 //
 // // Далее перечисляются функции, которые нужно реализовать
 //
@@ -72,7 +73,8 @@ export class Bike {
 
         root.render(
             <>
-                <SceneComponent ref = {this.sceneRef} kioApi={kioapi} level={+this.settings.level === 1 ? Level.middle_6_8 : Level.high_9_11}/>
+                <SceneComponent ref={this.sceneRef} kioApi={kioapi}
+                                level={+this.settings.level === 1 ? Level.middle_6_8 : Level.high_9_11}/>
             </>
         )
     };
@@ -84,20 +86,24 @@ export class Bike {
                 title: "Результат вычислен",
                 ordering: "maximize",
                 view: function (v) {
-                    if (v > 0) return "Да"; else return "-"
+                    if (+v > 0) return "да"; else return "нет"
                 },
             },
             {
                 name: "diffF",
                 title: "Среднее отклонение скорости",
                 ordering: "minimize",
-                view: "",
+                view: ""/*function (v) {
+                    if (+v > 0.001) return v; else return "-"
+                },*/
             },
             {
                 name: "maxSpeedDeviation",
                 title: "Максимальное отклонение скорости",
                 ordering: "minimize",
-                view: "",
+                view: ""/*function (v) {
+                    if (+v > 0.001) return v; else return "-"
+                },*/
             }
         ];
     };
@@ -120,7 +126,7 @@ export class Bike {
 //      * строки, числа, массивы, внутренние объекты.
 //      */
     solution = function () {
-        if (!this.sceneRef.current){
+        if (!this.sceneRef.current) {
             return {tableData: [[]]}
         }
         return {...this.sceneRef.current.getTableData(), res: this.sceneRef.current.getResult()};
@@ -132,12 +138,26 @@ export class Bike {
 //      * @param solution решение для загрузки
 //      */
     loadSolution = function (solution) {
-
+        /*console.log("LOADING SOLUTION", solution)
         if (!solution) {
-            this.sceneRef.current.loadSolution(null)
+            solution = null
+        } else {
+            if (solution.res)
+                this.kioapi.submitResult(solution.res)
         }
 
-        this.sceneRef.current.loadSolution(solution)
+        setTimeout(() => {
+            this.sceneRef.current.loadSolution(solution);
+        }, 100);*/
+
+        setTimeout(() => {
+            if (!solution) {
+                this.sceneRef.current.loadSolution(null)
+            }
+
+            this.sceneRef.current.loadSolution(solution)
+            this.sceneRef.current.loadSolution(solution)
+        }, 300)
     };
 //
 }

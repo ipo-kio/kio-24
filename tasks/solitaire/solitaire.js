@@ -8,7 +8,7 @@ import { store } from "./services";
 import { setCards, setStats, setSnapshots, setStatsHistory } from "./services/slices/cards";
 import { getDistanceBySolution, getDropsBySolution } from "./utils/checkSolution";
 import { level1Cards, level2Cards, startCards } from "./constants/card";
-import { getProgress, filterSolutions } from "./utils/cardStack";
+import { checkReadyDeck, filterSolutions } from "./utils/cardStack";
 import { setBasePath } from "./services/slices/user";
 export class Solitaire {
   // Разработка задачи начинается с выбора идентификатора. Он должен состоять из маленьких букв, возможно, с подчеркиваниями.
@@ -115,7 +115,8 @@ export class Solitaire {
         title: "Собран ли пасьянс",
         ordering: "maximize",
         view: function (v) {
-          if (+v > 0) return "Да"; else return "Нет";
+          if (+v > 0) return "Да";
+          else return "Нет";
         },
       },
       {
@@ -158,7 +159,7 @@ export class Solitaire {
   //      */
   solution = function () {
     try {
-      console.log('saving solution ...')
+      console.log("saving solution ...");
       // var x = this.process == null ? 0 : this.process.x;
       const state = store.getState();
 
@@ -178,7 +179,7 @@ export class Solitaire {
     } catch (e) {
       console.error(e);
     }
-    console.log("return nothing")
+    console.log("return nothing");
   };
   //
   //     /**
@@ -189,11 +190,12 @@ export class Solitaire {
   loadSolution = function (taskSolution) {
     try {
       console.log("loading solution", taskSolution);
-      console.trace()
+      console.trace();
       if (!taskSolution?.solution) return;
       const { solution, stats: statsHistory } = taskSolution;
+      console.log(checkReadyDeck(solution[solution.length - 1]));
       const stats = {
-        isReady: statsHistory[statsHistory.length - 1]?.isReady || false,
+        isReady: checkReadyDeck(solution[solution.length - 1]) || false,
         steps: solution.length - 1,
         length: statsHistory[statsHistory.length - 1]?.length || getDistanceBySolution(filterSolutions(solution)),
         drops: getDropsBySolution(filterSolutions(solution)),

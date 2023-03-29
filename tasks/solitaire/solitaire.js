@@ -159,7 +159,6 @@ export class Solitaire {
   //      */
   solution = function () {
     try {
-      console.log("saving solution ...");
       // var x = this.process == null ? 0 : this.process.x;
       const state = store.getState();
 
@@ -179,7 +178,6 @@ export class Solitaire {
     } catch (e) {
       console.error(e);
     }
-    console.log("return nothing");
   };
   //
   //     /**
@@ -189,11 +187,8 @@ export class Solitaire {
   //      */
   loadSolution = function (taskSolution) {
     try {
-      console.log("loading solution", taskSolution);
-      console.trace();
       if (!taskSolution?.solution) return;
       const { solution, stats: statsHistory } = taskSolution;
-      console.log(checkReadyDeck(solution[solution.length - 1]));
       const stats = {
         isReady: checkReadyDeck(solution[solution.length - 1]) || false,
         steps: solution.length - 1,

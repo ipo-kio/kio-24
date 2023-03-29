@@ -29,6 +29,7 @@ export class Solitaire {
   constructor(settings) {
     this.settings = settings;
     this.isLoading22 = false;
+    
 
     if ("level" in settings) {
       const level = +settings.level;
@@ -189,6 +190,13 @@ export class Solitaire {
     try {
       if (!taskSolution?.solution) return;
       const { solution, stats: statsHistory } = taskSolution;
+
+      //? Отслеживаю, чтобы начальные условния было такие как в уровне
+      const level = this.settings?.level || 0
+      const cards = [JSON.parse(startCards), JSON.parse(level1Cards), JSON.parse(level2Cards)]
+      const levelCards = cards[+level];
+      if (solution[0] && JSON.stringify(solution[0]) !== JSON.stringify(levelCards)) throw Error ("Решение было подвергнуто модификациям");
+
       const stats = {
         isReady: checkReadyDeck(solution[solution.length - 1]) || false,
         steps: solution.length - 1,

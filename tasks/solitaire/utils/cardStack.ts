@@ -38,6 +38,7 @@ export function getProgress(grid: TGrid) {
 
 export function checkReadyDeck(grid?: TGrid | null) {
   if (!grid) return false;
+  if (grid.every(cell => !cell.length)) return true;
   let isReady = true;
   grid.forEach((cell, i) => {
     const findId = hasFullStack(cell);

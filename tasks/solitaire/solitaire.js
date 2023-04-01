@@ -8,7 +8,7 @@ import { store } from "./services";
 import { setCards, setStats, setSnapshots, setStatsHistory } from "./services/slices/cards";
 import { getDistanceBySolution, getDropsBySolution } from "./utils/checkSolution";
 import { level1Cards, level2Cards, startCards } from "./constants/card";
-import { getProgress, filterSolutions } from "./utils/cardStack";
+import { checkReadyDeck, filterSolutions } from "./utils/cardStack";
 import { setBasePath } from "./services/slices/user";
 export class Solitaire {
   // Разработка задачи начинается с выбора идентификатора. Он должен состоять из маленьких букв, возможно, с подчеркиваниями.
@@ -52,7 +52,7 @@ export class Solitaire {
     store.dispatch(setStatsHistory([]));
   }
   //
-  // // Далее перечисляются функции, которые нужно реализовать
+  //     Далее перечисляются функции, которые нужно реализовать
   //
   //     /**
   //      * Возвращается ключ для хранения данных о процессе решения в localstorage, формируется на основе id и данных из
@@ -89,8 +89,8 @@ export class Solitaire {
       const root = ReactDOM.createRoot(this.domNode);
 
       store.subscribe(() => {
-        const { length, steps, drops, progress } = store.getState().cards.stats;
-        if (!(length || steps || drops || progress)) return;
+        const { length, steps, drops } = store.getState().cards.stats;
+        if (!(length || steps || drops)) return;
         kioapi.submitResult(store.getState().cards.stats);
       });
 
@@ -115,7 +115,8 @@ export class Solitaire {
         title: "Собран ли пасьянс",
         ordering: "maximize",
         view: function (v) {
-          if (+v > 0) return "Да"; else return "Нет";
+          if (+v > 0) return "Да";
+          else return "Нет";
         },
       },
       {
@@ -158,11 +159,8 @@ export class Solitaire {
   //      */
   solution = function () {
     try {
-      console.log('saving solution ...')
       // var x = this.process == null ? 0 : this.process.x;
       const state = store.getState();
-
-      // console.log("this1", state.cards.snapshots.length ? state.cards.snapshots : [state.cards.cards]);
 
       const sol = state.cards.snapshots.length
         ? filterSolutions([...state.cards.snapshots, state.cards.cards])
@@ -173,12 +171,11 @@ export class Solitaire {
 
       return {
         solution: sol,
-        stats: (stats || []).filter(({ length, steps, drops, progress }) => length || steps || drops || progress),
+        stats: (stats || []).filter(({ length, steps, drops }) => length || steps || drops),
       };
     } catch (e) {
       console.error(e);
     }
-    console.log("return nothing")
   };
   //
   //     /**
@@ -188,12 +185,18 @@ export class Solitaire {
   //      */
   loadSolution = function (taskSolution) {
     try {
-      console.log("loading solution", taskSolution);
-      console.trace()
       if (!taskSolution?.solution) return;
       const { solution, stats: statsHistory } = taskSolution;
+
+      //? Отслеживаю, чтобы начальные условния было такие как в уровне
+      const level = this.settings?.level || 0;
+      const cards = [JSON.parse(startCards), JSON.parse(level1Cards), JSON.parse(level2Cards)];
+      const levelCards = cards[+level];
+      if (solution[0] && JSON.stringify(solution[0]) !== JSON.stringify(levelCards))
+        throw Error("Решение было подвергнуто модификациям");
+
       const stats = {
-        isReady: statsHistory[statsHistory.length - 1]?.isReady || false,
+        isReady: checkReadyDeck(solution[solution.length - 1]) || false,
         steps: solution.length - 1,
         length: statsHistory[statsHistory.length - 1]?.length || getDistanceBySolution(filterSolutions(solution)),
         drops: getDropsBySolution(filterSolutions(solution)),
@@ -203,6 +206,7 @@ export class Solitaire {
       store.dispatch(setStats(stats));
       store.dispatch(setSnapshots(filterSolutions(solution)));
       store.dispatch(setStatsHistory(filterSolutions(statsHistory)));
+
       this.kioapi.submitResult(stats);
     } catch (e) {
       console.error(e);

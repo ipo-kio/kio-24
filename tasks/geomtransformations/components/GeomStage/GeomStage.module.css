@@ -1,0 +1,16 @@
+.geom-stage {
+  display: flex;
+}
+
+.panel {
+  border: solid black 2px;
+  padding: 10px;
+  margin: 6px;
+  width: 30%;
+}
+
+.stage {
+  border: solid black 2px;
+  margin: 6px;
+  margin-left: 12px;
+}

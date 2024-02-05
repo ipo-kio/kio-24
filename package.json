@@ -33,6 +33,10 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "geometric": "^2.5.4",
+    "konva": "^9.3.0",
+    "polybooljs": "^1.2.0",
+    "react-konva": "^18.2.10",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/modifiers": "^6.0.1",
     "@reduxjs/toolkit": "^1.9.3",

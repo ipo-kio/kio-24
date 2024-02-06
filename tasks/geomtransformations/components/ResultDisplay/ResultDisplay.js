@@ -21,16 +21,18 @@ export function ResultDisplay({ metrics }) {
     <div style={{fontSize: "20px"}}>
       <h2 style={{textAlign: "center"}}>Результат</h2>
       <table style={tableStyle}>
-        <tr>
-          <td style={tableDataStyle}><b>S</b></td>
-          <td style={tableDataStyle}><b>L</b></td>
-          <td style={tableDataStyle}><b>C</b></td>
-        </tr>
-        <tr>
-          <td style={tableDataStyle}>{metrics.similarity.toFixed(3)}</td>
-          <td style={tableDataStyle}>{metrics.pathsLength.toFixed(3)}</td>
-          <td style={tableDataStyle}>{metrics.cost}</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td style={tableDataStyle}><b>S</b></td>
+            <td style={tableDataStyle}><b>L</b></td>
+            <td style={tableDataStyle}><b>C</b></td>
+          </tr>
+          <tr>
+            <td style={tableDataStyle}>{metrics.similarity.toFixed(3)}</td>
+            <td style={tableDataStyle}>{metrics.pathsLength.toFixed(3)}</td>
+            <td style={tableDataStyle}>{metrics.cost}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );

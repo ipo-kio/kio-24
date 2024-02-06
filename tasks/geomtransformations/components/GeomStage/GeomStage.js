@@ -120,6 +120,8 @@ export function GeomStage({ settings, stateRef, kioapi }) {
             />
             {figures.map((figure) => (
               <Figure
+                id={figure.id}
+                key={figure.id}
                 figureId={figure.id}
                 selectedFigureId={selectedFigureId}
                 setSelectedFigureId={setSelectedFigureId}

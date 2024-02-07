@@ -1,0 +1,95 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+import { FoldingStage } from './components/FoldingStage/FoldingStage';
+
+import { LEVEL1_SETTINGS } from './constants/Levels/Level1';
+import { LEVEL2_SETTINGS } from './constants/Levels/Level2';
+import { LEVEL3_SETTINGS } from './constants/Levels/Level3';
+
+export class Proteinfolding {
+  constructor(settings) {
+    this.settings = settings;
+
+    if ("level" in settings) {
+      const level = +settings.level;
+      switch (level) {
+        case 0:
+          this.levelSettings = LEVEL1_SETTINGS;
+          break;
+        case 1:
+          this.levelSettings = LEVEL2_SETTINGS;
+          break;
+        case 2:
+          this.levelSettings = LEVEL3_SETTINGS;
+          break;
+      }
+    } else {
+      console.warn("Уровень не выбран");
+      this.levelSettings = LEVEL1_SETTINGS;
+    }
+  }
+
+  id = function () {
+    return "proteinfolding";
+  };
+
+  initialize = function (domNode, kioapi) {
+    try {
+      this.kioapi = kioapi;
+      this.domNode = domNode;
+      this.stateRef = React.createRef();
+      this.updateRootAndRender();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  parameters = function () {
+    return [{
+      name: "energy",
+      title: "Энергия взаимодействия",
+      ordering: "minimize",
+      view: ""
+    }];
+  };
+
+  solution = function () {
+    /*
+    try {
+      return this.stateRef.current ?
+        { figures: this.stateRef.current.figures } :
+        { figures: this.levelSettings.figures };
+    } catch (e) {
+      console.error(e);
+    } */
+  };
+
+  loadSolution = function (solution) {
+    /*
+    try {
+      if (!solution) { return; }
+      this.levelSettings.figures = solution.figures;
+      this.updateRootAndRender();
+    } catch (e) {
+      console.error(e);
+    } */
+  };
+
+  updateRootAndRender = function() {
+    if (this.root) {
+      this.root.unmount();
+    }
+
+    this.root = ReactDOM.createRoot(this.domNode);
+    this.root.render(
+      <React.StrictMode>
+        <FoldingStage
+          settings={this.levelSettings}
+          stateRef={this.stateRef}
+          kioapi={this.kioapi}
+        />
+      </React.StrictMode>
+    );
+  };
+}

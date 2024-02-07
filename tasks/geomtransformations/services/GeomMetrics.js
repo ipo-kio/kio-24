@@ -2,6 +2,7 @@ import * as PolyBool from 'polybooljs';
 import * as geometric from 'geometric'
 
 import { COST } from '../constants/Transformations';
+import { FIGURE_AREA } from '../constants/Figures';
 
 export function calcMetrics(figures, gridIndent, minFiguresPerimeter) {
   let pathsLength = 0;
@@ -58,7 +59,7 @@ export function getSimilarity(figures, gridIndent, minFiguresPerimeter) {
   );
 
   let convexHullArea = geometric.polygonArea(convexHull);
-  let similarity = figuresXorArea / convexHullArea;
+  let convexHullPerimeter = getConvexHullPerimeter(convexHull);
 
   let figuresIntersect = false;
   for (let i = 0; i < figuresPolygons.length - 1; i++) {
@@ -71,9 +72,12 @@ export function getSimilarity(figures, gridIndent, minFiguresPerimeter) {
     }
   }
 
+  let similarity = 0;
   if (!figuresIntersect) {
-    let convexHullPerimeter = getConvexHullPerimeter(convexHull);
+    similarity += figures.length * FIGURE_AREA / convexHullArea;
     similarity += minFiguresPerimeter / convexHullPerimeter;
+  } else {
+    similarity += figuresXorArea / convexHullArea;
   }
 
   return similarity * 50;

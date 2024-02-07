@@ -1,5 +1,7 @@
 import { GRID_INDENT, STAGE_WIDTH } from "./GeomStage";
 
+export const FIGURE_AREA = 4;
+
 export const FIGURE1 = {
   COLOR: 'blue',
   POINTS: [

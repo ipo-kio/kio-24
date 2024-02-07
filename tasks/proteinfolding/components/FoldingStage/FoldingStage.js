@@ -67,6 +67,7 @@ export function FoldingStage({
             energies={energies}
             setEnergies={setEnergies}
             powers={settings.powers}
+            kioapi={kioapi}
           />
           <MovementControl
             particles={particles}
@@ -78,6 +79,7 @@ export function FoldingStage({
             energies={energies}
             setEnergies={setEnergies}
             powers={settings.powers}
+            kioapi={kioapi}
           />
         </div>
 

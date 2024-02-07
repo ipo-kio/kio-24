@@ -50,7 +50,9 @@ export class Proteinfolding {
       name: "energy",
       title: "Энергия взаимодействия",
       ordering: "minimize",
-      view: ""
+      view: function (value) {
+        return value.toFixed(3);
+      }
     }];
   };
 

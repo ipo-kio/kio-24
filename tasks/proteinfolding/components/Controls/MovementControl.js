@@ -25,7 +25,8 @@ export function MovementControl({
   moveAll,
   energies,
   setEnergies,
-  powers
+  powers,
+  kioapi
 }) {
   const [movementStarted, setMovementStarted] = useState(false);
   const [movementDirection, setMovementDirection] = useState(null);
@@ -67,7 +68,10 @@ export function MovementControl({
         setMovementDirection(direction.key);
         setMovementStarted(true);
       }}
-      onMouseUp={() => setMovementStarted(false)}
+      onMouseUp={() => {
+        setMovementStarted(false);
+        kioapi.submitResult({ energy: energies.current });
+      }}
     >
       {direction.arrow}
     </button>

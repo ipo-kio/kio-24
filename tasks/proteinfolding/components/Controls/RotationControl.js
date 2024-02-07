@@ -24,7 +24,8 @@ export function RotationControl({
   isSplitted,
   energies,
   setEnergies,
-  powers
+  powers,
+  kioapi
 }) {
   const [rotationStarted, setRotationStarted] = useState(false);
   const [rotationDirection, setRotationDirection] = useState(null);
@@ -66,7 +67,10 @@ export function RotationControl({
         setRotationDirection(direction.key);
         setRotationStarted(true);
       }}
-      onMouseUp={() => setRotationStarted(false)}
+      onMouseUp={() => {
+        setRotationStarted(false);
+        kioapi.submitResult({ energy: energies.current });
+      }}
     >
       {direction.arrow}
     </button>

@@ -545,7 +545,7 @@ function GeomStage(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_12__.useEffect)(function () {
     var states = {
       figures: figures,
-      metrics: (0,_services_GeomMetrics__WEBPACK_IMPORTED_MODULE_27__.calcMetrics)(figures, _constants_GeomStage__WEBPACK_IMPORTED_MODULE_14__.GRID_INDENT, settings.minFiguresPerimeter)
+      metrics: (0,_services_GeomMetrics__WEBPACK_IMPORTED_MODULE_27__.calcMetrics)(figures, _constants_GeomStage__WEBPACK_IMPORTED_MODULE_14__.GRID_INDENT, settings.figuresArea, settings.minFiguresPerimeter)
     };
     setMetrics(states.metrics);
     stateRef.current = states;
@@ -578,6 +578,8 @@ function GeomStage(_ref) {
     points: figureImage.points
   }), figures.map(function (figure) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_12___default().createElement(_Figure_Figure__WEBPACK_IMPORTED_MODULE_21__.Figure, {
+      id: figure.id,
+      key: figure.id,
       figureId: figure.id,
       selectedFigureId: selectedFigureId,
       setSelectedFigureId: setSelectedFigureId,
@@ -878,7 +880,7 @@ function ResultDisplay(_ref) {
     }
   }, "\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("table", {
     style: tableStyle
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("td", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("td", {
     style: tableDataStyle
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("b", null, "S")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("td", {
     style: tableDataStyle
@@ -890,7 +892,7 @@ function ResultDisplay(_ref) {
     style: tableDataStyle
   }, metrics.pathsLength.toFixed(3)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("td", {
     style: tableDataStyle
-  }, metrics.cost))));
+  }, metrics.cost)))));
 }
 
 /***/ }),
@@ -1075,10 +1077,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FIGURE2": () => (/* binding */ FIGURE2),
 /* harmony export */   "FIGURE3": () => (/* binding */ FIGURE3),
 /* harmony export */   "FIGURE4": () => (/* binding */ FIGURE4),
-/* harmony export */   "FIGURE5": () => (/* binding */ FIGURE5)
+/* harmony export */   "FIGURE5": () => (/* binding */ FIGURE5),
+/* harmony export */   "FIGURE_AREA": () => (/* binding */ FIGURE_AREA)
 /* harmony export */ });
 /* harmony import */ var _GeomStage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GeomStage */ "./tasks/geomtransformations/constants/GeomStage.js");
 
+var FIGURE_AREA = 4;
 var FIGURE1 = {
   COLOR: 'blue',
   POINTS: [1 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 11 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 1 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 13 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 4 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 13 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 4 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 12 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 2 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 12 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 2 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT, 11 * _GeomStage__WEBPACK_IMPORTED_MODULE_0__.GRID_INDENT]
@@ -1182,8 +1186,10 @@ var FIGURES = [{
   stateIdx: 0
 }];
 var MIN_FIGURES_PERIMETER = 12;
+var FIGURES_AREA = 8;
 var LEVEL1 = {
   figures: FIGURES,
+  figuresArea: FIGURES_AREA,
   minFiguresPerimeter: MIN_FIGURES_PERIMETER
 };
 
@@ -1199,6 +1205,7 @@ var LEVEL1 = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "FIGURES": () => (/* binding */ FIGURES),
+/* harmony export */   "FIGURES_AREA": () => (/* binding */ FIGURES_AREA),
 /* harmony export */   "LEVEL2": () => (/* binding */ LEVEL2),
 /* harmony export */   "MIN_FIGURES_PERIMETER": () => (/* binding */ MIN_FIGURES_PERIMETER)
 /* harmony export */ });
@@ -1224,8 +1231,10 @@ var FIGURES = [{
   stateIdx: 0
 }];
 var MIN_FIGURES_PERIMETER = 16;
+var FIGURES_AREA = 16;
 var LEVEL2 = {
   figures: FIGURES,
+  figuresArea: FIGURES_AREA,
   minFiguresPerimeter: MIN_FIGURES_PERIMETER
 };
 
@@ -1241,6 +1250,7 @@ var LEVEL2 = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "FIGURES": () => (/* binding */ FIGURES),
+/* harmony export */   "FIGURES_AREA": () => (/* binding */ FIGURES_AREA),
 /* harmony export */   "LEVEL3": () => (/* binding */ LEVEL3),
 /* harmony export */   "MIN_FIGURES_PERIMETER": () => (/* binding */ MIN_FIGURES_PERIMETER)
 /* harmony export */ });
@@ -1272,8 +1282,10 @@ var FIGURES = [{
   stateIdx: 0
 }];
 var MIN_FIGURES_PERIMETER = 16;
+var FIGURES_AREA = 16;
 var LEVEL3 = {
   figures: FIGURES,
+  figuresArea: FIGURES_AREA,
   minFiguresPerimeter: MIN_FIGURES_PERIMETER
 };
 
@@ -1482,6 +1494,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var polybooljs__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(polybooljs__WEBPACK_IMPORTED_MODULE_14__);
 /* harmony import */ var geometric__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! geometric */ "./node_modules/geometric/index.js");
 /* harmony import */ var _constants_Transformations__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../constants/Transformations */ "./tasks/geomtransformations/constants/Transformations.js");
+/* harmony import */ var _constants_Figures__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../constants/Figures */ "./tasks/geomtransformations/constants/Figures.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -1505,7 +1518,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function calcMetrics(figures, gridIndent, minFiguresPerimeter) {
+
+function calcMetrics(figures, gridIndent, figuresArea, minFiguresPerimeter) {
   var pathsLength = 0;
   var cost = 0;
   for (var i = 0; i < figures.length; i++) {
@@ -1515,14 +1529,14 @@ function calcMetrics(figures, gridIndent, minFiguresPerimeter) {
       cost += _constants_Transformations__WEBPACK_IMPORTED_MODULE_16__.COST[transformation];
     }
   }
-  var similarity = getSimilarity(figures, gridIndent, minFiguresPerimeter);
+  var similarity = getSimilarity(figures, gridIndent, figuresArea, minFiguresPerimeter);
   return {
     similarity: similarity,
     pathsLength: pathsLength,
     cost: cost
   };
 }
-function getSimilarity(figures, gridIndent, minFiguresPerimeter) {
+function getSimilarity(figures, gridIndent, figuresArea, minFiguresPerimeter) {
   var figuresPolygons = figures.map(function (figure) {
     return {
       regions: [unflattenPoints(figure.points[figure.stateIdx])],
@@ -1542,7 +1556,7 @@ function getSimilarity(figures, gridIndent, minFiguresPerimeter) {
   }
   var convexHull = normalizePoints(geometric__WEBPACK_IMPORTED_MODULE_15__.polygonHull(figuresUnion.regions.flat()), gridIndent);
   var convexHullArea = geometric__WEBPACK_IMPORTED_MODULE_15__.polygonArea(convexHull);
-  var similarity = figuresXorArea / convexHullArea;
+  var convexHullPerimeter = getConvexHullPerimeter(convexHull);
   var figuresIntersect = false;
   for (var _i2 = 0; _i2 < figuresPolygons.length - 1; _i2++) {
     for (var j = _i2 + 1; j < figuresPolygons.length; j++) {
@@ -1553,9 +1567,12 @@ function getSimilarity(figures, gridIndent, minFiguresPerimeter) {
       }
     }
   }
+  var similarity = 0;
   if (!figuresIntersect) {
-    var convexHullPerimeter = getConvexHullPerimeter(convexHull);
+    similarity += figuresArea / convexHullArea;
     similarity += minFiguresPerimeter / convexHullPerimeter;
+  } else {
+    similarity += figuresXorArea / convexHullArea;
   }
   return similarity * 50;
 }
@@ -77937,7 +77954,7 @@ var Geomtransformations = /*#__PURE__*/_createClass(function Geomtransformations
   });
   this.settings = settings;
   if ("level" in settings) {
-    var level = settings.level;
+    var level = +settings.level;
     switch (level) {
       case 0:
         this.levelSettings = _constants_Level1__WEBPACK_IMPORTED_MODULE_14__.LEVEL1;

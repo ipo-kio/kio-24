@@ -1,12 +1,6 @@
 import React from 'react';
-import 'katex/dist/katex.min.css';
-import Latex from 'react-latex-next';
 
 export function EnergiesTable({ energies }) {
-  const initialEnergyLatex = "$E_{init}$";
-  const currentEnergyLatex = "$E_{curr}$";
-  const minimalEnergyLatex = "$E_{min}$";
-
   const tableStyle = {
     border: "1px solid black",
     padding: "8px",
@@ -27,14 +21,12 @@ export function EnergiesTable({ energies }) {
       <table style={tableStyle}>
         <tbody>
           <tr>
-            <th style={tableDataStyle}><Latex>{initialEnergyLatex}</Latex></th>
-            <th style={tableDataStyle}><Latex>{currentEnergyLatex}</Latex></th>
-            <th style={tableDataStyle}><Latex>{minimalEnergyLatex}</Latex></th>
+            <td style={tableDataStyle}>Текущая</td>
+            <td style={tableDataStyle}>{energies.current.toFixed(3)}</td>
           </tr>
           <tr>
-            <td style={tableDataStyle}> {energies.initial.toFixed(3)} </td>
-            <td style={tableDataStyle}> {energies.current.toFixed(3)} </td>
-            <td style={tableDataStyle}> {energies.minimal.toFixed(3)} </td>
+            <td style={tableDataStyle}>Минимальная</td>
+            <td style={tableDataStyle}>{energies.minimal.toFixed(3)}</td>
           </tr>
         </tbody>
       </table>

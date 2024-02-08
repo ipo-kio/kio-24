@@ -37,7 +37,6 @@
     "konva": "^9.3.0",
     "polybooljs": "^1.2.0",
     "react-konva": "^18.2.10",
-    "react-latex-next": "^2.2.0",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/modifiers": "^6.0.1",
     "@reduxjs/toolkit": "^1.9.3",

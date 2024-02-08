@@ -12,7 +12,7 @@ export class Geomtransformations {
     this.settings = settings;
 
     if ("level" in settings) {
-      const level = settings.level;
+      const level = +settings.level;
       switch (level) {
         case 0:
           this.levelSettings = LEVEL1;

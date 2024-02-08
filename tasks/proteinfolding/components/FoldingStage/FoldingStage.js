@@ -47,8 +47,6 @@ export function FoldingStage({
   stateRef.current = { particles: particles };
   kioapi.submitResult({ energy: energy });
 
-  console.log(initializedParticles);
-
   return (
     <div className={styles['folding-stage']}>
       <div className={styles['params-panel']}>

@@ -61,7 +61,7 @@ export class Proteinfolding {
       if (this.stateRef.current) {
         return { particles: this.stateRef.current.particles };
       } else {
-        return { particles: []};
+        return { particles: this.initializedParticles }
       }
     } catch (e) {
       console.error(e);
@@ -71,7 +71,7 @@ export class Proteinfolding {
   loadSolution = function (solution) {
     try {
       if (!solution) { return; }
-      this.levelSettings.particles = solution.particles;
+      this.initializedParticles = solution.particles;
       this.updateRootAndRender();
     } catch (e) {
       console.error(e);
@@ -88,6 +88,7 @@ export class Proteinfolding {
       <React.StrictMode>
         <FoldingStage
           settings={this.levelSettings}
+          initializedParticles={this.initializedParticles}
           stateRef={this.stateRef}
           kioapi={this.kioapi}
         />

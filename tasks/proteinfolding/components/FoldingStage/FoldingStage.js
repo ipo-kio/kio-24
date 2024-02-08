@@ -18,6 +18,7 @@ import styles from './FoldingStage.module.css';
 
 export function FoldingStage({
   settings,
+  initializedParticles,
   stateRef,
   kioapi
 }) {
@@ -27,27 +28,26 @@ export function FoldingStage({
   );
 
   const [particles, setParticles] = useState(
-    settings.particles && settings.particles.length > 0 ?
-      settings.particles :
-      initializeParticles(
-        settings.particlesColors,
-        settings.particleRadius,
-        settings.angles,
-        settings.isSplitted
-      )
-  );
+    initializedParticles ? initializedParticles :
+    initializeParticles(
+      settings.particlesColors,
+      settings.particleRadius,
+      settings.angles,
+      settings.isSplitted
+  ));
 
   let energy = calculateTotalEnergy(
-    particles,
-    settings.powers
+    particles, settings.powers
   );
 
-  const [energies, setEnergies] = useState({
-    initial: energy, current: energy, minimal: energy
-  });
+  const [energies, setEnergies] = useState(
+    { initial: energy, current: energy, minimal: energy }
+  );
 
   stateRef.current = { particles: particles };
   kioapi.submitResult({ energy: energy });
+
+  console.log(initializedParticles);
 
   return (
     <div className={styles['folding-stage']}>

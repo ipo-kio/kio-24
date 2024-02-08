@@ -27,13 +27,14 @@ export function FoldingStage({
   );
 
   const [particles, setParticles] = useState(
-    settings.particles ? settings.particles :
-    initializeParticles(
-      settings.particlesColors,
-      settings.particleRadius,
-      settings.angles,
-      settings.isSplitted
-    )
+    settings.particles && settings.particles.length > 0 ?
+      settings.particles :
+      initializeParticles(
+        settings.particlesColors,
+        settings.particleRadius,
+        settings.angles,
+        settings.isSplitted
+      )
   );
 
   let energy = calculateTotalEnergy(

@@ -61,7 +61,7 @@ export class Proteinfolding {
       if (this.stateRef.current) {
         return { particles: this.stateRef.current.particles };
       } else {
-        return this.levelSettings;
+        return { particles: []};
       }
     } catch (e) {
       console.error(e);

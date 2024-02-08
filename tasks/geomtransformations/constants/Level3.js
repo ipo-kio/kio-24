@@ -28,8 +28,10 @@ export const FIGURES = [{
 ];
 
 export const MIN_FIGURES_PERIMETER = 16;
+export const FIGURES_AREA = 16;
 
 export const LEVEL3 = {
   figures: FIGURES,
+  figuresArea: FIGURES_AREA,
   minFiguresPerimeter: MIN_FIGURES_PERIMETER
 };

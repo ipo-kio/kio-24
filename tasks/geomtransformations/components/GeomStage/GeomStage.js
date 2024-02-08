@@ -82,6 +82,7 @@ export function GeomStage({ settings, stateRef, kioapi }) {
       figures: figures,
       metrics: calcMetrics(
         figures, GRID_INDENT,
+        settings.figuresArea,
         settings.minFiguresPerimeter
       )
     };

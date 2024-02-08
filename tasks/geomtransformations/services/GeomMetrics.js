@@ -4,7 +4,7 @@ import * as geometric from 'geometric'
 import { COST } from '../constants/Transformations';
 import { FIGURE_AREA } from '../constants/Figures';
 
-export function calcMetrics(figures, gridIndent, minFiguresPerimeter) {
+export function calcMetrics(figures, gridIndent, figuresArea, minFiguresPerimeter) {
   let pathsLength = 0;
   let cost = 0;
 
@@ -21,7 +21,7 @@ export function calcMetrics(figures, gridIndent, minFiguresPerimeter) {
   }
 
   let similarity = getSimilarity(
-    figures, gridIndent, minFiguresPerimeter
+    figures, gridIndent, figuresArea, minFiguresPerimeter
   );
 
   return {
@@ -31,7 +31,7 @@ export function calcMetrics(figures, gridIndent, minFiguresPerimeter) {
   };
 }
 
-export function getSimilarity(figures, gridIndent, minFiguresPerimeter) {
+export function getSimilarity(figures, gridIndent, figuresArea, minFiguresPerimeter) {
   let figuresPolygons = figures.map((figure) => {
     return {
       regions: [unflattenPoints(figure.points[figure.stateIdx])],
@@ -74,7 +74,7 @@ export function getSimilarity(figures, gridIndent, minFiguresPerimeter) {
 
   let similarity = 0;
   if (!figuresIntersect) {
-    similarity += figures.length * FIGURE_AREA / convexHullArea;
+    similarity += figuresArea / convexHullArea;
     similarity += minFiguresPerimeter / convexHullPerimeter;
   } else {
     similarity += figuresXorArea / convexHullArea;

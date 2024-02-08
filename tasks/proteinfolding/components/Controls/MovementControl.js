@@ -26,7 +26,8 @@ export function MovementControl({
   energies,
   setEnergies,
   powers,
-  kioapi
+  kioapi,
+  stateRef
 }) {
   const [movementStarted, setMovementStarted] = useState(false);
   const [movementDirection, setMovementDirection] = useState(null);
@@ -70,6 +71,7 @@ export function MovementControl({
       }}
       onMouseUp={() => {
         setMovementStarted(false);
+        stateRef.current = { particles: particles };
         kioapi.submitResult({ energy: energies.current });
       }}
     >

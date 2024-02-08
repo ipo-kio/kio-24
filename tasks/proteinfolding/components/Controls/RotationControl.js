@@ -25,7 +25,8 @@ export function RotationControl({
   energies,
   setEnergies,
   powers,
-  kioapi
+  kioapi,
+  stateRef
 }) {
   const [rotationStarted, setRotationStarted] = useState(false);
   const [rotationDirection, setRotationDirection] = useState(null);
@@ -69,6 +70,7 @@ export function RotationControl({
       }}
       onMouseUp={() => {
         setRotationStarted(false);
+        stateRef.current = { particles: particles };
         kioapi.submitResult({ energy: energies.current });
       }}
     >

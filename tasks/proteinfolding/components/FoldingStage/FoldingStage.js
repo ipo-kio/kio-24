@@ -21,11 +21,13 @@ export function FoldingStage({
   stateRef,
   kioapi
 }) {
+  const [moveAll, setMoveAll] = useState(!settings.isSplitted);
   const [pivotParticleId, setPivotParticleId] = useState(
     Math.floor(settings.particlesColors.length / (settings.isSplitted ? 4 : 2))
   );
 
   const [particles, setParticles] = useState(
+    settings.particles ? settings.particles :
     initializeParticles(
       settings.particlesColors,
       settings.particleRadius,
@@ -33,8 +35,6 @@ export function FoldingStage({
       settings.isSplitted
     )
   );
-
-  const [moveAll, setMoveAll] = useState(!settings.isSplitted);
 
   let energy = calculateTotalEnergy(
     particles,
@@ -44,6 +44,9 @@ export function FoldingStage({
   const [energies, setEnergies] = useState({
     initial: energy, current: energy, minimal: energy
   });
+
+  stateRef.current = { particles: particles };
+  kioapi.submitResult({ energy: energy });
 
   return (
     <div className={styles['folding-stage']}>
@@ -68,6 +71,7 @@ export function FoldingStage({
             setEnergies={setEnergies}
             powers={settings.powers}
             kioapi={kioapi}
+            stateRef={stateRef}
           />
           <MovementControl
             particles={particles}
@@ -80,6 +84,7 @@ export function FoldingStage({
             setEnergies={setEnergies}
             powers={settings.powers}
             kioapi={kioapi}
+            stateRef={stateRef}
           />
         </div>
 

@@ -57,25 +57,25 @@ export class Proteinfolding {
   };
 
   solution = function () {
-    /*
     try {
-      return this.stateRef.current ?
-        { figures: this.stateRef.current.figures } :
-        { figures: this.levelSettings.figures };
+      if (this.stateRef.current) {
+        return { particles: this.stateRef.current.particles };
+      } else {
+        return this.levelSettings;
+      }
     } catch (e) {
       console.error(e);
-    } */
+    }
   };
 
   loadSolution = function (solution) {
-    /*
     try {
       if (!solution) { return; }
-      this.levelSettings.figures = solution.figures;
+      this.levelSettings.particles = solution.particles;
       this.updateRootAndRender();
     } catch (e) {
       console.error(e);
-    } */
+    }
   };
 
   updateRootAndRender = function() {

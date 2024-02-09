@@ -50,16 +50,12 @@ export class Geomtransformations {
       name: "similarity",
       title: "Похожесть",
       ordering: "maximize",
-      view: function (value) {
-        return value.toFixed(3);
-      }
+      view: ""
     }, {
       name: "pathsLength",
       title: "Сумма длин путей",
       ordering: "minimize",
-      view: function (value) {
-        return value.toFixed(3);
-      }
+      view: ""
     }, {
       name: "cost",
       title: "Стоимость преобразований",

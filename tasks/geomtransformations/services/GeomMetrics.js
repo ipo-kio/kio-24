@@ -25,8 +25,8 @@ export function calcMetrics(figures, gridIndent, figuresArea, minFiguresPerimete
   );
 
   return {
-    similarity: similarity,
-    pathsLength: pathsLength,
+    similarity: Number(similarity.toFixed(3)),
+    pathsLength: Number(pathsLength.toFixed(3)),
     cost: cost
   };
 }

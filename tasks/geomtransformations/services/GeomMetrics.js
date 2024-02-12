@@ -2,7 +2,6 @@ import * as PolyBool from 'polybooljs';
 import * as geometric from 'geometric'
 
 import { COST } from '../constants/Transformations';
-import { FIGURE_AREA } from '../constants/Figures';
 
 export function calcMetrics(figures, gridIndent, figuresArea, minFiguresPerimeter) {
   let pathsLength = 0;

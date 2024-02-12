@@ -24,13 +24,13 @@ export function ResultDisplay({ metrics }) {
         <tbody>
           <tr>
             <td style={tableDataStyle}><b>S</b></td>
-            <td style={tableDataStyle}><b>L</b></td>
             <td style={tableDataStyle}><b>C</b></td>
+            <td style={tableDataStyle}><b>L</b></td>
           </tr>
           <tr>
-            <td style={tableDataStyle}>{metrics.similarity.toFixed(3)}</td>
-            <td style={tableDataStyle}>{metrics.pathsLength.toFixed(3)}</td>
+            <td style={tableDataStyle}>{metrics.similarity}</td>
             <td style={tableDataStyle}>{metrics.cost}</td>
+            <td style={tableDataStyle}>{metrics.pathsLength}</td>
           </tr>
         </tbody>
       </table>

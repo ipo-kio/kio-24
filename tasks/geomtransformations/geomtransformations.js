@@ -52,15 +52,15 @@ export class Geomtransformations {
       ordering: "maximize",
       view: ""
     }, {
+      name: "cost",
+      title: "Количество преобразований",
+      ordering: "minimize",
+      view: "",
+    }, {
       name: "pathsLength",
       title: "Сумма длин путей",
       ordering: "minimize",
       view: ""
-    }, {
-      name: "cost",
-      title: "Стоимость преобразований",
-      ordering: "minimize",
-      view: "",
     }];
   };
 

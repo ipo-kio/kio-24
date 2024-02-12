@@ -5,7 +5,7 @@ export const TRANSFORMATIONS = {
 };
 
 export const COST = {
-  '2': 2,
-  '0': 3,
-  '1': 3
+  '2': 1,
+  '0': 1,
+  '1': 1
 };

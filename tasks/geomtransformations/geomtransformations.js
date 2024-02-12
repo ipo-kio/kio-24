@@ -27,7 +27,7 @@ export class Geomtransformations {
     } else {
       console.warn("Уровень не выбран");
       this.levelSettings = LEVEL1;
-    }    
+    }
   }
 
   id = function () {

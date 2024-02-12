@@ -1,6 +1,6 @@
 import { FIGURE1, FIGURE2 } from "./Figures";
 
-const FIGURES = [{
+const LEVEL1_FIGURES = [{
     id: 1,
     color: FIGURE1.COLOR,
     points: [FIGURE1.POINTS],
@@ -19,7 +19,7 @@ const MIN_FIGURES_PERIMETER = 12;
 const FIGURES_AREA = 8;
 
 export const LEVEL1 = {
-  figures: FIGURES,
+  figures: LEVEL1_FIGURES,
   figuresArea: FIGURES_AREA,
   minFiguresPerimeter: MIN_FIGURES_PERIMETER
 };

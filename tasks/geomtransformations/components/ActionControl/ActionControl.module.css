@@ -1,0 +1,26 @@
+.action-control {
+  margin-top: 14px;
+}
+
+.apply-btn-container {
+  text-align: center;
+}
+
+.apply-btn {
+  width: 100%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 22px;
+}
+
+.undo-redo-btn-container {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.undo-redo-btn {
+  width: 50%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 36px;
+}

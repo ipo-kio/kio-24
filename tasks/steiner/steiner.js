@@ -110,6 +110,11 @@ export class Steiner {
       title: "Сумма длин отрезков",
       ordering: "minimize",
       view: ""
+    }, {
+      name: "numConjunctions",
+      title: "Количество перекрестков",
+      ordering: "minimize",
+      view: ""
     }];
   };
 
@@ -127,12 +132,10 @@ export class Steiner {
     try {
       if (!solution) { return; }
 
-      let level = +this.settings.level;
+      let level = +this.settings.level || 0;
       let tree;
 
-      if (level === undefined) {
-        tree = getTree(0);
-      } else if (treeMatchLevel(solution.tree, level)) {
+      if (treeMatchLevel(solution.tree, level)) {
         tree = solution.tree;
       } else {
         tree = getTree(level);

@@ -8,7 +8,7 @@ import { Tree } from '../Tree/Tree';
 import { Segment } from '../Segment/Segment';
 
 import { treeReducer } from '../../hooks/TreeReducer';
-import { getTotalLength, connected } from '../../services/Segments';
+import { getTotalLength, connected, numConjunctions } from '../../services/Segments';
 
 import styles from './GeomStage.module.css';
 
@@ -73,7 +73,8 @@ export function GeomStage({ settings, stateRef, kioapi }) {
 
     kioapi.submitResult({
       connected: connected(tree),
-      segmentsLength: getTotalLength(tree.segments)
+      segmentsLength: getTotalLength(tree.segments),
+      numConjunctions: numConjunctions(tree)
     });
   }, [tree.segments.length]);
 

@@ -2,8 +2,7 @@ import React from 'react';
 import { Circle, Line } from 'react-konva';
 
 import {
-  PIVOT_PARTICLE_STROKE_WIDTH,
-  JOIN_LINE_STROKE_WIDTH
+  PARTICLE_COLORS
 } from '../../constants/ParticlesChain';
 
 function joinLinePoints(particles) {
@@ -23,7 +22,7 @@ function JoinLine({ particles, particleRadius }) {
       <Line
         points={joinLinePoints(particles)}
         stroke={'black'}
-        strokeWidth={JOIN_LINE_STROKE_WIDTH}
+        strokeWidth={2}
       />
       <Circle
         key={String(particles.length + 1)}
@@ -66,9 +65,9 @@ export function ParticlesChain({
       x={particle.x}
       y={particle.y}
       radius={particleRadius}
-      fill={particle.color}
-      stroke={particle.id == pivotParticleId ? 'black' : null}
-      strokeWidth={PIVOT_PARTICLE_STROKE_WIDTH}
+      fill={PARTICLE_COLORS[particle.color]}
+      stroke={'black'}
+      strokeWidth={particle.id == pivotParticleId ? 5 : 2}
       onClick={() => handleParticleClick(particle.id)}
     />)
   );

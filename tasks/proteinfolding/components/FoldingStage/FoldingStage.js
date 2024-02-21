@@ -50,7 +50,7 @@ export function FoldingStage({
     <div className={styles['folding-stage']}>
       <div className={styles['params-panel']}>
         <PowersTable powers={settings.powers}/>
-        <div className={styles['controls-panel']}>
+        <div className={styles['controls-container']}>
           <RotationControl
             particles={particles}
             setParticles={setParticles}

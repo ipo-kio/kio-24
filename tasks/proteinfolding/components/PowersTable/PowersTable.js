@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { PARTICLE_COLORS } from '../../constants/ParticlesChain';
+
 function SignedValue({ value }) {
   if (value >= 0) {
     return (
@@ -51,13 +53,13 @@ export function PowersTable({ powers }) {
         <tbody>
           <tr>
             <td style={tableDataStyle}></td>
-            <td style={tableDataStyle}> <span style={{color: 'red', fontSize: '38px'}}>&#9679;</span> </td>
-            <td style={tableDataStyle}> <span style={{color: 'green', fontSize: '38px'}}>&#9679;</span> </td>
-            <td style={tableDataStyle}> <span style={{color: 'blue', fontSize: '38px'}}>&#9679;</span> </td>
+            <td style={tableDataStyle}> <span style={{color: PARTICLE_COLORS['red'], fontSize: '38px'}}>&#9679;</span> </td>
+            <td style={tableDataStyle}> <span style={{color: PARTICLE_COLORS['green'], fontSize: '38px'}}>&#9679;</span> </td>
+            <td style={tableDataStyle}> <span style={{color: PARTICLE_COLORS['blue'], fontSize: '38px'}}>&#9679;</span> </td>
           </tr>
-          <PowersTableRow particleColor={'red'} rowPowers={powers['red']}/>
-          <PowersTableRow particleColor={'green'} rowPowers={powers['green']}/>
-          <PowersTableRow particleColor={'blue'} rowPowers={powers['blue']}/>
+          <PowersTableRow particleColor={PARTICLE_COLORS['red']} rowPowers={powers['red']}/>
+          <PowersTableRow particleColor={PARTICLE_COLORS['green']} rowPowers={powers['green']}/>
+          <PowersTableRow particleColor={PARTICLE_COLORS['blue']} rowPowers={powers['blue']}/>
         </tbody>
       </table>
     </>

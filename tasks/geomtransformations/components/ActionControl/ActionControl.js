@@ -19,13 +19,13 @@ export function ActionControl({ handleClick }) {
           className={styles['undo-redo-btn']}
           onClick={() => handleClick(ACTIONS.UNDO, {})}
         >
-          {'\u21B6'}
+          {'\u27F5'}
         </button>
         <button
           className={styles['undo-redo-btn']}
           onClick={() => handleClick(ACTIONS.REDO, {})}
         >
-          {'\u21B7'}
+          {'\u27F6'}
         </button>
       </div>
     </div>

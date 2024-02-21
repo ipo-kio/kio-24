@@ -1,29 +1,22 @@
 .folding-stage {
   display: flex;
+  background-color: white;
 }
 
 .params-panel {
-  border: solid black 2px;
-  padding: 10px;
-  margin: 6px;
-  width: 20%;
   overflow: auto;
-}
-
-.buttons-container {
-  text-align: center;
-  padding: 4px;
-  margin: 4px;
-}
-
-.controls-panel {
-  text-align: center;
   padding: 6px;
+  width: 20%;
+  background-color: #F6F5F5;
+}
+
+.controls-container {
+  text-align: center;
+  padding: 2px;
+  margin-top: 30px;
 }
 
 .stage {
-  border: solid black 2px;
-  margin: 6px;
   width: 80%;
   overflow: auto;
 }

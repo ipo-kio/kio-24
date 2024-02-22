@@ -16,18 +16,22 @@ export function Transformations({
     <div className={styles['transformations']}>
       <h2 className={styles['title']}>преобразования</h2>
 
-      <div className={`${styles['transformation']}`}>
+      <div
+        className={`${styles['transformation']}`}
+        onClick={() => {
+          setTransformation(TRANSFORMATIONS.REFLECT);
+          handleChange(
+            ACTIONS.SET_TRANSFORMATION,
+            {transformation: TRANSFORMATIONS.REFLECT}
+          );
+        }}
+      >
         <img
           style={{
             border: transformation === TRANSFORMATIONS.REFLECT ?
-            "5px solid gray" : "5px solid white"
-          }}
-          onClick={() => {
-            setTransformation(TRANSFORMATIONS.REFLECT);
-            handleChange(
-              ACTIONS.SET_TRANSFORMATION,
-              {transformation: TRANSFORMATIONS.REFLECT}
-            );
+            "5px solid gray" : "5px solid white",
+            width: "70px",
+            height: "70px"
           }}
           src={`${basePath}/geomtransformations-resources/reflect.svg`}
         />
@@ -36,40 +40,48 @@ export function Transformations({
         </div>
       </div>
 
-      <div className={styles['transformation']}>
+      <div
+        className={styles['transformation']}
+        onClick={() => {
+          setTransformation(TRANSFORMATIONS.ROTATE_CLOCKWISE);
+          handleChange(
+            ACTIONS.SET_TRANSFORMATION,
+            {transformation: TRANSFORMATIONS.ROTATE_CLOCKWISE}
+          );
+        }}
+      >
         <img
           style={{
             border: transformation === TRANSFORMATIONS.ROTATE_CLOCKWISE ?
-            "5px solid gray" : "5px solid white"
+            "5px solid gray" : "5px solid white",
+            width: "70px",
+            height: "70px"
           }}
           src={`${basePath}/geomtransformations-resources/rotate-clockwise.svg`}
-          onClick={() => {
-            setTransformation(TRANSFORMATIONS.ROTATE_CLOCKWISE);
-            handleChange(
-              ACTIONS.SET_TRANSFORMATION,
-              {transformation: TRANSFORMATIONS.ROTATE_CLOCKWISE}
-            );
-          }}
         />
         <div className={styles['transformation-title']}>
           поворот относительно точки B на угол ABC по часовой стрелке
         </div>
       </div>
 
-      <div className={styles['transformation']}>
+      <div
+        className={styles['transformation']}
+        onClick={() => {
+          setTransformation(TRANSFORMATIONS.ROTATE_COUNTER_CLOCKWISE);
+          handleChange(
+            ACTIONS.SET_TRANSFORMATION,
+            {transformation: TRANSFORMATIONS.ROTATE_COUNTER_CLOCKWISE}
+          );
+        }}
+      >
         <img
           style={{
             border: transformation === TRANSFORMATIONS.ROTATE_COUNTER_CLOCKWISE ?
-            "5px solid gray" : "5px solid white"
+            "5px solid gray" : "5px solid white",
+            width: "70px",
+            height: "70px"
           }}
           src={`${basePath}/geomtransformations-resources/rotate-counterclockwise.svg`}
-          onClick={() => {
-            setTransformation(TRANSFORMATIONS.ROTATE_COUNTER_CLOCKWISE);
-            handleChange(
-              ACTIONS.SET_TRANSFORMATION,
-              {transformation: TRANSFORMATIONS.ROTATE_COUNTER_CLOCKWISE}
-            );
-          }}
         />
         <div className={styles['transformation-title']}>
           поворот относительно точки B на угол ABC против часовой стрелки

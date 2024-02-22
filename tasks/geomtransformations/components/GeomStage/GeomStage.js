@@ -93,6 +93,7 @@ export function GeomStage({ settings, stateRef, kioapi }) {
           transformation={transformation}
           setTransformation={setTransformation}
           handleChange={handleAction}
+          kioapi={kioapi}
         />
         <ActionControl
           handleClick={handleAction}

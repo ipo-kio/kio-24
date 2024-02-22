@@ -11,18 +11,18 @@ export function ActionControl({ handleClick }) {
           className={styles['apply-btn']}
           onClick={() => handleClick(ACTIONS.APPLY, {})}
         >
-          Применить
+          применить
         </button>
       </div>
       <div className={styles['undo-redo-btn-container']}>
         <button
-          className={styles['undo-redo-btn']}
+          className={styles['undo-btn']}
           onClick={() => handleClick(ACTIONS.UNDO, {})}
         >
           {'\u27F5'}
         </button>
         <button
-          className={styles['undo-redo-btn']}
+          className={styles['redo-btn']}
           onClick={() => handleClick(ACTIONS.REDO, {})}
         >
           {'\u27F6'}

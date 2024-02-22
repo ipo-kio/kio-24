@@ -1,26 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Podkova:wght@400..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
 .action-control {
   margin-top: 14px;
 }
 
 .apply-btn-container {
   text-align: center;
+  display: flex;
 }
 
 .apply-btn {
   width: 100%;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin: 2px;
   font-size: 22px;
+  background-color: #F6F5F5;
+  color: #989898;
+  border: 4px solid #989898;
+  font-family: "Podkova", serif;
 }
 
 .undo-redo-btn-container {
   margin-top: 8px;
   text-align: center;
+  display: flex;
 }
 
-.undo-redo-btn {
+.undo-btn {
   width: 50%;
   padding-top: 6px;
   padding-bottom: 6px;
   font-size: 36px;
+  color: #FFFFFF;
+  background-color: #C0BFBF;
+  margin-left: 2px;
+  margin-right: 6px;
+}
+
+.redo-btn {
+  width: 50%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 36px;
+  color: #FFFFFF;
+  background-color: #C0BFBF;
+  margin-right: 2px;
+  margin-left: 6px;
 }

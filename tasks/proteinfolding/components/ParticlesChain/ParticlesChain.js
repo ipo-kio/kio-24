@@ -16,7 +16,13 @@ function joinLinePoints(particles) {
   return points;
 }
 
-function JoinLine({ particles, particleRadius }) {
+function JoinLine({ particles, particleRadius, pivotParticleId }) {
+  function getCircleRadius(particleId) {
+    return particleId === pivotParticleId ?
+      Math.floor(particleRadius / 5) :
+      Math.floor(particleRadius / 8) ;
+  }
+
   return (
     <>
       <Line
@@ -24,22 +30,16 @@ function JoinLine({ particles, particleRadius }) {
         stroke={'black'}
         strokeWidth={2}
       />
-      <Circle
-        key={String(particles.length + 1)}
-        id={String(particles.length + 1)}
-        x={particles[0].x}
-        y={particles[0].y}
-        radius={Math.floor(particleRadius / 8)}
-        fill={'black'}
-      />
-      <Circle
-        key={String(particles.length)}
-        id={String(particles.length)}
-        x={particles[particles.length - 1].x}
-        y={particles[particles.length - 1].y}
-        radius={Math.floor(particleRadius / 5)}
-        fill={'black'}
-      />
+      {particles.map((particle) => (
+        <Circle
+          key={particle.id}
+          id={particle.id}
+          x={particle.x}
+          y={particle.y}
+          radius={getCircleRadius(Number(particle.id))}
+          fill={'black'}
+        />
+      ))}
     </>
   );
 }
@@ -87,16 +87,19 @@ export function ParticlesChain({
       <JoinLine
         particles={particles1}
         particleRadius={particleRadius}
+        pivotParticleId={pivotParticleId}
       />
       <JoinLine
         particles={particles2}
         particleRadius={particleRadius}
+        pivotParticleId={pivotParticleId}
       />
     </>
   } else {
     joinLine = <JoinLine
       particles={particles}
       particleRadius={particleRadius}
+      pivotParticleId={pivotParticleId}
     />
   }
 

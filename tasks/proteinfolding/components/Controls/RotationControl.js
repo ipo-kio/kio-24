@@ -14,8 +14,6 @@ import {
 import { rotateParticles } from '../../services/ParticlesRotator';
 import { calculateTotalEnergy } from '../../services/EnergyCalculator';
 
-import styles from './Control.module.css';
-
 export function RotationControl({
   particles,
   setParticles,
@@ -30,6 +28,7 @@ export function RotationControl({
 }) {
   const [rotationStarted, setRotationStarted] = useState(false);
   const [rotationDirection, setRotationDirection] = useState(null);
+  const basePath = kioapi.basePath || ".";
 
   function handleParticlesRotation() {
     let rotatedParticles = rotateParticles(
@@ -61,9 +60,9 @@ export function RotationControl({
   });
 
   const buttons = ROTATION_DIRECTIONS.map((direction) => (
-    <button
+    <img
       key={direction.key}
-      className={styles['button']}
+      src={`${basePath}/proteinfolding-resources/${direction.imgTitle}`}
       onMouseDown={() => {
         setRotationDirection(direction.key);
         setRotationStarted(true);
@@ -73,9 +72,7 @@ export function RotationControl({
         stateRef.current = { particles: particles };
         kioapi.submitResult({ energy: energies.current });
       }}
-    >
-      {direction.arrow}
-    </button>
+    />
   ));
 
   return (

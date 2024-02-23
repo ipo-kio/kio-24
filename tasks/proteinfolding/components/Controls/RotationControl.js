@@ -63,6 +63,10 @@ export function RotationControl({
     <img
       key={direction.key}
       src={`${basePath}/proteinfolding-resources/${direction.imgTitle}`}
+      style={{
+        width: "45%",
+        border: rotationStarted && direction.key === rotationDirection ? "4px solid gray" : "4px solid white",
+      }}
       onMouseDown={() => {
         setRotationDirection(direction.key);
         setRotationStarted(true);

@@ -2,6 +2,8 @@ import React from 'react';
 
 import { PARTICLE_COLORS } from '../../constants/ParticlesChain';
 
+import styles from './PowersTable.module.css';
+
 function SignedValue({ value }) {
   if (value >= 0) {
     return (
@@ -17,7 +19,8 @@ function SignedValue({ value }) {
 function PowersTableRow({ particleColor, rowPowers}) {
   const tableDataStyle = {
     border: "1px solid black",
-    fontSize: "28px"
+    fontSize: "28px",
+    fontFamily: "\"Raleway\", sans-serif"
   };
 
   return (
@@ -48,7 +51,12 @@ export function PowersTable({ powers }) {
 
   return (
     <>
-      <h3 style={{textAlign: "center", fontSize: "28px"}}>Силы притяжения</h3>
+      <h3 style={{
+        textAlign: "center",
+        fontSize: "28px",
+        fontFamily: "\"Podkova\", serif"
+      }}
+      >силы притяжения</h3>
       <table style={tableStyle}>
         <tbody>
           <tr>

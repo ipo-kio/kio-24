@@ -18,9 +18,11 @@ function SignedValue({ value }) {
 
 function PowersTableRow({ particleColor, rowPowers}) {
   const tableDataStyle = {
+    all: "revert",
     border: "1px solid black",
     fontSize: "28px",
-    fontFamily: "\"Raleway\", sans-serif"
+    fontFamily: "\"Raleway\", sans-serif",
+    verticalAlign: "center"
   };
 
   return (
@@ -37,6 +39,7 @@ function PowersTableRow({ particleColor, rowPowers}) {
 
 export function PowersTable({ powers }) {
   const tableStyle = {
+    all: "revert",
     border: "1px solid black",
     padding: "8px",
     margin: "2px",
@@ -46,7 +49,11 @@ export function PowersTable({ powers }) {
   };
 
   const tableDataStyle = {
+    all: "revert",
     border: "1px solid black",
+    fontSize: "28px",
+    fontFamily: "\"Raleway\", sans-serif",
+    verticalAlign: "center"
   };
 
   return (

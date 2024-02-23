@@ -65,6 +65,7 @@ export function MovementControl({
       key={direction.key}
       src={`${basePath}/proteinfolding-resources/${direction.imgTitle}`}
       style={{
+        all: "revert",
         width: "20%",
         border: movementStarted && direction.key === movementDirection ? "4px solid gray" : "4px solid white",
         margin: "2px"

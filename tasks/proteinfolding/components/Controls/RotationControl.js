@@ -64,6 +64,7 @@ export function RotationControl({
       key={direction.key}
       src={`${basePath}/proteinfolding-resources/${direction.imgTitle}`}
       style={{
+        all: "revert",
         width: "45%",
         border: rotationStarted && direction.key === rotationDirection ? "4px solid gray" : "4px solid white",
       }}

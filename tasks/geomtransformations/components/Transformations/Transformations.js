@@ -52,6 +52,7 @@ export function Transformations({
       >
         <img
           style={{
+            all: "revert",
             border: transformation === TRANSFORMATIONS.ROTATE_CLOCKWISE ?
             "5px solid gray" : "5px solid white",
             width: "70px",

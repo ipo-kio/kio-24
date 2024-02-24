@@ -111,8 +111,8 @@ export class Steiner {
       ordering: "minimize",
       view: ""
     }, {
-      name: "numConjunctions",
-      title: "Количество перекрестков",
+      name: "numPoints",
+      title: "Число точек",
       ordering: "minimize",
       view: ""
     }];

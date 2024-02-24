@@ -36,7 +36,8 @@ export function RotationControl({
       rotationDirection, isSplitted
     );
 
-    if (!haveIntersections(rotatedParticles, particleRadius, isSplitted) &&
+    if (
+      !haveIntersections(rotatedParticles, particleRadius, isSplitted) &&
       !chainIsOutOfStageBoundaries(rotatedParticles, particleRadius)
     ) {
       setParticles(rotatedParticles);

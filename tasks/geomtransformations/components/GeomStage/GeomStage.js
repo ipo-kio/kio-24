@@ -97,6 +97,7 @@ export function GeomStage({ settings, stateRef, kioapi }) {
         />
         <ActionControl
           handleClick={handleAction}
+          kioapi={kioapi}
         />
       </div>
 

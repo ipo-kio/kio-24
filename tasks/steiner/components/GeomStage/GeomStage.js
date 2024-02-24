@@ -74,7 +74,7 @@ export function GeomStage({ settings, stateRef, kioapi }) {
     kioapi.submitResult({
       connected: connected(tree),
       segmentsLength: getTotalLength(tree.segments),
-      numConjunctions: numConjunctions(tree)
+      numPoints: tree.points.length
     });
   }, [tree.segments.length]);
 

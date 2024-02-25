@@ -102,10 +102,10 @@ export function GeomStage({ settings, stateRef, kioapi }) {
       </div>
 
       <div className={styles['stage']}>
-        <Stage width={1.0 * STAGE_WIDTH} height={STAGE_HEIGHT}>
+        <Stage width={STAGE_WIDTH} height={STAGE_HEIGHT}>
           <Layer>
             <StageGrid
-              stageWidth={1.0 * STAGE_WIDTH}
+              stageWidth={STAGE_WIDTH}
               stageHeight={STAGE_HEIGHT}
               gridIndent={GRID_INDENT}
             />
@@ -130,7 +130,7 @@ export function GeomStage({ settings, stateRef, kioapi }) {
               setAnglePoints={setAnglePoints}
               isSelected={transformation !== TRANSFORMATIONS.REFLECT}
               handlePointMove={handleAction}
-              stageWidth={1.0 * STAGE_WIDTH}
+              stageWidth={STAGE_WIDTH}
               stageHeight={STAGE_HEIGHT}
               gridIndent={GRID_INDENT}
             />
@@ -139,7 +139,7 @@ export function GeomStage({ settings, stateRef, kioapi }) {
               setLinePoints={setLinePoints}
               isSelected={transformation === TRANSFORMATIONS.REFLECT}
               handlePointMove={handleAction}
-              stageWidth={1.0 * STAGE_WIDTH}
+              stageWidth={STAGE_WIDTH}
               stageHeight={STAGE_HEIGHT}
               gridIndent={GRID_INDENT}
             />

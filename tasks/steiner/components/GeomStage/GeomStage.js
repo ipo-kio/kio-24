@@ -8,12 +8,13 @@ import { Tree } from '../Tree/Tree';
 import { Segment } from '../Segment/Segment';
 
 import { treeReducer } from '../../hooks/TreeReducer';
-import { getTotalLength, connected, numConjunctions } from '../../services/Segments';
+import { getTotalLength, connected } from '../../services/Segments';
 
 import styles from './GeomStage.module.css';
 
+import { STAGE_WIDTH } from '../../constants/Levels';
+
 export function GeomStage({ settings, stateRef, kioapi }) {
-  const STAGE_WIDTH = 1920;
   const GRID_INDENT = STAGE_WIDTH / settings.gridSize.width;
   const STAGE_HEIGHT = GRID_INDENT * settings.gridSize.height;
 

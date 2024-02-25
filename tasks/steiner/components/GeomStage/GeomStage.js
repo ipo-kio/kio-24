@@ -77,7 +77,7 @@ export function GeomStage({ settings, stateRef, kioapi }) {
       segmentsLength: getTotalLength(tree.segments),
       numPoints: tree.points.length
     });
-  }, [tree.segments.length]);
+  }, [tree.segments.length, tree.points.length]);
 
   return (
     <div>

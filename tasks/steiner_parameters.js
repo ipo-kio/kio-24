@@ -15,8 +15,8 @@ Steiner.prototype.parameters = function () {
     ordering: "minimize",
     view: ""
   }, {
-    name: "numConjunctions",
-    title: "Количество перекрестков",
+    name: "numPoints",
+    title: "Число точек",
     ordering: "minimize",
     view: ""
   }];

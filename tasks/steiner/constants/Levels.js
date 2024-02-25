@@ -1,4 +1,4 @@
-export const STAGE_WIDTH = 1920;
+export const STAGE_WIDTH = 1600;
 
 const LEVEL1_POINTS = [
   {x: 2, y: 1},
